@@ -1,0 +1,38 @@
+/* Estilo para separar colunas com space-between no cabeçalho */
+.header {
+    left: 0; /* Alinha o texto do cabeçalho à esquerda */
+    padding: 8px;
+}
+
+/* Estilo para separar colunas com space-between nos dados */
+.table-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinha os dados à esquerda */
+    padding: 8px;
+}
+
+/* Adicionalmente, você pode adicionar espaçamento entre os checkboxes e o texto */
+.checkbox-presenca,
+.checkbox-falta {
+    margin-left: 5px;
+}
+
+/* Estiliza botão matrícula */
+.btn-desmatricular {
+    background-color: #4E6F94;
+    color: white;
+}
+
+/* Estiliza botão desmatrícula */
+.btn-matricular {
+    background-color: #58A5B7;
+    color: white;
+}
+
+.btn-imprimir {
+    background-color: #D4E7FA;
+    
+}
+
+/* Outros estilos existentes no seu arquivo style_consulta_turmas.css... */

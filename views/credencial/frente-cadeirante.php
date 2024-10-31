@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../dist/css/style-cadeirante.css" />
+  </head>
+  <body>
+    <div class="credencial">
+      <div class="overlap">
+        <div class="overlap-group">
+          <img class="rectangle" src="../assets/images/rectangle-2.svg" />
+          <div class="text-wrapper">CREDENCIAL</div>
+          <img class="img" src="../assets\images\brasaooficialcolorido.png" />
+          <img class="cadeirante-marca" src="../assets\images\cadeirante-marca-dagua.jpg" />
+          <div class="div"></div>
+          <img class="braso-de-armas" src="../assets\images\brasao-de-armas-jacarei.jpg" />
+          <p class="REP-BLICA-FEDERATIVA">REPÚBLICA FEDERATIVA DO BRASIL<br />CONSELHO NACIONAL DE TRÂNSITO</p>
+          <div class="text-wrapper-2">ESTACIONAMENTO VAGA RESERVADA</div>
+          <div class="text-wrapper-3">LEI FEDERAL N° 9.503/1997</div>
+          <p class="n-DO-REGISTRO">
+            <span class="span">N° DO REGISTRO:</span>
+            <span class="text-wrapper-4">&nbsp;</span>
+            <span class="text-wrapper-5">000000/0000</span>
+          </p>
+          <img class="line" src="../assets/images/line-1.svg" />
+          <p class="VALIDADE">
+            <span class="text-wrapper-6">VALIDADE:</span>
+            <span class="text-wrapper-7">&nbsp;</span>
+            <span class="text-wrapper-8">00/00/0000</span>
+            <span class="text-wrapper-7">&nbsp;</span>
+          </p>
+          <p class="DATA-DE-EMISS-o">
+            <span class="text-wrapper-6">DATA DE EMISSÃO:</span>
+            <span class="text-wrapper-7">&nbsp;</span>
+            <span class="text-wrapper-8">00/00/0000</span>
+            <span class="text-wrapper-7">&nbsp;</span>
+          </p>
+          <p class="RG-o-EXPEDIDOR">
+            <span class="text-wrapper-6">ÓRGÃO EXPEDIDOR: </span>
+            <span class="text-wrapper-8">SECRETARIA DE MOBILIDADE URBANA</span>
+          </p>
+          <p class="MUNIC-PIO-JACARE-SP">
+            <span class="text-wrapper-6">MUNICÍPIO: </span> <span class="text-wrapper-5">JACAREÍ/SP</span>
+          </p>
+          <img class="line-2" src="../assets/images/line-2.svg" />
+          <p class="p">Nome e Cargo do Emissor</p>
+          <p class="text-wrapper-9">VÁLIDA EM TODO O TERRITÓRIO NACIONAL</p>
+          <div class="text-wrapper-10">(Assinatura)</div>
+        </div>
+        <img class="cadeirante" src="../assets/images/cadeirante.png" />
+      </div>
+    </div>
+  </body>
+</html>
+

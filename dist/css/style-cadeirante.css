@@ -1,0 +1,306 @@
+.credencial {
+    width: 366px;
+    height: 240px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #e2e2e2;
+  }
+  
+  .credencial .overlap {
+    position: relative;
+    top: 7px;
+    left: 7px;
+    width: 351px;
+    height: 225px;
+  }
+  
+  .credencial .overlap-group {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 351px;
+    height: 225px;
+  }
+  
+  .credencial .rectangle {
+    position: absolute;
+    width: 29px;
+    height: 214px;
+    top: 24px;
+    left: 0;
+    background-color: #FFFFFF;
+  }
+  
+  .credencial .text-wrapper {
+    position: absolute;
+    width: 147px;
+    height: 19px;
+    top: 119px;
+    left: -63px;
+    transform: rotate(-89.82deg);
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 23px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .credencial .img {
+    position: absolute;
+    width: 41px;
+    height: 41px;
+    top: 10px;
+    left: 45px;
+    object-fit: cover;
+  }
+  
+  .credencial .cadeirante-marca {
+    position: absolute;
+    width: 159px;
+    height: 158px;
+    top: 49px;
+    left: 113px;
+    object-fit: cover;
+  }
+  
+  .credencial .div {
+    position: absolute;
+    width: 317px;
+    height: 225px;
+    top: 0;
+    left: 34px;
+    border: 1px solid;
+    border-color: #e4e4e4;
+  }
+  
+  .credencial .braso-de-armas {
+    position: absolute;
+    width: 45px;
+    height: 42px;
+    top: 10px;
+    left: 293px;
+    object-fit: cover;
+  }
+  
+  .credencial .REP-BLICA-FEDERATIVA {
+    position: absolute;
+    width: 187px;
+    height: 24px;
+    top: 9px;
+    left: 99px;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 10px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .credencial .text-wrapper-2 {
+    position: absolute;
+    width: 228px;
+    height: 16px;
+    top: 59px;
+    left: 77px;
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    color: #000000;
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .credencial .text-wrapper-3 {
+    position: absolute;
+    width: 99px;
+    height: 6px;
+    top: 75px;
+    left: 143px;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 7px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .credencial .n-DO-REGISTRO {
+    position: absolute;
+    width: 147px;
+    height: 12px;
+    top: 88px;
+    left: 119px;
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 8px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .credencial .span {
+    font-weight: 700;
+  }
+  
+  .credencial .text-wrapper-4 {
+    font-weight: 700;
+    font-size: 9px;
+  }
+  
+  .credencial .text-wrapper-5 {
+    font-family: "Inter-Light", Helvetica;
+    font-weight: 300;
+  }
+  
+  .credencial .line {
+    width: 294px;
+    top: 107px;
+    left: 44px;
+    object-fit: cover;
+    position: absolute;
+    height: 1px;
+  }
+  
+  .credencial .VALIDADE {
+    position: absolute;
+    width: 90px;
+    height: 11px;
+    top: 115px;
+    left: 66px;
+    font-family: "Inter-Medium", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 8px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .credencial .text-wrapper-6 {
+    font-weight: 500;
+  }
+  
+  .credencial .text-wrapper-7 {
+    font-weight: 500;
+    font-size: 9px;
+  }
+  
+  .credencial .text-wrapper-8 {
+    font-family: "Inter-Light", Helvetica;
+    font-weight: 300;
+    font-size: 7px;
+  }
+  
+  .credencial .DATA-DE-EMISS-o {
+    position: absolute;
+    width: 122px;
+    height: 11px;
+    top: 115px;
+    left: 196px;
+    font-family: "Inter-Medium", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 8px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .credencial .RG-o-EXPEDIDOR {
+    position: absolute;
+    width: 250px;
+    height: 20px;
+    top: 139px;
+    left: 66px;
+    font-family: "Inter-Medium", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 8px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .credencial .MUNIC-PIO-JACARE-SP {
+    position: absolute;
+    width: 140px;
+    height: 13px;
+    top: 160px;
+    left: 67px;
+    font-family: "Inter-Medium", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 8px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .credencial .line-2 {
+    width: 90px;
+    top: 196px;
+    left: 146px;
+    position: absolute;
+    height: 1px;
+  }
+  
+  .credencial .p {
+    position: absolute;
+    width: 90px;
+    height: 7px;
+    top: 194px;
+    left: 146px;
+    font-family: "Inter-Light", Helvetica;
+    font-weight: 300;
+    color: #000000;
+    font-size: 5px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .credencial .text-wrapper-9 {
+    position: absolute;
+    width: 181px;
+    height: 11px;
+    top: 203px;
+    left: 102px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 8.5px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .credencial .text-wrapper-10 {
+    position: absolute;
+    width: 90px;
+    height: 4px;
+    top: 190px;
+    left: 146px;
+    font-family: "Inter-Light", Helvetica;
+    font-weight: 300;
+    color: #000000;
+    font-size: 4px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .credencial .cadeirante {
+    position: absolute;
+    width: 29px;
+    height: 29px;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  }

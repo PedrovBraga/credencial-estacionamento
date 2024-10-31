@@ -1,0 +1,14 @@
+{
+    "autoload": {
+        "psr-4": {
+            "sistema\\": "sistema/"
+        },
+        "files": [
+            "sistema/configuracao.php"
+        ]
+    },
+    "require": {
+        "pecee/simple-router": "^5.4",
+        "twig/twig": "2.14"
+    }
+}

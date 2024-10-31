@@ -1,0 +1,62 @@
+.box {
+    width: 366px;
+    height: 240px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #e2e2e2;
+  }
+  
+  .box .group {
+    position: relative;
+    top: 7px;
+    left: 7px;
+    width: 351px;
+    height: 225px;
+  }
+  
+  .box .overlap-group {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 351px;
+    height: 225px;
+  }
+  
+  .box .NOME-DO-BENEFICI-RIO {
+    position: absolute;
+    width: 205px;
+    height: 27px;
+    top: 5px;
+    left: 81px;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 11px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .box .text-wrapper-bene {
+    font-weight: 600;
+  }
+  
+  .box .span {
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 10px;
+  }
+  
+  .box .esta-credencial-deve {
+    position: absolute;
+    width: 354px;
+    height: 188px;
+    top: 37px;
+    left: 6px;
+    font-family: "Inter-Light", Helvetica;
+    font-weight: 300;
+    color: #000000;
+    font-size: 6px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
