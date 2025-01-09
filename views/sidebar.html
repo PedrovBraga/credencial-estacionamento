@@ -8,6 +8,7 @@
     }
 
 </style>
+
 <aside class="left-sidebar" data-sidebarbg="skin5">
     <div class="navbar-brand">
         <a href="" class="logo">
@@ -23,7 +24,7 @@
                 <!-- menu cadastros -->
                 <li class="sidebar-item">
                     <!-- data-bs-toggle controla pela classe a visibilidade da ul e data-bs-target controla pelo id a "animação" do menu -->
-                    <a class="sidebar-link waves-effect" type="button" data-bs-toggle="collapse" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <a class="sidebar-link waves-effect " href="{{ URL_DESENVOLVIMENTO ~ '/pessoa/cadastrar' }}">
                         <i class="mdi mdi-account"></i>
                         <span class="hide-menu">Munícipe</span>
                     </a>
@@ -39,7 +40,8 @@
                 <!-- menu consultas -->
                 <li class="sidebar-item">
                     <!-- data-bs-toggle controla pela classe a visibilidade da ul e data-bs-target controla pelo id a "animação" do menu -->
-                    <a class="sidebar-link waves-effect waves-dark" type="button" data-bs-toggle="collapse" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <a class="sidebar-link waves-effect waves-dark" href="{{ URL_DESENVOLVIMENTO ~ '/credencial/registrar' }}">
+                    <!-- <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ url('../credencial/registrar') }}" type="button" data-bs-toggle="collapse" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"> -->
                         <i class="mdi mdi-account-card-details"></i>
                         <span class="hide-menu">Credencial</span>
                     </a>
@@ -54,7 +56,7 @@
 
                 
                 <li class="sidebar-item" id="acompanhamento">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../acompanhamento.php" aria-expanded="false">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ URL_DESENVOLVIMENTO ~ '/auditoria'}}" aria-expanded="false">
                         <i class="mdi mdi-magnify"></i>
                         <span class="hide-menu">Auditoria</span>
                     </a>
@@ -75,7 +77,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../logout.php"
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ URL_DESENVOLVIMENTO ~ '/sair' }}"
                         aria-expanded="false">
                         <i class="mdi mdi-logout"></i>
                         <span class="hide-menu">LogOut</span>

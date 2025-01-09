@@ -63,7 +63,7 @@ $(function() {
 /* ALTERAÇÕES AO ATIVAR E DESATIVAR MENU */
     
     const logo = document.getElementById("logo-img");
-    
+    const pathLogo = window.location.origin + "/credencial-estacionamento/assets/images/brasao_correto_2014_HORIZONTAL_FUNDO-2.png"
     // Realiza as alterações no menu
     function alteraMenu(target){
 
@@ -89,7 +89,7 @@ $(function() {
             $('.navbar-brand a').css('padding-left', '2.2rem');
 
             // Altera logo
-            logo.src = "../assets/images/brasao_correto_2014_HORIZONTAL_FUNDO-2.png";
+            logo.src = pathLogo;
         }
     }
     
@@ -113,7 +113,7 @@ $(function() {
                 });
             }
 	    console.log("Dentro");
-        } else logo.src = "../assets/images/brasao_correto_2014_HORIZONTAL_FUNDO-2.png";
+        } else logo.src = pathLogo;
     }
 
     document.addEventListener('DOMContentLoaded', function(){

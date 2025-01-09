@@ -26,6 +26,37 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('bairro').value = dados.bairro;
     }
 
+    document.getElementById('consultaDOC').addEventListener('click', function(){
+        
+        const urlBase = this.dataset.url;
+        const numDoc = document.getElementById('doc_consulta').value;
+
+        console.log(urlBase);
+        $.ajax({
+            type: 'post',
+            url: urlBase,
+            data: {
+                doc: numDoc
+            },
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Define o tipo de conteúdo
+            dataType: 'json', // Especifica o formato esperado da resposta
+            success: function(response){
+                if(response.status === 0){
+                    console.log('mensagem: ' + response.mensagem);
+                     
+                } else {
+                    console.log('mensagem: ' + response.mensagem); 
+                    console.log(response.beneficiario["\u0000*\u0000dados"]);
+                    populaCampos(response.beneficiario["\u0000*\u0000dados"]); 
+
+                }
+            },
+            error: function(error, xhr){
+                console.log(error, xhr);
+            }
+        })
+    })
+
     function consultarCEP(cep) {
         fetch(`https://viacep.com.br/ws/${cep}/json/`)
             .then(response => response.json())
@@ -79,6 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    validarCPF();
+
     // var campoData = document.getElementById('data_cadastro');
     // var campoHora = document.getElementById('hora_cadastro');
 
@@ -92,10 +125,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // $.ajax({
     //     url: 'https://id.who.int/icd/release/11/2022-02/mms',
     //     method: 'GET',
-    //     // headers: {
-    //     //     'Accept': 'application/json',
-    //     //     'API-Key': '72c98c10-0d07-4f76-aad1-0e437e9e945f_e77ead8d-601c-485d-878c-ea44a1171c57'  // Substitua pela sua chave de API
-    //     // },
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'API-Key': '72c98c10-0d07-4f76-aad1-0e437e9e945f_e77ead8d-601c-485d-878c-ea44a1171c57'  // Substitua pela sua chave de API
+    //     },
     //     success: function(response) {
     //         // Exibe os resultados no elemento #result
     //         // let output = "<h2>Lista de Códigos CID</h2><ul>";
@@ -262,21 +295,24 @@ function converterTexto(input) {
         });
 
 
-function validarCPF(cpf) {
-    var campoCpf = document.getElementById('campoCpf');
+function validarCPF() {
+    var campoCpf = document.getElementById('cpf');
+    var labelCpf = document.querySelector('label[for="cpf"]');
     var botaoCadastro = document.getElementById('botaoCadastro'); // Seleciona o botão de cadastro
 
-    // Verifica se o CPF é válido
-    var isValid = validaCPF(cpf);
-
-    // Atualiza o elemento com a mensagem de validação
-    if (isValid) {
-        campoCpf.innerHTML = '<span style="color: green;">CPF - Válido</span>';
-        botaoCadastro.disabled = false; // Habilita o botão de cadastro
-    } else {
-        campoCpf.innerHTML = '<span style="color: red;">CPF - Inválido</span>';
-        botaoCadastro.disabled = true; // Desabilita o botão de cadastro
-    }
+    campoCpf.addEventListener('input', (event) => {
+        // Verifica se o CPF é válido
+        var isValid = validaCPF(event.target.value);
+    
+        // Atualiza o elemento com a mensagem de validação
+        if (isValid) {
+            labelCpf.innerHTML = "CPF";
+            botaoCadastro.disabled = false; // Habilita o botão de cadastro
+        } else {
+            labelCpf.innerHTML = 'CPF - <span style="color: red;">Inválido</span>';
+            botaoCadastro.disabled = true; // Desabilita o botão de cadastro
+        }
+    })
 }
 
 function validaCPF(cpf) {
@@ -330,22 +366,49 @@ function validaCPF(cpf) {
     return true;
 }
 
+function populaCampos(beneficiario){
+    console.log(beneficiario.NOME);
+    document.getElementById('nomecompleto').value = beneficiario.NOME ?? '';
+    document.getElementsByName('sexo').forEach((element) => element.checked = element.value === beneficiario.SEXO);
+    document.getElementById('rg').value = beneficiario.RG ?? '';
+    document.getElementById('rg_orgao').value = beneficiario.RGEXPEDIDOR ?? '';
+    document.getElementById('rg_data').value = beneficiario.DTEXPRG ? beneficiario.DTEXPRG.split(' ')[0] : '';
+    document.getElementById('cpf').value = beneficiario.CPF ?? '';
+    document.getElementById('telefone').value = beneficiario.TELEFONE ?? '';
+    document.getElementById('data_nascimento').value = beneficiario.DTNASC ? beneficiario.DTNASC.split(' ')[0] : ''; 
+    document.getElementById('cep').value = beneficiario.CEP ?? '';
+    document.getElementById('endereco').value = beneficiario.ENDERECO ?? '';
+    document.getElementById('bairro').value = beneficiario.BAIRRO ?? '';
+    document.getElementById('complemento').value = beneficiario.COMPLEMENTO ?? '';
+    document.getElementById('cidade').value = beneficiario.CIDADE ?? '';
+    document.getElementById('uf').value = beneficiario.UF ?? '';
+    // document.getElementById('comprovante').value = beneficiario.COMPROVANTE ?? ''; // 'atestado' renomeado para 'comprovante'
+    document.getElementById('cnh').value = beneficiario.CNH ?? '';
+    document.getElementById('validade_cnh').value = beneficiario.CNHVALIDADE ? beneficiario.CNHVALIDADE.split(' ')[0] : '';
+    document.getElementById('profissao').value = beneficiario.PROFISSAO ?? '';
+    document.getElementById('email').value = beneficiario.EMAIL ?? '';
+    if (beneficiario.DEF === 'S') {
+        document.getElementById('collapseExample').setAttribute('class', 'collapse show');
+        document.getElementById('pne').setAttribute('class', 'form-check-input');
+        document.getElementById('pne').setAttribute('aria-expanded', 'true');
+        document.getElementById('pne').checked = true;
+    }
+    document.getElementById('atestado').value = beneficiario.ATESTADO ?? '';
+    document.getElementById('crm').value = beneficiario.CRM ?? '';
+    document.getElementById('nome_medico').value = beneficiario.MEDICO ?? '';
+    document.getElementById('cid').value = beneficiario.CID ?? '';
+    document.getElementById('situacao').value = beneficiario.SITUACAOPNE ?? ''; 
+    document.getElementById('nome_representante').value = beneficiario.NOMEREP ?? '';
+    document.getElementById('email_representante').value = beneficiario.EMAILREP ?? '';
+    document.getElementById('rg_representante').value = beneficiario.RGREP ?? '';
+    document.getElementById('rg_orgao_representante').value = beneficiario.RGEXPREP ?? '';
+    document.getElementById('rg_data_representante').value = beneficiario.DTEXPRGREP ? beneficiario.DTEXPRGREP.split(' ')[0] : '';
+    document.getElementById('telefone_representante').value = beneficiario.TELEFONEREP ?? '';
+    document.getElementById('cep_representante').value = beneficiario.CEPREP ?? '';
+    document.getElementById('endereco_representante').value = beneficiario.ENDERECOREP ?? '';
+    document.getElementById('bairro_representante').value = beneficiario.BAIRROREP ?? '';
+    document.getElementById('cidade_representante').value = beneficiario.CIDADEREP ?? '';
+    document.getElementById('complemento_representante').value = beneficiario.COMPLEMENTOREP ?? '';
+    document.getElementById('uf_representante').value = beneficiario.UFREP ?? '';
 
-document.addEventListener('DOMContentLoaded', function () {
-    var form = document.querySelector('.form-cadastro');
-    var fileInput = document.getElementById('fileInput');
-
-    form.addEventListener('submit', function (event) {
-        // Verifica se um arquivo foi selecionado
-        if (fileInput.files.length > 0) {
-            var arquivo = fileInput.files[0];
-            // Verifica o tamanho do arquivo (2MB)
-            if (arquivo.size > 2 * 1024 * 1024) {
-                // Se o arquivo for muito grande, impede o envio do formulário
-                alert('O arquivo é muito grande. Por favor, selecione um arquivo menor que 2MB.');
-                event.preventDefault(); // Impede o envio do formulário
-            }
-        }
-    });
-});
-
+}

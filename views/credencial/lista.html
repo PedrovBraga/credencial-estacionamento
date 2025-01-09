@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {# Preserva estilos do arquivo pai (base.html) #}
+    {{ block('styles') }}
+    <link rel="stylesheet" href="{{ url('../views/assets/css/style_pessoa.css') }}">
+    
+{% endblock %}
+
+{% block conteudo %}
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+        data-boxed-layout="full">
+        <div class="page-wrapper px-5 w-85">
+            <div class="page-breadcrumb pl-0 mt-3 mb-4">
+                <div class="row">
+                    <div class="col-5 align-self-center">
+                        <h4 class="page-title">Credencial</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-1 justify-content-between">
+                <div class="input-group col-md-6">
+                    <div class="input-group col-md-6 p-0">
+                        <div class="data" style="width: 12rem;">
+                            <label for="doc_consulta">Verifique <strong>última</strong> credencial pelo RG ou CPF:</label>
+                            <input type="text" id="doc_consulta" class="form-control w-100" name="doc_consulta" placeholder="000.000.000-00">
+                        </div>
+                    </div>
+                    <div class="divbotaocep">
+                        <button type="button" id="consultaDOC" class="botaocep" data-url="{{ url(URL_DESENVOLVIMENTO ~ '/credencial/consulta') }}"><i
+                                class="mdi mdi-magnify"></i></button>
+                    </div>
+                </div>
+                <div class="input-group col-md-6">
+                    <div class="input-group col-md-6 p-0">
+                        <div class="data" style="width: 12rem;">
+                            <label for="registro_consulta">Verifique credencial pelo N° Registro:</label>
+                            <input type="text" id="registro_consulta" class="form-control w-100" name="registro_consulta" placeholder="00000/0000">
+                        </div>
+                    </div>
+                    <div class="divbotaocep">
+                        <button type="button" id="consultaRegistro" class="botaocep" data-url="{{ url(URL_DESENVOLVIMENTO ~ '/credencial/consulta') }}"><i
+                                class="mdi mdi-magnify"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body">
+                        <table class="table table-striped" style="margin-top: 15px;">
+                            <thead>
+                                <tr>
+                                    <th>N° Registro</th>
+                                    <th>Ano</th>
+                                    <th>Tipo</th>
+                                    <th>Pessoa</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista">
+                                <!-- { for credencial in credenciais }
+                                <tr>
+                                    <td>{credencial.REGISTRO}</td>
+                                    <td>{credencial.ANO}</td>
+                                    <td>{credencial.TIPO}</td>
+                                    <td>{beneficiario.NOME}</td>
+                                    <td>{if credencial.VALIDADE credencial.VALIDADE < "now"|date("Y-m-d")}
+                                            VENCIDA
+                                        {else}
+                                            ATIVA
+                                        {endif}
+                                    </td>
+                                    <td>
+                                        <button>Editar</button>
+                                        <button>2ª via</button>
+                                    </td>
+                                </tr>
+                                { endfor } -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+
+    <script>
+        function toggleTable() {
+            console.log('teste');
+            var table = document.getElementById('hiddenTable');
+            $(table).toggleClass('slide-down');
+        }
+    </script>
+    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js') }}"></script>
+    <script src="{{ url('https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/custom.min.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/script_credencial.js') }}"></script>
+<!-- </body> -->
+
+{% endblock %}

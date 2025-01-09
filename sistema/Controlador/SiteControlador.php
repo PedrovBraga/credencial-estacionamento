@@ -18,7 +18,7 @@ class SiteControlador extends Controlador
      */
     public function index(): void
     {
-        echo $this->template->renderizar('pessoa.html', []);
+        echo $this->template->renderizar('pessoa/pessoa.html', []);
     }
     
     public function buscar():void

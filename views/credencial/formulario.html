@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {# Preserva estilos do arquivo pai (base.html) #}
+    {{ block('styles') }}
+    <link rel="stylesheet" href="{{ url('../views/assets/css/style_pessoa.css') }}">
+    
+{% endblock %}
+
+{% block conteudo %}
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+        data-boxed-layout="full">
+        <div class="page-wrapper px-5 w-100">
+            <div class="page-breadcrumb pl-0 mt-3 mb-4">
+                <div class="row">
+                    <div class="col-5 align-self-center">
+                        <h4 class="page-title">Credencial</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-1 justify-content-between w-85">
+                <div class="input-group col-md-6">
+                    <div class="input-group col-md-5 p-0">
+                        <div class="data" style="width: 12rem;">
+                            <label for="doc_consulta">Verifique <strong>última</strong> credencial pelo RG ou CPF:</label>
+                            <input type="text" id="doc_consulta" class="form-control w-100" name="doc_consulta" placeholder="000.000.000-00">
+                        </div>
+                    </div>
+                    <div class="divbotaocep">
+                        <button type="button" id="consultaDOC" class="botaocep" data-url="{{ url(URL_DESENVOLVIMENTO ~ '/credencial/consulta') }}"><i
+                                class="mdi mdi-magnify"></i></button>
+                    </div>
+                </div>
+                <div class="input-group col-md-6">
+                    <div class="input-group col-md-5 p-0">
+                        <div class="data" style="width: 12rem;">
+                            <label for="registro_consulta">Verifique credencial pelo N° Registro:</label>
+                            <input type="text" id="registro_consulta" class="form-control w-100" name="registro_consulta" placeholder="00000/0000">
+                        </div>
+                    </div>
+                    <div class="divbotaocep">
+                        <button type="button" id="consultaRegistro" class="botaocep" data-url="{{ url(URL_DESENVOLVIMENTO ~ '/credencial/consulta') }}"><i
+                                class="mdi mdi-magnify"></i></button>
+                    </div>
+                </div>
+            </div>
+            <hr class="w-80 mx-0">
+            <form class="form-cadastro" id="form-cadastro" method="post" enctype="multipart/form-data" action="{{ url(URL_DESENVOLVIMENTO ~ '/credencial/registrar') }}">
+
+                <div class="row my-2 space-between">
+                    <div class="input-group pl-0 col-md-6">
+                        <div class="input-group col-md-4">
+                            <label for="profissao" class="form-label">Nº Registro</label>
+                            <input type="text" class="form-control w-100" id="registro" name="registro" placeholder="" value="{{credencial.REGISTRO}}" required>
+                        </div>
+                        <div class="input-group col-md-4">
+                            <label for="profissao" class="form-label">Ano</label>
+                            <input type="number" class="form-control w-100" id="ano" name="ano" value="{{credencial.ANO}}" required>
+                        </div>
+                    </div>
+                    <div class="input-group col-md-6">
+                        <div class="input-group col-md-4">
+                            <label for="dtemissao" id="label_data">Data de Emissão:</label>
+                            <input type="date" id="dtemissao" name="dtemissao"
+                                class="form-control w-100" value="{{credencial.DTEMISSAO}}" readonly>
+                        </div>
+                        <div class="input-group col-md-4">
+                            <label for="validade" id="label_data">Data de Validade:</label>
+                            <input type="date" id="validade" name="validade"
+                                class="form-control w-100" value="{{credencial.VALIDADE}}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="input-group col-md-4">
+                        <label for="nome" class="form-label">Nome Completo</label>
+                        <input type="text" class="form-control w-100" id="nome" name="nome"
+                            placeholder="ex: Ana Paula Martins" value="{{beneficiario.NOME}}" required>
+                    </div>
+                    <div class="input-group col-md-3">
+                        <label>Doc. Indentificação (CPF/RG)</label>
+                        <input type="text" id="doc" class="form-control w-100" name="doc"
+                            placeholder="" value="{{beneficiario.RG}}" required>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="input-group col-md-4">
+                        <label for="nome_operador" class="form-label">Nome Operador</label>
+                        <input type="text" class="form-control w-100" id="nome_operador" name="nome_operador"
+                            value="{{usuario.NOME}}" required>
+                    </div>
+                    <div class="input-group col-md-2">
+                        <label>Cargo</label>
+                        <input type="text" class="form-control w-100" id="cargo_operador" name="cargo_operador"
+                            value="{{usuario.CARGO}}"placeholder="" required>
+                    </div>
+                </div>
+                <div class="row my-2 justify-content-between">
+                    <div class="input-group col-md-3" style="margin-top: 30px;">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePNE" aria-expanded="false"
+                                aria-controls="collapsePNE" id="checkCollapsePNE" 
+                                {% if beneficiario.DEF == 'S' %}checked{%endif%} value="S">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Portador de Necessidades Especiais
+                            </label>
+                        </div>
+                    </div>
+                    <div class="input-group col-md-2">
+                        <label class="form-label" for="tipo">Tipo da Credencial</label>
+                        <select class="form-control w-100" id="tipo" name="tipo">
+                            <option selected>Escolha uma opção...</option>
+                            <option value="IDOSO" {% if credencial.TIPORETIRADA == 'IDOSO' %}selected{%endif%}>IDOSO</option>
+                            <option value="DEFICIENTE" {% if credencial.TIPORETIRADA == 'DEFICIENTE' %}selected{%endif%}>DEFICIENTE</option>
+                        </select>
+                    </div>
+                    <div class="input-group col-md-2">
+                        <label class="form-label" for="inputGroupSelect01">Forma de Retirada da Credencial</label>
+                        <select class="form-control w-100" id="tipoRetirada" name="tipoRetirada">
+                            <option selected>Escolha uma opção...</option>
+                            <option value="PRAÇA DE ATENDIMENTO" {% if credencial.TIPORETIRADA == 'PRAÇA DE ATENDIMENTO' %}selected{%endif%}>PRAÇA DE ATENDIMENTO</option>
+                            <option value="CORREIO" {% if credencial.TIPORETIRADA == 'CORREIO' %}selected{%endif%}>CORREIO</option>
+                        </select>
+                    </div>
+                    <div class="input-group col-md-2">
+                        <label class="form-label" for="inputGroupSelect01">Credencial Retirada</label>
+                        <select class="form-control w-100" id="retirada" name="retirada">
+                            <option selected>Escolha uma opção...</option>
+                            <option value="SIM" {% if credencial.RETIRADA == 'SIM' %}selected{%endif%}>SIM</option>
+                            <option value="NAO" {% if credencial.RETIRADA == 'NAO' %}selected{%endif%}>NÃO</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Verificar se já existe registro para definir btn / Deixar campos readonly tbm -->
+                <div>
+                    <div class="input-group col-md-1 pl-0" style="margin-top: 30px;">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSegVia" aria-expanded="false"
+                                aria-controls="collapseSegVia" id="checkCollapseSegVia" 
+                                name="segVia" {% if credencial.SEGVIA == 'S' %}checked{%endif%}>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                2ª Via
+                            </label>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="collapse" id="collapsePNE">
+                    <hr class="my-4">
+    
+                    <h5 class="mb-4">Dados do Representante</h5>
+                    <div class="row my-1">
+                        <div class="input-group col-md-5">
+                            <label for="nome_representante" class="form-label">Nome do Representante</label>
+                            <input type="text" class="form-control w-100" id="nome_representante" name="nome_representante" 
+                            placeholder="Nome" value="{{representante.NOME}}">
+                        </div>
+                        <div class="input-group col-md-2">
+                            <label for="rg_representante">Doc. Indentificação (CPF/RG)</label>
+                            <input type="text" id="rg_representante" class="form-control w-100" name="rg_representante"
+                                placeholder="" value="{{representante.RG}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapse" id="collapseSegVia">
+                    <!-- -->
+                    <hr class="my-4">
+                    <!-- form PNE -->
+                    <div class="row my-1">
+                        <div class="input-group col-md-6">
+                            <label for="form-label">Obs 2ª Via:</label>
+                            <textarea class="form-control w-100" style="height: 100px;" placeholder="Observação da 2ª via..." 
+                                name="obsSegVia" id="obsSegVia">{{credencial.OBSSEGVIA}}</textarea>
+                        </div>
+                        <div class="flex-column col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSegViaCassada" aria-expanded="false"
+                                    aria-controls="collapseSegViaCassada" id="checkCollapseSegViaCassada" name="segViaCassada"
+                                    {% if credencial.SEGVIACASSADA == 'S' %}checked{%endif%}>
+                                <label class="form-check-label mb-2" for="checkCollapseSegViaCassada">
+                                    2ª Via Cassada:
+                                </label>
+                            </div>
+                            <div class="collapse input-group" id="collapseSegViaCassada">
+                                <textarea class="form-control w-100" style="height: 100px;" placeholder="Observação da cassação..." 
+                                    name="obsCassada" id="obsCassada">{{credencial.OBSCASSADA}}</textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-pref" id="botaoCadastro">Emitir 2ª Via</button>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-group col-md-1 pl-0" style="margin-top: 30px;">
+                        <div class="form-check">
+                            <button type="submit" class="btn btn-pref" id="botaoCadastro">Gerar Credencial</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js') }}"></script>
+    <script src="{{ url('https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/custom.min.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/script_credencial.js') }}"></script>
+{% endblock %}

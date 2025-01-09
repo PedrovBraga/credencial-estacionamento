@@ -97,6 +97,27 @@ abstract class QueryBuilder
         $this->query = "SELECT {$colunas} FROM " . $this->tabela;
         return $this;
     }
+    
+    // LEFT JOIN sempre retorna os valores da tb base (tb_beneficiario) mesmo que a condição ON não seja realizada
+    public function buscaLeftJoin(string $tb_inner = null, string $alias_tbinner = null, string $coluna_comparacao = null, ?string $termos = null, ?string $parametros = null, array $colunas = ['*'])
+    {
+        $tb_inner = "tb_".$tb_inner;
+
+        // Concatena as colunas com aliases para a consulta
+        $colunas_str = implode(', ', $colunas);
+        
+        $this->query = "SELECT {$this->tabela}.*, {$colunas_str} FROM {$this->tabela} 
+                        LEFT JOIN {$tb_inner} {$alias_tbinner} 
+                        ON {$alias_tbinner}.ID = $this->tabela.{$coluna_comparacao}";
+
+        if ($termos) {
+            $this->query .= " WHERE {$termos} ";
+            parse_str($parametros, $this->parametros);
+            return $this;
+        }
+
+        return $this;
+    }
 
     // public function buscaPorSlug(string $slug)
     // {
@@ -107,6 +128,11 @@ abstract class QueryBuilder
     public function buscaPorId(int $id)
     {
         $busca = $this->busca("id = {$id}");
+        return $busca->resultado();
+    }
+    public function buscaPorRegistro(int $numRegistro)
+    {
+        $busca = $this->busca("REGISTRO = {$numRegistro}");
         return $busca->resultado();
     }
 
@@ -180,8 +206,8 @@ abstract class QueryBuilder
     {
         try {
             $stmt = Conexao::getInstancia()->prepare($this->query . $this->ordem . $this->limite . $this->offset);
+            // echo var_dump($stmt);
             $stmt->execute($this->parametros);
-
             if (!$stmt->rowCount()) {
                 return null;
             }
@@ -193,7 +219,8 @@ abstract class QueryBuilder
             return $stmt->fetchObject(static::class);
         } catch (\PDOException $ex) {
             echo $this->erro = $ex;
-            return null;
+            throw new \Exception('Erro de sistema ao retornar os dados');
+            // return null;
         }
         // Retorna null, todos os resultados como objeto da classe em que a função foi chamada
         // ou 1 resultado como objeto da classe em que a função foi chamada
@@ -222,8 +249,16 @@ abstract class QueryBuilder
     protected function armazenar()
     {
         $dados = (array) $this->dados;
-
         return $dados;
+    }
+
+    public function preencher(array $dados): void
+    {
+        foreach ($dados as $campo => $valor) {
+            // if (property_exists($this, $campo)) { // Verifica se a propriedade existe na classe
+                $this->$campo = $valor; 
+            // }
+        }
     }
 
 
@@ -233,8 +268,8 @@ abstract class QueryBuilder
         if (empty($this->id)) {
             $id = $this->cadastrar($this->armazenar());
             if ($this->erro) {
-                $this->mensagem->erro('Erro de sistema ao tentar cadastrar os dados');
-                return false;
+                echo "\n SALVAR \n".var_dump($this);
+                throw new \Exception('Erro de sistema ao tentar cadastrar os dados');
             }
         }
 
@@ -243,12 +278,34 @@ abstract class QueryBuilder
             $id = $this->id;
             $this->atualizar($this->armazenar(), "id = {$id}");
             if ($this->erro) {
-                $this->mensagem->erro('Erro de sistema ao tentar atualizar os dados');
-                return false;
+               throw new \Exception('Erro de sistema ao tentar atualizar os dados');
             }
         }
 
         $this->dados = $this->buscaPorId($id)->dados();
+        return true;
+    }
+    public function salvarCredencial()
+    {
+        //CADASTRAR
+        if (empty($this->REGISTRO)) {
+            $REGISTRO = $this->cadastrar($this->armazenar());
+            if ($this->erro) {
+                // echo "\n SALVAR \n".var_dump($this);
+                throw new \Exception('Erro de sistema ao tentar cadastrar os dados');
+            }
+        }
+
+        //ATUALIZAR
+        if (!empty($this->REGISTRO)) {
+            $REGISTRO = $this->REGISTRO;
+            $this->atualizar($this->armazenar(), "REGISTRO = {$REGISTRO}");
+            if ($this->erro) {
+               throw new \Exception('Erro de sistema ao tentar atualizar os dados');
+            }
+        }
+
+        $this->dados = $this->buscaPorRegistro($REGISTRO)->dados();
         return true;
     }
 

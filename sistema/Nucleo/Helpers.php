@@ -13,20 +13,6 @@ use Exception;
 class Helpers
 {
 
-    // /**
-    //  * Instancia e retorna as mensagens flash por sessão
-    //  * @return string|null
-    //  */
-    // public static function flash(): ?string
-    // {
-    //     $sessao = new Sessao();
-
-    //     if ($flash = $sessao->flash()) {
-    //         echo $flash;
-    //     }
-    //     return null;
-    // }
-
     /**
      * Redireciona para a url informada
      * @param string $url
@@ -38,7 +24,7 @@ class Helpers
 
         $local = ($url ? self::url($url) : self::url());
 
-        echo "Redirecionando para: {$local}";
+        header("Location: {$local} ");
         exit();
     }
 

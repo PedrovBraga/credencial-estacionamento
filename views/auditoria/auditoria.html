@@ -1,46 +1,7 @@
-<?php
-include('../inc/conexao.php');
-if (!isset($_SESSION)) {
-    session_start();
-}
-// include('../inc/verifica_login.php');
-// include('./processa_consulta_turmas.php');
 
-?>
-<!DOCTYPE html>
-<html dir="ltr" lang="pt-br">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Turmas</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo.png">
-    <link href="../dist/css/style.css" rel="stylesheet">
-    <!-- <link href="../dist/css/style_consulta_turmas.css" rel="stylesheet"> -->
-    <style>
-        @media print {
-
-            /* Adicione estilos de impressão aqui */
-            /* Por exemplo, para tabelas, você pode querer remover margens e padding */
-            table {
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-            th,
-            td {
-                border: 1px solid #000;
-                padding: 8px;
-                text-align: left;
-            }
-        }
-
-    </style>
-</head>
-
-<body>
+{% block conteudo %}
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
@@ -49,9 +10,6 @@ if (!isset($_SESSION)) {
     </div>
     <div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
         data-boxed-layout="full">
-        <?php
-            include('../inc/sidebar.php');
-        ?>
         <div class="page-wrapper">
             <div class="page-breadcrumb">
                 <div class="row">
@@ -65,17 +23,17 @@ if (!isset($_SESSION)) {
 
                 <div class="row">
 
-                    <div class="col-12">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Por Operador</h4>
                                 <h5 class="card-subtitle">Insira o dado para sua consulta.</h5>
                                 <form action="consulta_turmas.php" method="post">
                                     <div class="row gap-3">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Operador: </label>
-                                                <select class="form-select shadow-none col-12" id="select-atividades"
+                                                <select class="form-control w-100" id="select-atividades"
                                                     name="atividade">
                                                     <option>Escolha uma opção...</option>
                                                 </select>
@@ -92,17 +50,17 @@ if (!isset($_SESSION)) {
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Por Munícipe</h4>
                                 <h5 class="card-subtitle">Insira o dado para sua consulta.</h5>
                                 <form action="consulta_turmas.php" method="post">
                                     <div class="row gap-3">
-                                        <div class="col-sm-4">
-                                            <div class="input-group">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
                                                 <label>Nome do Munícipe: </label>
-                                                <input type="text" id="telefone" class="w-100" name="telefone" placeholder="" required>
+                                                <input type="text" id="telefone" class="form-control w-100" name="telefone" placeholder="" required>
                                             </div>
                                         </div>
                                     </div>
@@ -120,12 +78,10 @@ if (!isset($_SESSION)) {
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Operações</h4>
-                                <?php // if (isset($atividade)): ?>
                                     <a class="btn btn-light btn-imprimir"
-                                        href="processa_lista_chamada.php?atividade=<?php echo urlencode($atividade); ?>">Exportar
-                                        Lista Operações</a>
-                                <?php //endif; ?>
-
+                                        href="processa_lista_chamada.php?atividade=">
+                                        Exportar Lista Operações
+                                    </a>
                             </div>
                             <div class="table-responsive" id="efetiva">
                                 <table class="table table-striped" id="tb-efetiva">
@@ -140,8 +96,8 @@ if (!isset($_SESSION)) {
                                         </tr>
                                     </thead>
                                     <tbody class="lista-efetiva">
-                                        <?php
-                                        // $contador = 0;
+                                       
+                                        <!-- // $contador = 0;
                                         // foreach ($dados_efetivos as $dado) {
                                         //     echo "
                                         //             <tr >
@@ -153,8 +109,8 @@ if (!isset($_SESSION)) {
                                         //             </tr>
                                         //         ";
                                         //     $contador++;
-                                        // }
-                                        // ?>
+                                        // } -->
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -165,54 +121,10 @@ if (!isset($_SESSION)) {
 
             </div>
 
-            <?php
-            include('../inc/footer.php')
-                ?>
-
         </div>
 
     </div>
-    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/extra-libs/sparkline/sparkline.js"></script>
-    <script src="../dist/js/waves.js"></script>
-    <script src="../dist/js/sidebarmenu.js"></script>
-    <script src="../dist/js/custom.min.js"></script>
-    <script src="../dist/js/script_consulta_turmas.js"></script>
-</body>
-
-
-<script>
-
-
-
-    // Função para formatar os dias da semana
-    function formatarDiasSemana(diasSemana) {
-        var diasFormatados = diasSemana.match(/.{1,2}/g).map(function (dia) {
-            switch (dia) {
-                case '2a':
-                    return 'Segunda';
-                case '3a':
-                    return 'Terça';
-                case '4a':
-                    return 'Quarta';
-                case '5a':
-                    return 'Quinta';
-                case '6a':
-                    return 'Sexta';
-                default:
-                    return dia;
-            }
-        });
-
-        return diasFormatados.join('/');
-    }
-
-    // Função para formatar o horário
-    function formatarHorario(horario) {
-        return horario.substring(0, 2) + ':' + horario.substring(2);
-    }
-
-</script>
-
-</html>
+    <script src="{{ url('assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <script src="{{ url('views/assets/js/custom.min.js') }}"></script>
+    <script src="{{ url('views/assets/js/script_consulta_turmas.js') }}"></script>
+{% endblock %}

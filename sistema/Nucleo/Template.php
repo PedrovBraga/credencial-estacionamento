@@ -17,11 +17,13 @@ class Template
     {
         $loader = new \Twig\Loader\FilesystemLoader($diretorio);
         $this->twig = new \Twig\Environment($loader);
+        $this->twig->addGlobal('URL_DESENVOLVIMENTO', URL_DESENVOLVIMENTO);
 
         $lexer = new Lexer($this->twig, array(
             $this->helpers()
         ));
         $this->twig->setLexer($lexer);
+
     }
 
     /**

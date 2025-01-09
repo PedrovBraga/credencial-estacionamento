@@ -1,15 +1,63 @@
 <?php
+namespace sistema\Modelo;
 
+use DateTime;
 use sistema\Nucleo\QueryBuilder;
+use sistema\Modelo\Representante;
 
 class Beneficiario extends QueryBuilder {
 
     public function __construct() {
-        $this->tabela = 'beneficiario';
+        $this->tabela = 'tb_beneficiario';
     }
 
-    public function salvar(){
+    public function gravar(Representante $representante = null){
+        if($representante){
+            // Pegar ID do representante e passar para beneficiario
+            $representante_cadastrado = $representante->buscaPorRG($representante->RG);
+    
+            if (!$representante_cadastrado) {
+                // Se não encontrar o representante, lança uma exceção ou retorna false
+                throw new \Exception('Representante não encontrado ao buscar ID.');
+            }
+    
+            // Adiciona ID do representante ao Beneficiario
+            $this->REPRESENTANTE = $representante_cadastrado->ID;
+        }
         
+        return parent::salvar();
     }
 
+    public function buscaPorCPFOuRG(string $doc)
+    {
+        $cols_tbinner = [
+            "r.NOME AS NOMEREP",
+            "r.EMAIL AS EMAILREP",
+            "r.TELEFONE AS TELEFONEREP",
+            "r.CEP AS CEPREP",
+            "r.ENDERECO AS ENDERECOREP",
+            "r.COMPLEMENTO AS COMPLEMENTOREP",
+            "r.BAIRRO AS BAIRROREP",
+            "r.CIDADE AS CIDADEREP",
+            "r.UF AS UFREP",
+            "r.RG AS RGREP",
+            "r.RG_EXPEDIDOR AS RG_EXPEDIDORREP",
+            "r.RG_DATA AS RG_DATAREP",
+            "r.CPF AS CPFREP"
+        ];
+
+        $busca = $this->buscaLeftJoin("representante", "r", "REPRESENTANTE", "tb_beneficiario.CPF = '{$doc}' OR tb_beneficiario.RG = '{$doc}'", null, $cols_tbinner);
+        return $busca->resultado();
+    }
+
+    public function calculaIdade(): int{
+       // Obtém a data de nascimento no formato 'Y-m-d'
+        $dataNascimento = new DateTime($this->DATA_NASCIMENTO);
+        $hoje = new DateTime(); // Data atual
+
+        // Calcula a diferença entre as datas
+        $idade = $hoje->diff($dataNascimento)->y;
+
+        return $idade;
+    }
 }

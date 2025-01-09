@@ -122,3 +122,31 @@ function matricularNaTurma(contador){
         }
     });
 }
+
+// Função para formatar os dias da semana
+function formatarDiasSemana(diasSemana) {
+    var diasFormatados = diasSemana.match(/.{1,2}/g).map(function (dia) {
+        switch (dia) {
+            case '2a':
+                return 'Segunda';
+            case '3a':
+                return 'Terça';
+            case '4a':
+                return 'Quarta';
+            case '5a':
+                return 'Quinta';
+            case '6a':
+                return 'Sexta';
+            default:
+                return dia;
+        }
+    });
+
+    return diasFormatados.join('/');
+}
+
+// Função para formatar o horário
+function formatarHorario(horario) {
+    return horario.substring(0, 2) + ':' + horario.substring(2);
+}
+
