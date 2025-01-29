@@ -24,20 +24,20 @@
                     </div>
                 </div>
             </div>
-            <div class="row my-1 justify-content-between w-85">
+            <div class="row my-1 justify-content-between w-85" {% if credencial.REGISTRO %}style="display: none"{% endif %}>
                 <div class="input-group col-md-6">
                     <div class="input-group col-md-5 p-0">
                         <div class="data" style="width: 12rem;">
-                            <label for="doc_consulta">Verifique <strong>última</strong> credencial pelo RG ou CPF:</label>
+                            <label for="doc_consulta">Consulte os dados do munícipe pelo RG ou CPF:</label>
                             <input type="text" id="doc_consulta" class="form-control w-100" name="doc_consulta" placeholder="000.000.000-00">
                         </div>
                     </div>
                     <div class="divbotaocep">
-                        <button type="button" id="consultaDOC" class="botaocep" data-url="{{ url(URL_DESENVOLVIMENTO ~ '/credencial/consulta') }}"><i
+                        <button type="button" id="consultaDOC" class="botaocep" data-url="{{ url(URL_DESENVOLVIMENTO ~ '/pessoa/consulta-doc') }}"><i
                                 class="mdi mdi-magnify"></i></button>
                     </div>
                 </div>
-                <div class="input-group col-md-6">
+                <!-- <div class="input-group col-md-6">
                     <div class="input-group col-md-5 p-0">
                         <div class="data" style="width: 12rem;">
                             <label for="registro_consulta">Verifique credencial pelo N° Registro:</label>
@@ -48,16 +48,18 @@
                         <button type="button" id="consultaRegistro" class="botaocep" data-url="{{ url(URL_DESENVOLVIMENTO ~ '/credencial/consulta') }}"><i
                                 class="mdi mdi-magnify"></i></button>
                     </div>
-                </div>
+                </div> -->
             </div>
             <hr class="w-80 mx-0">
-            <form class="form-cadastro" id="form-cadastro" method="post" enctype="multipart/form-data" action="{{ url(URL_DESENVOLVIMENTO ~ '/credencial/registrar') }}">
+            <form class="form-cadastro" id="form-cadastro" method="post" enctype="multipart/form-data" 
+                action="{% if credencial.REGISTRO %}{{ url(URL_DESENVOLVIMENTO ~ '/credencial/editar') }}{% else %}{{ url(URL_DESENVOLVIMENTO ~ '/credencial/registrar') }}{% endif %}"
+            >
 
                 <div class="row my-2 space-between">
                     <div class="input-group pl-0 col-md-6">
                         <div class="input-group col-md-4">
                             <label for="profissao" class="form-label">Nº Registro</label>
-                            <input type="text" class="form-control w-100" id="registro" name="registro" placeholder="" value="{{credencial.REGISTRO}}" required>
+                            <input type="text" class="form-control w-100" id="registro" name="registro" placeholder="" value="{{credencial.REGISTRO}}" readonly required>
                         </div>
                         <div class="input-group col-md-4">
                             <label for="profissao" class="form-label">Ano</label>
@@ -117,8 +119,8 @@
                         <label class="form-label" for="tipo">Tipo da Credencial</label>
                         <select class="form-control w-100" id="tipo" name="tipo">
                             <option selected>Escolha uma opção...</option>
-                            <option value="IDOSO" {% if credencial.TIPORETIRADA == 'IDOSO' %}selected{%endif%}>IDOSO</option>
-                            <option value="DEFICIENTE" {% if credencial.TIPORETIRADA == 'DEFICIENTE' %}selected{%endif%}>DEFICIENTE</option>
+                            <option value="IDOSO" {% if credencial.TIPO == 'IDOSO' %}selected{%endif%}>IDOSO</option>
+                            <option value="DEFICIENTE" {% if credencial.TIPO == 'DEFICIENTE' %}selected{%endif%}>DEFICIENTE</option>
                         </select>
                     </div>
                     <div class="input-group col-md-2">
@@ -203,11 +205,11 @@
                         <button type="submit" class="btn btn-pref" id="botaoCadastro">Emitir 2ª Via</button>
                     </div>
                 </div>
-                <div>
-                    <div class="input-group col-md-1 pl-0" style="margin-top: 30px;">
-                        <div class="form-check">
-                            <button type="submit" class="btn btn-pref" id="botaoCadastro">Gerar Credencial</button>
-                        </div>
+                <div style="justify-items: center;">
+                    <div class="input-group col-md-1 pl-0 mt-4">
+                        <button type="submit" class="btn btn-pref" id="botaoCadastro">
+                            {% if credencial.REGISTRO %}Atualizar{% else %}Registrar{% endif %}
+                        </button>
                     </div>
                 </div>
             </form>
@@ -218,5 +220,5 @@
     <script src="{{ url('https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js') }}"></script>
     <script src="{{ url(URL_DESENVOLVIMENTO ~ '../assets/extra-libs/sparkline/sparkline.js') }}"></script>
     <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/custom.min.js') }}"></script>
-    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/script_credencial.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/script_credencial_editar.js') }}"></script>
 {% endblock %}
