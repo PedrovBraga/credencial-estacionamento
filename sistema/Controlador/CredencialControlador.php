@@ -57,7 +57,6 @@ class CredencialControlador extends Controlador {
             $credencial->TIPO = $dados['tipo'];
             $credencial->TIPORETIRADA = $dados['tipoRetirada'];
             $credencial->BENEFICIARIO = ((new Beneficiario())->buscaPorCPFOuRG($dados['doc']))->ID;
-            // ID operador (?)
 
             try {
                 $credencial->gravar();
@@ -83,7 +82,6 @@ class CredencialControlador extends Controlador {
     public function consultar() : void {
 
         $num_doc = filter_input(INPUT_POST, 'doc');
-        $num_registro = filter_input(INPUT_POST, 'registro');
 
         if(isset($num_doc)){
             // Busca ID e infos do beneficiário
@@ -100,11 +98,16 @@ class CredencialControlador extends Controlador {
             if(!$credenciais){
                 $json = ['status' => 0, 'mensagem' => 'Credencial não encontrada! Verifique o N° documento ou cadastre a pessoa.'];
             } else {
-                $json = ['status' => 1, 'mensagem' => 'Credencial encontrada!', 'credencial' => (array) $credenciaisArray, 'beneficiario' => (array) $beneficiario];
+                $json = ['status' => 1, 'mensagem' => 'Credencial encontrada!', 'credencial' => $credenciaisArray, 'beneficiario' => (array) $beneficiario];
             }
         } else {
+            $registro = filter_input(INPUT_POST, 'registro');
+
+            $partes = explode('/', $registro);
+            $num_registro = $partes[0];
+            $ano = $partes[1];
             // Busca credencial e informações do operador pelo número da credencial
-            $credencial = (new Credencial())->buscarPorNumero($num_registro);
+            $credencial = (new Credencial())->buscarPorNumero($num_registro, $ano);
             // Busca inforamções do beneficiário pelo ID
             $beneficiario = (new Beneficiario())->buscaPorID($credencial->BENEFICIARIO);
             
@@ -117,7 +120,61 @@ class CredencialControlador extends Controlador {
         
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($json);
-        // exit();
+        exit();
+    }
+
+    public function editar(){
+        // Valores do formulário
+        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        
+        // Pega valor da url
+        $registro = filter_input(INPUT_GET, 'registro');
+        if(!empty($registro)){
+            $partes = explode('/', $registro);
+            $num_registro = $partes[0];
+            $ano = $partes[1];
+        }
+
+        if(isset($dados)){
+            $credencial_atualizar = new Credencial();
+            $credencial_atualizar->REGISTRO = $dados['registro'];
+            $credencial_atualizar->ANO = $dados['ano'];
+            $credencial_atualizar->TIPORETIRADA = $dados['tipoRetirada'];
+            $credencial_atualizar->RETIRADA = $dados['retirada'];
+
+            try {
+                $credencial_atualizar->salvarCredencial();
+                $json = ['status' => 1, 'mensagem' => 'Credencial atualizada!', 'urlConfirmar' => URL_DESENVOLVIMENTO.'/credencial/listar'];
+            } catch(Exception $e) {
+                $json = ['status' => 0, 'mensagem' => $e->getMessage()];
+            }
+
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($json);
+            exit();
+        } else {
+
+            $credencial = (new Credencial())->buscarPorNumero($num_registro, $ano);
+            $beneficiario = (new Beneficiario())->buscaPorId($credencial->BENEFICIARIO);
+    
+            if($beneficiario->REPRESENTANTE !== '0'){
+                $representante = (new Representante())->buscaPorId($beneficiario->REPRESENTANTE);
+            }  
+             
+            $session = new Sessao();
+            $usuario = (new Usuario())->buscaPorId($session->usuarioId);
+    
+            $credencial->VALIDADE = Helpers::trataFormatoData($credencial->VALIDADE);
+            $credencial->DTEMISSAO = Helpers::trataFormatoData($credencial->DTEMISSAO);
+    
+            echo $this->template->renderizar('credencial/formulario.html', [
+                    'credencial' => $credencial,
+                    'beneficiario' => $beneficiario ?? '',
+                    'representante' => $representante ?? '',
+                    'usuario' => $usuario ?? ''
+                ]);
+        }
+
     }
 
     public function listar(){
