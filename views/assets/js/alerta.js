@@ -6,6 +6,7 @@ class Alerta {
         this.showCancelButton = false;
         this.urlConfirm = null;
         this.urlCancel = null;
+        this.textBtnCancel = 'Cancelar';
     }
 
     /**
@@ -75,10 +76,11 @@ class Alerta {
      * @param {string} urlCancelar
      * @returns {Alerta}
      */
-    tratativa({ urlConfirmar = 'javascript:void(0);', urlCancelar = 'javascript:void(0);' } = {}) {
+    tratativa({ urlConfirmar = 'javascript:void(0);', urlCancelar = 'javascript:void(0);' } = {}, textoBtn) {
         this.urlConfirm = urlConfirmar;
         this.urlCancel = urlCancelar;
         this.showCancelButton = true;
+        this.textBtnCancel = textoBtn;
         return this;
     }
 
@@ -91,15 +93,17 @@ class Alerta {
             text: this.texto,
             icon: this.icon,
             confirmButtonText: "Ok",
-            cancelButtonText: "Cancelar",
+            cancelButtonText: this.textBtnCancel,
             showCancelButton: this.showCancelButton,
+            closeOnClickOutside: true
         }).then((result) => {
             if (result.isConfirmed) {
-                if (this.urlConfirm !== null) {
+                if (this.urlConfirm !== null || this.urlConfirm !== 'javascript:void(0);') {
                     window.location.href = this.urlConfirm;
                 }
-            } else if (result.isDismissed) {
-                if (this.urlCancel !== null) {
+            // verifica dismiss epecificamente no botão cancel
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                if (this.urlCancel !== null || this.urlCancel !== 'javascript:void(0);') {
                     window.location.href = this.urlCancel;
                 }
             }

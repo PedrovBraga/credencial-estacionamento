@@ -63,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(response);
                 if(response.status === 0){
                     console.log('mensagem: ' + response.mensagem);
-                     
+                    var alerta = new Alerta();
+                    alerta.erro(response.mensagem).tratativa({urlConfirmar: response.urlConfirmar, urlCancelar: response.urlCancelar}, 'Registrar Munícipe').renderizar();
                 } else {
                     console.log('mensagem: ' + response.mensagem); 
                     populaCampos(response.beneficiario["\u0000*\u0000dados"]);
