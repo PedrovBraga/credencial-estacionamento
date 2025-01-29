@@ -130,9 +130,10 @@ abstract class QueryBuilder
         $busca = $this->busca("id = {$id}");
         return $busca->resultado();
     }
-    public function buscaPorRegistro(int $numRegistro)
+
+    public function buscaPorRegistro(int $numRegistro, int $ano)
     {
-        $busca = $this->busca("REGISTRO = {$numRegistro}");
+        $busca = $this->busca("REGISTRO = {$numRegistro} AND ANO = {$ano}");
         return $busca->resultado();
     }
 
@@ -290,6 +291,7 @@ abstract class QueryBuilder
         //CADASTRAR
         if (empty($this->REGISTRO)) {
             $REGISTRO = $this->cadastrar($this->armazenar());
+            $ANO = $this->ANO;
             if ($this->erro) {
                 // echo "\n SALVAR \n".var_dump($this);
                 throw new \Exception('Erro de sistema ao tentar cadastrar os dados');
@@ -299,13 +301,15 @@ abstract class QueryBuilder
         //ATUALIZAR
         if (!empty($this->REGISTRO)) {
             $REGISTRO = $this->REGISTRO;
-            $this->atualizar($this->armazenar(), "REGISTRO = {$REGISTRO}");
+            $ANO = $this->ANO;
+            $this->atualizar($this->armazenar(), "REGISTRO = {$REGISTRO} AND ANO = {$ANO}");
             if ($this->erro) {
                throw new \Exception('Erro de sistema ao tentar atualizar os dados');
             }
         }
 
-        $this->dados = $this->buscaPorRegistro($REGISTRO)->dados();
+        // echo $REGISTRO.$ANO;
+        $this->dados = $this->buscaPorRegistro($REGISTRO, $ANO)->dados();
         return true;
     }
 
