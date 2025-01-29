@@ -24,7 +24,7 @@ class Credencial extends QueryBuilder {
 
         if($this->TIPO === 'IDOSO'){
             if($beneficiario && $beneficiario->calculaIdade() >= 60){
-                $ultima_credencial_idoso = $credencial_verificacao->buscarPorIdBeneficiario($this->BENEFICIARIO, $this->TIPO) ?? null;
+                $ultima_credencial_idoso = $credencial_verificacao->buscarPorIdBeneficiario(false, $this->BENEFICIARIO, $this->TIPO) ?? null;
 
                 if($ultima_credencial_idoso && !$ultima_credencial_idoso->verificaVencida()){
                     throw new Exception('Já existe uma crendencial de IDOSO válida para essa pessoa.');
@@ -36,7 +36,7 @@ class Credencial extends QueryBuilder {
 
         if($this->TIPO === 'DEFICIENTE'){
             if($beneficiario && $beneficiario->DEF === 'S'){
-                $ultima_credencial_def = $credencial_verificacao->buscarPorIdBeneficiario($this->BENEFICIARIO, $this->TIPO) ?? null;
+                $ultima_credencial_def = $credencial_verificacao->buscarPorIdBeneficiario(false, $this->BENEFICIARIO, $this->TIPO) ?? null;
 
                 if($ultima_credencial_def && !$ultima_credencial_def->verificaVencida()){
                     throw new Exception('Já existe uma crendencial de DEFICIENTE válida para essa pessoa.');
@@ -65,19 +65,14 @@ class Credencial extends QueryBuilder {
         return $busca->resultado($todos);
     } 
    
-    public function buscarPorNumero(string $registro){
-
-        $partes = explode('/', $registro);
-    
-        $num_registro = $partes[0];
-        $ano = $partes[1];
+    public function buscarPorNumero(string $num_registro, string $ano){
 
         $cols_tbinner = [
             "u.NOME AS NOMEOPERADOR",
             "u.CARGO AS CARGOOPERADOR"
         ];
 
-        $busca = $this->buscaLeftJoin("usuarionovo", "u", "OPERADOR", "tb_credencial.CODIGO = '{$num_registro}' AND tb_credencial.ANO = {$ano}", null, $cols_tbinner);
+        $busca = $this->buscaLeftJoin("usuario", "u", "OPERADOR", "tb_credencial.REGISTRO = '{$num_registro}' AND tb_credencial.ANO = {$ano}", null, $cols_tbinner);
         return $busca->resultado();
     } 
 
