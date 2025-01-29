@@ -78,7 +78,11 @@ class PessoaControlador extends Controlador {
         
         $beneficiario = (new Beneficiario())->buscaPorCPFOuRG($num_doc);
         if(!$beneficiario){
-            $json = ['status' => 0, 'mensagem' => 'Beneficiário não encontrado! Verifique o N° documento ou cadastre a pessoa.'];
+            $json = [
+                'status' => 0, 
+                'mensagem' => 'Munícipe não encontrado! Verifique o N° do documento digitado ou registre o munícipe.',
+                'urlCancelar' => URL_DESENVOLVIMENTO.'/pessoa/cadastrar',
+            ];
         } else {
             $json = ['status' => 1, 'mensagem' => 'Beneficiário encontrado!', 'beneficiario' => (array) $beneficiario];
         }
