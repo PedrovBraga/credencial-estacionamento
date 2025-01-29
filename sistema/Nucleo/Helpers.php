@@ -2,6 +2,7 @@
 
 namespace sistema\Nucleo;
 
+use DateTime;
 use Exception;
 
 /**
@@ -26,6 +27,18 @@ class Helpers
 
         header("Location: {$local} ");
         exit();
+    }
+
+    // Trata formato de data para ser exibido no front sem erro e sem perder hora, minuto e segundo.
+    // Usar sempre que enviar e receber data do front 
+    public static function trataFormatoData($data){
+        // Se estiver no formato do front-end
+        if(strpos($data,'T') !== false){
+            return $data->format('Y-m-d H:i:s');
+        } else {
+            // Se estiver no formato do back
+            return (new DateTime($data))->format('Y-m-d');
+        }
     }
 
     /**
