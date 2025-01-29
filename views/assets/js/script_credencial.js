@@ -4,7 +4,6 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-// consulta cep
 document.addEventListener('DOMContentLoaded', function () {
 
     // verificaCollapses();
@@ -62,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log('mensagem: ' + response.mensagem); 
                     // console.log(response.beneficiario["\u0000*\u0000dados"]);
                     // populaCampos(response.beneficiario["\u0000*\u0000dados"], response.credencial["\u0000*\u0000dados"]); 
-                    renderizaLista(response.beneficiario["\u0000*\u0000dados"], response.credencial["\u0000*\u0000dados"]);
+                    renderizaLista(response.beneficiario["\u0000*\u0000dados"], response.credencial);
                 }
             },
             error: function(error, xhr){
@@ -70,61 +69,35 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
     })
-
-    // document.getElementById('form-cadastro').addEventListener('submit', function(event){
-    //     event.preventDefault();
-
-    //       // Seleciona o formulário
-    //     const form = event.target;
-
-    //     // Cria um objeto FormData a partir do formulário
-    //     const formData = new FormData(form);
-
-    //     // Converte os dados do FormData para um formato de URL (formato de formulário)
-    //     const formEncoded = new URLSearchParams(formData).toString();
-
-    //     var urlBase = form.action;
-    //     $.ajax({
-    //         type: 'post', 
-    //         url: urlBase,
-    //         data: formEncoded,
-    //         contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Define o tipo de conteúdo
-    //         dataType: 'json', // Especifica o formato esperado da resposta
-    //         success: function(response){
-    //              // Depuração para verificar a resposta recebida
-    //             console.log(response);
-    //             if(response.status === 0){
-    //                 // console.log('mensagem: ' + response);
-    //                 var alerta = new Alerta();
-    //                 alerta.erro(response.mensagem).renderizar();
-    //             } else {
-    //                 // console.log('mensagem: ' + response); 
-    //                 var alerta = new Alerta();
-    //                 alerta.sucesso(response.mensagem).tratativa({urlConfirmar: response.urlConfirmar}).renderizar();
-    //             }
-    //         },
-    //         error: function(error, xhr){
-    //             console.log(error, xhr);
-    //         }
-    //     })
-    // })
 });
 
 function renderizaLista(beneficiario, credencial){
     const lista = document.getElementById('lista');
     let html = '';
 
+    // console.log(credencial)
+
+     // Garante que "credencial" seja sempre um array para iteração
+     if (!Array.isArray(credencial)) {
+        // Se for um objeto, converte para um array de um único elemento
+        credencial = [credencial];
+    }
+
+    console.log(credencial);
+    
     credencial.forEach(cred => {
+        let registroPadronizado = cred["\u0000*\u0000dados"].REGISTRO + '/' + cred["\u0000*\u0000dados"].ANO;
+        // let registroCodificado = encodeURIComponent(registroPadronizado);
         html += `
             <tr class='pb-3'>
-                <td>${cred["\u0000*\u0000dados"].REGISTRO}</td>
-                <td>${cred["\u0000*\u0000dados"].ANO}</td>
-                <td>${cred["\u0000*\u0000dados"].TIPO}</td>
-                <td>${beneficiario.NOME}</td>
-                <td>${new Date(cred["\u0000*\u0000dados"].VALIDADE) < new Date() ? 'VENCIDA' : 'ATIVA'}</td>
-                <td>
-                    <button>Editar</button>
-                    <button>2ª via</button>
+                <td class="align-middle">${cred["\u0000*\u0000dados"].REGISTRO}</td>
+                <td class="align-middle">${cred["\u0000*\u0000dados"].ANO}</td>
+                <td class="align-middle">${cred["\u0000*\u0000dados"].TIPO}</td>
+                <td class="align-middle">${beneficiario.NOME}</td>
+                <td class="align-middle">${new Date(cred["\u0000*\u0000dados"].VALIDADE) < new Date() ? 'VENCIDA' : 'ATIVA'}</td>
+                <td class="align-middle">
+                    <a class="btn btn-secondary" href="editar?registro=${registroPadronizado}">Editar</a>
+                    <a class="btn btn-warning" href="">2ª via</a>
                 </td>
             </tr>
         `;
@@ -168,22 +141,22 @@ function populaCampos(beneficiario, credencial){
     document.getElementById('obsCassada').value = credencial.OBSCASSADA ?? '';
 }
 
-function verificaCollapses(){
-    if (document.getElementById('checkCollapsePNE').checked === true) {
-        document.getElementById('collapsePNE').setAttribute('class', 'collapse show');
-        document.getElementById('checkCollapsePNE').setAttribute('class', 'form-check-input');
-        document.getElementById('checkCollapsePNE').setAttribute('aria-expanded', 'true');
-    }
+// function verificaCollapses(){
+//     if (document.getElementById('checkCollapsePNE').checked === true) {
+//         document.getElementById('collapsePNE').setAttribute('class', 'collapse show');
+//         document.getElementById('checkCollapsePNE').setAttribute('class', 'form-check-input');
+//         document.getElementById('checkCollapsePNE').setAttribute('aria-expanded', 'true');
+//     }
 
-    if (document.getElementById('checkCollapseSegVia').checked === true) {
-        document.getElementById('collapseSegVia').setAttribute('class', 'collapse show');
-        document.getElementById('checkCollapseSegVia').setAttribute('class', 'form-check-input');
-        document.getElementById('checkCollapseSegVia').setAttribute('aria-expanded', 'true');
-    }
+//     if (document.getElementById('checkCollapseSegVia').checked === true) {
+//         document.getElementById('collapseSegVia').setAttribute('class', 'collapse show');
+//         document.getElementById('checkCollapseSegVia').setAttribute('class', 'form-check-input');
+//         document.getElementById('checkCollapseSegVia').setAttribute('aria-expanded', 'true');
+//     }
 
-    if (document.getElementById('checkCollapseSegViaCassada').checked === true) {
-        document.getElementById('collapseSegViaCassada').setAttribute('class', 'collapse show');
-        document.getElementById('checkCollapseSegViaCassada').setAttribute('class', 'form-check-input');
-        document.getElementById('checkCollapseSegViaCassada').setAttribute('aria-expanded', 'true');
-    }
-}
+//     if (document.getElementById('checkCollapseSegViaCassada').checked === true) {
+//         document.getElementById('collapseSegViaCassada').setAttribute('class', 'collapse show');
+//         document.getElementById('checkCollapseSegViaCassada').setAttribute('class', 'form-check-input');
+//         document.getElementById('checkCollapseSegViaCassada').setAttribute('aria-expanded', 'true');
+//     }
+// }
