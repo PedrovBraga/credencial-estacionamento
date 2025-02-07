@@ -41,6 +41,51 @@ class Helpers
         }
     }
 
+    // Substring procurada no name recebido do form é utilizada como chave para um dos arrays de separação
+    public static function separarDadosFormulario(array $dados, string $substringA, string $substringB): array
+    {
+        $separados = [
+            $substringA => [],
+            $substringB => [],
+            'outro' => []
+        ];
+
+        foreach ($dados as $campo => $valor) {
+            $campo_uppercase = mb_strtoupper($campo, 'UTF-8');
+            $valor_uppercase = mb_strtoupper($valor, 'UTF-8');
+ 
+            // Verifica se name (dentro de $dados) contém string que identifica a qual Objeto ele pertence
+            if (strpos($campo, $substringA) !== false) {
+                $tam_susbstring = mb_strlen($substringA, 'UTF-8');
+                
+                // torna valor negativo para remover substring através de substr() e contar o tamanho de trás pra frente
+                // - 1 é referente ao '_' que vem na $string mas não utilizamos na $substring
+                $tam_susbstr = - $tam_susbstring - 1;
+                
+                // remove '_$substring' do fim da string
+                $campo_upper_tratado = substr($campo_uppercase, 0, $tam_susbstr);
+
+                $separados[$substringA][$campo_upper_tratado] = $valor_uppercase;
+            } else {
+                // Verifica se name ($dados['name']) contém string que identifica a qual Objeto ele pertence
+                if (strpos($campo, $substringB) !== false) {
+                    $tam_susbstring = mb_strlen($substringB, 'UTF-8');
+                    
+                    // torna valor negativo para remover substring através de substr() e contar o tamanho de trás pra frente
+                    // - 1 é referente ao '_' que vem na $string mas não utilizamos na $substring
+                    $tam_susbstr = - $tam_susbstring - 1;
+                    
+                    // remove '_$substring' do fim da string
+                    $campo_upper_tratado = substr($campo_uppercase, 0, $tam_susbstr);
+    
+                    $separados[$substringB][$campo_upper_tratado] = $valor_uppercase;
+                } else $separados['outro'][$campo_uppercase] = $valor_uppercase;
+            }
+        }
+
+        return $separados;
+    }
+
     /**
      * Válida um número de CPF
      * @param string $cpf
