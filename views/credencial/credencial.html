@@ -1,6 +1,28 @@
+<br/>
+<br/>
+
+{% if credencial.TIPO == 'DEFICIENTE' %}
 
 {% include 'credencial/frente-cadeirante.html' %}
 
+{% else %}
+
+{% include 'credencial/frente-idoso.html' %}
+
+{% endif %}
+
+<br/>
 <br/>
 
 {% include 'credencial/verso.html' %}
+
+<script>
+    window.addEventListener('afterprint', function () {
+        console.log('Usuário finalizou ou fechou a janela de impressão.');
+        // Redireciona para uma página específica após a impressão
+        window.location.href = 'listar';
+    });
+
+    // Abre a janela de impressão
+    window.print();
+</script>

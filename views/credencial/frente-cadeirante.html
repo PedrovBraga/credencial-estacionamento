@@ -2,9 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="{{ url('../views/assets/css/style_credencial.css') }}" />
-    <link rel="stylesheet" href="{{ url('../views/assets/css/style_cadeirante.css') }}" />
-    {{ url('../views/assets/css/style-cadeirante.css') }}
+    <link rel="stylesheet" href="{{ url(URL_DESENVOLVIMENTO ~ '/views/assets/css/style_credencial.css') }}" />
+    <link rel="stylesheet" href="{{ url(URL_DESENVOLVIMENTO ~ '/views/assets/css/style-cadeirante.css') }}" />
   </head>
   <body>
     <div class="credencial">
@@ -22,19 +21,19 @@
           <p class="n-DO-REGISTRO">
             <span class="span">N° DO REGISTRO:</span>
             <span class="text-wrapper-4">&nbsp;</span>
-            <span class="text-wrapper-5">000000/0000</span>
+            <span class="text-wrapper-5">{{ credencial.REGISTRO ~ '/' ~ credencial.ANO }}</span>
           </p>
           <img class="line" src="../assets/images/line-1.svg" />
           <p class="VALIDADE">
             <span class="text-wrapper-6">VALIDADE:</span>
             <span class="text-wrapper-7">&nbsp;</span>
-            <span class="text-wrapper-8">00/00/0000</span>
+            <span class="text-wrapper-8">{{ credencial.VALIDADE | date('d/m/Y') }}</span>
             <span class="text-wrapper-7">&nbsp;</span>
           </p>
           <p class="DATA-DE-EMISS-o">
             <span class="text-wrapper-6">DATA DE EMISSÃO:</span>
             <span class="text-wrapper-7">&nbsp;</span>
-            <span class="text-wrapper-8">00/00/0000</span>
+            <span class="text-wrapper-8">{{ credencial.DTEMISSAO | date('d/m/Y') }}</span>
             <span class="text-wrapper-7">&nbsp;</span>
           </p>
           <p class="RG-o-EXPEDIDOR">
@@ -45,7 +44,7 @@
             <span class="text-wrapper-6">MUNICÍPIO: </span> <span class="text-wrapper-5">JACAREÍ/SP</span>
           </p>
           <img class="line-2" src="../assets/images/line-2.svg" />
-          <p class="p">Nome e Cargo do Emissor</p>
+          <p class="p">{{ emissor.NOME ~ ' - ' ~ emissor.CARGO }}</p>
           <p class="text-wrapper-9">VÁLIDA EM TODO O TERRITÓRIO NACIONAL</p>
           <div class="text-wrapper-10">(Assinatura)</div>
         </div>

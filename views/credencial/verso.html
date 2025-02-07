@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="{{ url('../views/assets/css/style_credencial.css') }}" />
-    <link rel="stylesheet" href="{{ url('../views/assets/css/style_verso.css') }}" />
+    <link rel="stylesheet" href="{{ url(URL_DESENVOLVIMENTO ~ '/views/assets/css/style_credencial.css') }}" />
+    <link rel="stylesheet" href="{{ url(URL_DESENVOLVIMENTO ~ '/views/assets/css/style-verso.css') }}" />
     
   </head>
   <body>
@@ -11,7 +11,7 @@
       <div class="group">
         <div class="overlap-group">
           <p class="NOME-DO-BENEFICI-RIO">
-            <span class="text-wrapper-bene">NOME DO BENEFICIÁRIO:<br /></span> <span class="span">(nome)</span>
+            <span class="text-wrapper-bene">NOME DO BENEFICIÁRIO:<br /></span> <span class="span">{{ beneficiario.NOME }}</span>
           </p>
           <p class="esta-credencial-deve">
             1. Esta credencial deve ser utilizada:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1&nbsp;&nbsp;no original;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2
