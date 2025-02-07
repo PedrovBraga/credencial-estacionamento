@@ -2,7 +2,15 @@
 
 namespace sistema\Controlador;
 
+use DateTime;
+use Exception;
+use sistema\Modelo\Beneficiario;
+use Sistema\Modelo\Credencial;
+use sistema\Modelo\Representante;
 use sistema\Nucleo\Controlador;
+use sistema\Nucleo\Helpers;
+use sistema\Nucleo\Sessao;
+use sistema\Nucleo\Transacao;
 
 class SiteControlador extends Controlador
 {
@@ -20,78 +28,80 @@ class SiteControlador extends Controlador
     {
         echo $this->template->renderizar('pessoa/pessoa.html', []);
     }
-    
-    public function buscar():void
-    {
-        // $busca = filter_input(INPUT_POST,'busca', FILTER_DEFAULT);
-        // if(isset($busca)){
-        //     $posts = (new PostModelo())->busca("status = 1 AND titulo LIKE '%{$busca}%'")->resultado(true);
-            
-        //     foreach ($posts as $post){
-        //         echo "<li class='list-group-item fw-bold'><a href=".Helpers::url('post/').$post->id.">$post->titulo</a></li>";
-        //     }
-        // }
-        
-    }
-    
-    /**
-     * Busca post por ID
-     * @param int $id
-     * @return void
-     */
-    public function post(string $slug):void
-    {
-        // $post = (new PostModelo())->buscaPorSlug($slug);
-        // if(!$post){
-        //     Helpers::redirecionar('404');
-        // }
 
-        // $post->visitas += 1;
-        // $post->ultima_visita_em = date('Y-m-d H:i:s');
-        // $post->salvar();
-        
-        // echo $this->template->renderizar('post.html', [
-        //     'post' => $post,
-        //     'categorias' => $this->categorias(),
-        // ]);
-    }
-    
-    /**
-     * Categorias
-     * @return array
-     */
-    // public function categorias(): array
-    // {
-    //     // return (new CategoriaModelo())->busca("status = 1")->resultado(true);
-    // }
+    public function cadastrar() : void {
+        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-    public function categoria(string $slug):void
-    {
-        // $categoria = (new CategoriaModelo())->buscaPorSlug($slug);
+        if(isset($dados)){
+            // ajustar os names para mandar ao BD e salvar
+            $dados_separados = Helpers::separarDadosFormulario($dados, 'representante', 'credencial');
 
-        // if(!$categoria){
-        //     Helpers::redirecionar('404');
-        // }
+            $beneficiario = new Beneficiario();
+            $beneficiario->preencher($dados_separados['outro']);
 
-        // $categoria->visitas += 1;
-        // $categoria->ultima_visita_em = date('Y-m-d H:i:s');
-        // $categoria->salvar();
-        
-        // echo $this->template->renderizar('categoria.html', [
-        //     'posts' => (new CategoriaModelo())->posts($categoria->id),
-        //     'categorias' => $this->categorias(),
-        // ]);
-    }
-    
-    /**
-     * Sobre
-     * @return void
-     */
-    public function sobre(): void
-    {
-        echo $this->template->renderizar('sobre.html', [
-            'titulo' => 'Sobre nós'
-        ]);
+            // Confere check PNE
+            if(isset($dados_separados['outro']['DEF'])){
+                $representante = new Representante();
+                $representante->preencher($dados_separados['representante']);
+            }
+
+            $credencial = new Credencial();
+            $session = new Sessao();
+
+            $dados_credencial = [
+                'ANO' => date('Y'),
+                'VALIDADE' => ($credencial->calcularValidade($beneficiario->SITUACAO_PNE))->format('Y-m-d'),
+                'DTEMISSAO' => (new DateTime())->format('Y-m-d'),
+                'TIPO' => $dados_separados['credencial']['TIPO'],
+                'SEGVIA' => 'N',
+                'OBSSEGVIA' => '',
+                'SEGVIACASSADA' => 'N',
+                'OBSCASSADA' => '',
+                'TIPORETIRADA' => 'PRAÇA DE ATENDIMENTO',
+                'PROTOCOLOGPRO' => $dados_separados['credencial']['PROTOCOLOGPRO'],
+                // 'RETIRADA' => 'NAO',
+                'OPERADOR' => $session->usuarioId,
+                'BENEFICIARIO' => $id ?? '',
+            ];
+
+            $credencial->preencher($dados_credencial);
+
+            $transacao = new Transacao();
+
+            try{
+                $transacao->iniciar();
+
+                if(isset($dados_separados['outro']['DEF'])){
+                    $representante->salvar();
+                    $beneficiario->gravar($representante);
+                    $credencial->BENEFICIARIO = $beneficiario->ID;
+                    $credencial->gravar();
+                } else {
+                    $beneficiario->gravar();
+                    $credencial->BENEFICIARIO = $beneficiario->ID;
+                    $credencial->gravar();
+                }
+
+                $transacao->confirmar();
+
+                $num_registro = $credencial->REGISTRO.'/'.$credencial->ANO;
+                
+                $json = ['status' => 1, 'mensagem' => 'Credencial registrada. Deseja imprimi-la?', 'urlConfirmar' => URL_DESENVOLVIMENTO.'/credencial/visualizar?registro='.$num_registro];
+            } catch (Exception $e){
+                // Se erro, faz o rollback da transação
+                $transacao->desfazer();
+
+                $json = ['status' => 0, 'mensagem' => 'Erro ao cadastrar. '.$e->getMessage()];
+            }
+
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($json);
+        } else {
+            echo $this->template->renderizar('pessoa/formulario.html', [
+                'URL_DESENVOLVIMENTO' => URL_DESENVOLVIMENTO,
+            ]);
+        }
+
     }
     
     /**
