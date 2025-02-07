@@ -71,6 +71,62 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 });
 
+
+function imprimirPagina(numRegistro) {
+    
+    $.ajax({
+        type: 'GET',
+        url: 'imprimir',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Define o tipo de conteúdo
+        data: {
+            registro: numRegistro
+        },
+        dataType: 'json', // Especifica o formato esperado da resposta
+        success: function(response){
+            if(response.status === 0){
+                console.log('mensagem: ' + response.mensagem);
+                var alerta = new Alerta();
+                alerta.erro(response.mensagem).renderizar();
+            } else {
+                console.log('mensagem: ' + response.mensagem); 
+                url = 'visualizar?registro=' + numRegistro;
+                window.location.href = url;
+            }
+        },
+        error: function(error, xhr){
+            console.log(error, xhr);
+        }
+    })
+}
+
+function encaminharSegundaVia(numRegistro){
+    $.ajax({
+        type: 'GET',
+        url: 'editar',
+        data: {
+            registro: numRegistro
+        },
+        success: function(response, status, xhr){
+            const contentType = xhr.getResponseHeader('Content-Type');
+
+            if (contentType && contentType.includes('application/json')) {
+                if(response.status === 0){
+                    console.log('mensagem: ' + response.mensagem);
+                    var alerta = new Alerta();
+                    alerta.erro(response.mensagem).renderizar();
+                }
+            }  else {
+                // console.log('mensagem: ' + response.mensagem); 
+                url = 'editar?registro=' + numRegistro;
+                window.location.href = url;
+            }
+        },
+        error: function(error, xhr){
+            console.log(error, xhr);
+        }
+    })
+}
+
 function renderizaLista(beneficiario, credencial){
     const lista = document.getElementById('lista');
     let html = '';
@@ -87,17 +143,17 @@ function renderizaLista(beneficiario, credencial){
     
     credencial.forEach(cred => {
         let registroPadronizado = cred["\u0000*\u0000dados"].REGISTRO + '/' + cred["\u0000*\u0000dados"].ANO;
-        // let registroCodificado = encodeURIComponent(registroPadronizado);
+
         html += `
             <tr class='pb-3'>
                 <td class="align-middle">${cred["\u0000*\u0000dados"].REGISTRO}</td>
                 <td class="align-middle">${cred["\u0000*\u0000dados"].ANO}</td>
                 <td class="align-middle">${cred["\u0000*\u0000dados"].TIPO}</td>
                 <td class="align-middle">${beneficiario.NOME}</td>
-                <td class="align-middle">${new Date(cred["\u0000*\u0000dados"].VALIDADE) < new Date() ? 'VENCIDA' : 'ATIVA'}</td>
+                <td class="align-middle">${new Date(cred["\u0000*\u0000dados"].VALIDADE) < new Date() ? '<p class="text-danger">VENCIDA</p>' : '<p class="text-success">ATIVA</p>'}</td>
                 <td class="align-middle">
-                    <a class="btn btn-secondary" href="editar?registro=${registroPadronizado}">Editar</a>
-                    <a class="btn btn-warning" href="">2ª via</a>
+                    <button class="btn btn-secondary" onclick="encaminharSegundaVia('${registroPadronizado}')">2ª Via</button>
+                    <button class="btn btn-info text-white" onclick="imprimirPagina('${registroPadronizado}')" >Imprimir</button>
                 </td>
             </tr>
         `;
@@ -140,23 +196,3 @@ function populaCampos(beneficiario, credencial){
     }
     document.getElementById('obsCassada').value = credencial.OBSCASSADA ?? '';
 }
-
-// function verificaCollapses(){
-//     if (document.getElementById('checkCollapsePNE').checked === true) {
-//         document.getElementById('collapsePNE').setAttribute('class', 'collapse show');
-//         document.getElementById('checkCollapsePNE').setAttribute('class', 'form-check-input');
-//         document.getElementById('checkCollapsePNE').setAttribute('aria-expanded', 'true');
-//     }
-
-//     if (document.getElementById('checkCollapseSegVia').checked === true) {
-//         document.getElementById('collapseSegVia').setAttribute('class', 'collapse show');
-//         document.getElementById('checkCollapseSegVia').setAttribute('class', 'form-check-input');
-//         document.getElementById('checkCollapseSegVia').setAttribute('aria-expanded', 'true');
-//     }
-
-//     if (document.getElementById('checkCollapseSegViaCassada').checked === true) {
-//         document.getElementById('collapseSegViaCassada').setAttribute('class', 'collapse show');
-//         document.getElementById('checkCollapseSegViaCassada').setAttribute('class', 'form-check-input');
-//         document.getElementById('checkCollapseSegViaCassada').setAttribute('aria-expanded', 'true');
-//     }
-// }
