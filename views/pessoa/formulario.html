@@ -17,7 +17,7 @@
         data-boxed-layout="full">
         
         <div class="page-wrapper px-5 w-100">
-            <div class="page-breadcrumb mb-3">
+            <div class="page-breadcrumb mb-3 px-0">
                 <div class="row">
                     <div class="col-5 align-self-center">
                         <h4 class="page-title">Cadastro Pessoa</h4>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            <form class="form-cadastro" method="post" enctype="multipart/form-data" action="{{ url(URL_DESENVOLVIMENTO ~ '/pessoa/cadastrar') }}">
+            <form class="form-cadastro" id="form-cadastro" method="post" enctype="multipart/form-data" action="">
 
                 <hr>
                 
@@ -75,18 +75,18 @@
                 <div class="row my-1">
                     <!-- EXPEDIÇÃO E DATA -->
                     <div class="input-group col-md-2">
-                        <label for="rg">Doc. Indentificação (CPF/RG)</label>
+                        <label for="rg">RG</label>
                         <input type="text" id="rg" class="form-control w-100" name="rg"
-                        placeholder="" required>
+                        placeholder="">
                     </div>
                     <div class="input-group col-md-2">
                         <label for="rg_expedidor">Órgão Expedidor</label>
-                        <input type="text" id="rg_expedidor" class="form-control w-100" name="rg_expedidor" required>
+                        <input type="text" id="rg_expedidor" class="form-control w-100" name="rg_expedidor">
                     </div>
                     <div class="input-group col-md-2">
                         <label for="rg_data">Data de Expedição</label>
                         <input type="date" id="rg_data" class="form-control w-100" name="rg_data"
-                            placeholder="00/00/0000" required>
+                            placeholder="00/00/0000">
                     </div>
                 </div>
                 <div class="row my-1 justify-content-between">
@@ -108,8 +108,7 @@
                 <div class="row my-1">
                     <div class="input-group col-md-2 pr-0">
                         <label for="cep">CEP</label>
-                        <input type="text" id="cep" class="form-control w-100" name="cep" placeholder="00000-000"
-                            required>
+                        <input type="text" id="cep" class="form-control w-100" name="cep" placeholder="00000-000">
                     </div>
                     <div class="divbotaocep">
                         <button type="button" id="consultaCEP" class="botaocep"><i
@@ -118,22 +117,22 @@
                     <div class="input-group col-md-6">
                         <label for="endereco">Endereço</label>
                         <input type="text" id="endereco" name="endereco" class="form-control w-100"
-                            placeholder="Endereço">
+                            placeholder="Endereço" required>
                     </div>
                     <div class="input-group col-md-3">
                         <label for="bairro">Bairro</label>
-                        <input type="text" id="bairro" name="bairro" class="form-control w-100" placeholder="Bairro">
+                        <input type="text" id="bairro" name="bairro" class="form-control w-100" placeholder="Bairro" required>
                     </div>
                 </div>
                 <div class="row my-1 justify-content-between">
                     <div class="input-group col-md-6 p-0">
                         <div class="input-group col-md-6">
                             <label for="cidade">Cidade</label>
-                            <input type="text" id="cidade" name="cidade" class="form-control w-100" placeholder="Cidade">
+                            <input type="text" id="cidade" name="cidade" class="form-control w-100" placeholder="Cidade" required>
                         </div>
                         <div class="input-group col-md-4">
                             <label for="uf">UF</label>
-                            <input type="text" id="uf" name="uf" class="form-control w-100" placeholder="UF">
+                            <input type="text" id="uf" name="uf" class="form-control w-100" placeholder="UF" required>
                         </div>
                     </div>
                     <div class="input-group col-md-6">
@@ -141,27 +140,23 @@
                             <label for="complemento">Complemento</label>
                             <input type="text" class="form-control" id="complemento" name="complemento" placeholder="Complemento">
                         </div>
-                        <div class="col-md-6">
-                            <label for="fileInput">Comprovante Residência<span style="color: black; font-size: 11px;">(limite de 2MB)</span></label>
-                            <input type="file" id="fileInput" class="form-control" name="comprovante">
-                        </div>
                     </div>
                 </div>
                 <div class="row my-1">
                     <div class="input-group col-md-2">
                         <label for="cnh">CNH</label>
                         <input type="text" id="cnh" class="form-control w-100" name="cnh"
-                            placeholder="0000000000" required>
+                            placeholder="0000000000">
                     </div>
                     <div class="input-group col-md-2">
                         <label for="cnh_validade">Validade</label>
-                        <input type="date" id="cnh_validade" class="form-control w-100" name="cnh_validade" required>
+                        <input type="date" id="cnh_validade" class="form-control w-100" name="cnh_validade">
                     </div>
                 </div>
                 <div class="row my-1 justify-content-between">
                     <div class="input-group col-md-5">
                         <label for="profissao" class="form-label">Profissão</label>
-                        <input type="text" class="form-control w-100" id="profissao" name="profissao" placeholder="Servidor Público" required>
+                        <input type="text" class="form-control w-100" id="profissao" name="profissao" placeholder="Servidor Público">
                     </div>
                     <div class="input-group col-md-5">
                         <label class="form-label" for="email">E-mail</label>
@@ -171,7 +166,7 @@
 
                 <hr class="my-4">
                 <div class="row my-1 justify-content-between">
-                    <div class="input-group col-md-3" style="margin-top: 30px;">
+                    <div class="input-group col-md-3 my-2">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" data-bs-toggle="collapse"
                             data-bs-target="#collapseExample" aria-expanded="false"
@@ -188,10 +183,6 @@
                     <hr class="my-4">
                     <!-- form PNE -->
                     <div class="row my-1">
-                        <div class="input-group col-md-2 pr-0">
-                            <label for="crm">CRM</label>
-                            <input type="text" id="crm" class="form-control w-100" placeholder="">
-                        </div>
                         <div class="input-group col-md-4">
                             <label for="medico">Nome do Médico</label>
                             <input type="text" id="medico" name="medico" class="form-control w-100"
@@ -200,12 +191,7 @@
                         <div class="input-group col-md-4 justify-content-between">
                             <div class="input-group col-md-6">
                                 <label class="form-label" for="cid">CID</label>
-                                <select class="form-control w-100" id="cid" name="cid">
-                                    <option selected>Choose...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
+                                <input type="text" id="cid" name="cid" class="form-control w-100">
                             </div>
                             <div class="input-group col-md-6">
                                 <label class="form-label" for="situacao_pne">Situação</label>
@@ -222,6 +208,7 @@
                                 placeholder="Atestado">
                         </div>
                     </div>
+
                     <hr class="my-4">
                     <!-- form PNE -->
                     <h4 class="mb-4">Dados do Representante</h4>
@@ -239,18 +226,9 @@
                         <!-- EXPEDIÇÃO E DATA -->
                         <div class="input-group col-md-6">
                             <div class="input-group col-md-4 pl-0">
-                                <label for="rg_representante">Doc. Indentificação (CPF/RG)</label>
+                                <label for="rg_representante">Documento (CPF)</label>
                                 <input type="text" id="rg_representante" class="form-control w-100" name="rg_representante"
                                     placeholder="">
-                            </div>
-                            <div class="input-group col-md-4">
-                                <label for="rg_expedidor_representante">Órgão Expedidor</label>
-                                <input type="text" id="rg_expedidor_representante" class="form-control w-100" name="rg_expedidor_representante">
-                            </div>
-                            <div class="input-group col-md-4">
-                                <label for="rg_data_representante">Data de Expedição</label>
-                                <input type="date" id="rg_data_representante" class="form-control w-100" name="rg_data_representante"
-                                    placeholder="00/00/0000">
                             </div>
                         </div>
                         <div class="input-group col-md-2">
@@ -294,6 +272,33 @@
                     </div>
                 </div>
 
+                <hr class="my-4">
+                <h4 class="mb-4">Dados da Credencial</h4>
+                <div class="row my-2 justify-content-between">
+                    <div class="input-group col-md-2">
+                        <label class="form-label" for="tipo_credencial">Tipo da Credencial</label>
+                        <select class="form-control w-100" id="tipo_credencial" name="tipo_credencial">
+                            <option value="IDOSO" {% if credencial.TIPO == 'IDOSO' %}selected{%endif%}>IDOSO</option>
+                            <option value="DEFICIENTE" {% if credencial.TIPO == 'DEFICIENTE' %}selected{%endif%}>DEFICIENTE</option>
+                        </select>
+                    </div>
+                    <div class="input-group col-md-4">
+                        <div class="input-group col-md-6">
+                            <label for="dtemissao_credencial" id="label_data">Data de Emissão:</label>
+                            <input type="date" id="dtemissao_credencial" name="dtemissao_credencial"
+                                class="form-control w-100" value="{{credencial.DTEMISSAO | date('Y-m-d')}}" readonly>
+                        </div>
+                        <div class="input-group col-md-6">
+                            <label for="validade_credencial" id="label_data">Data de Validade:</label>
+                            <input type="date" id="validade_credencial" name="validade_credencial"
+                                class="form-control w-100" value="{{ (credencial.VALIDADE | default('now') | date_modify('+5 years')) | date('Y-m-d') }}" readonly>
+                        </div>
+                    </div>
+                    <div class="input-group col-md-2">
+                        <label class="form-label" for="protocoloGpro_credencial">Nº GPRO</label>
+                        <input type="text" class="form-control w-100" id="protocoloGpro_credencial" name="protocoloGpro_credencial" required>
+                    </div>
+                </div>
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-pref" id="botaoCadastro">Efetivar Cadastro</button>
                 </div>
@@ -305,7 +310,7 @@
     
     <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js') }}"></script>
     <script src="{{ url('https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js') }}"></script>
-    <script src="{{ url('../assets/extra-libs/sparkline/sparkline.js') }}"></script>
-    <script src="{{ url('../views/assets/js/custom.min.js') }}"></script>
-    <script src="{{ url('../views/assets/js/script_pessoa.js') }}"></script>
+    <script src="{{ url('assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <script src="{{ url('views/assets/js/custom.min.js') }}"></script>
+    <script src="{{ url('views/assets/js/script_pessoa.js') }}"></script>
 {% endblock %}
