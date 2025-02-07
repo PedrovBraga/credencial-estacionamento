@@ -8,13 +8,13 @@ try {
 
     
     SimpleRouter::get(URL_SITE, 'SiteControlador@index');
+    SimpleRouter::match(['get', 'post'], URL_SITE . 'cadastrar', 'SiteControlador@cadastrar');
 
     // Login
     SimpleRouter::match(['get', 'post'], URL_SITE . 'login', 'LoginControlador@logar');
     SimpleRouter::match(['get', 'post'], URL_SITE . 'sair', 'LoginControlador@deslogar');
 
     // Pessoa
-    SimpleRouter::match(['get', 'post'], URL_SITE . 'pessoa/cadastrar', 'PessoaControlador@cadastrar');
     SimpleRouter::match(['get', 'post'], URL_SITE . 'pessoa/editar', 'PessoaControlador@editar');
     SimpleRouter::post(URL_SITE . 'pessoa/consulta-doc', 'PessoaControlador@consultar');
     
@@ -24,6 +24,7 @@ try {
     SimpleRouter::post(URL_SITE . 'credencial/consulta', 'CredencialControlador@consultar');
     SimpleRouter::get(URL_SITE . 'credencial/listar', 'CredencialControlador@listar');
     SimpleRouter::get(URL_SITE . 'credencial/visualizar', 'CredencialControlador@visualizar');
+    SimpleRouter::get(URL_SITE . 'credencial/imprimir', 'CredencialControlador@imprimir');
 
     // Auditoria
     SimpleRouter::match(['get', 'post'], URL_SITE . 'auditoria', 'AuditoriaControlador@consultar');
