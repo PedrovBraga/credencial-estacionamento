@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     // console.log('mensagem: ' + response); 
                     var alerta = new Alerta();
-                    alerta.sucesso(response.mensagem).tratativa({urlConfirmar: response.urlConfirmar}).renderizar();
+                    alerta.sucesso(response.mensagem, {urlConfirmar: response.urlConfirmar}).renderizar();
                 }
             },
             error: function(error, xhr){
@@ -45,36 +45,36 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     })
 
-    document.getElementById('consultaDOC').addEventListener('click', function(){
+    // document.getElementById('consultaDOC').addEventListener('click', function(){
         
-        const urlBase = this.dataset.url;
-        const numDoc = document.getElementById('doc_consulta').value;
+    //     const urlBase = this.dataset.url;
+    //     const numDoc = document.getElementById('doc_consulta').value;
 
-        console.log(urlBase);
-        $.ajax({
-            type: 'post',
-            url: urlBase,
-            data: {
-                doc: numDoc
-            },
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Define o tipo de conteúdo
-            dataType: 'json', // Especifica o formato esperado da resposta
-            success: function(response){
-                console.log(response);
-                if(response.status === 0){
-                    console.log('mensagem: ' + response.mensagem);
-                    var alerta = new Alerta();
-                    alerta.erro(response.mensagem).tratativa({urlConfirmar: response.urlConfirmar, urlCancelar: response.urlCancelar}, 'Registrar Munícipe').renderizar();
-                } else {
-                    console.log('mensagem: ' + response.mensagem); 
-                    populaCampos(response.beneficiario["\u0000*\u0000dados"]);
-                }
-            },
-            error: function(error, xhr){
-                console.log(error, xhr);
-            }
-        })
-    })
+    //     console.log(urlBase);
+    //     $.ajax({
+    //         type: 'post',
+    //         url: urlBase,
+    //         data: {
+    //             doc: numDoc
+    //         },
+    //         contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Define o tipo de conteúdo
+    //         dataType: 'json', // Especifica o formato esperado da resposta
+    //         success: function(response){
+    //             console.log(response);
+    //             if(response.status === 0){
+    //                 console.log('mensagem: ' + response.mensagem);
+    //                 var alerta = new Alerta();
+    //                 alerta.erro(response.mensagem).tratativa({urlConfirmar: response.urlConfirmar, urlCancelar: response.urlCancelar}, 'Registrar Munícipe').renderizar();
+    //             } else {
+    //                 console.log('mensagem: ' + response.mensagem); 
+    //                 populaCampos(response.beneficiario["\u0000*\u0000dados"]);
+    //             }
+    //         },
+    //         error: function(error, xhr){
+    //             console.log(error, xhr);
+    //         }
+    //     })
+    // })
 });
 
 function populaCampos(beneficiario){
