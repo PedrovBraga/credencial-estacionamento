@@ -4,23 +4,87 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-$(document).ready(function () {
-    var cleave = new Cleave('#num_rg', {
-        blocks: [2, 3, 3, 1],
-        delimiters: ['.', '.', '-'],
-        uppercase: true,
-        numericOnly: false,
-        delimiterLazyShow: true
-    });
-    $('#num_cpf').inputmask("999.999.999-99", { "placeholder": "000.000.000-00" });
-    $('#num_tel_cel').inputmask("(99)99999-9999", { "placeholder": "(00)00000-0000" });
-    $('#num_tel_fixo').inputmask("(99)9999-9999", { "placeholder": "(00)0000-0000" });
-    $('#cep').inputmask("99999-999", { "placeholder": "00000-000" });
-    $('#datanasc').inputmask("99/99/9999", { "placeholder": "00/00/0000" });
-});
+// $(document).ready(function () {
+//     var cleave = new Cleave('#num_rg', {
+//         blocks: [2, 3, 3, 1],
+//         delimiters: ['.', '.', '-'],
+//         uppercase: true,
+//         numericOnly: false,
+//         delimiterLazyShow: true
+//     });
+//     $('#num_cpf').inputmask("999.999.999-99", { "placeholder": "000.000.000-00" });
+//     $('#num_tel_cel').inputmask("(99)99999-9999", { "placeholder": "(00)00000-0000" });
+//     $('#num_tel_fixo').inputmask("(99)9999-9999", { "placeholder": "(00)0000-0000" });
+//     $('#cep').inputmask("99999-999", { "placeholder": "00000-000" });
+//     $('#datanasc').inputmask("99/99/9999", { "placeholder": "00/00/0000" });
+// });
+
+// Definindo base url no front
+const BASE_URL = "{{ URL_DESENVOLVIMENTO }}";
+
+// Variável de controle do caminho do submit
+var urlSubmit = `cadastrar`;
 
 // consulta cep
 document.addEventListener('DOMContentLoaded', function () {
+
+    function atualizaValidade(){
+        const campoDtEmissao = document.getElementById('dtemissao_credencial');
+        const campoDtValidade = document.getElementById('validade_credencial');
+        const checkboxDeficiente = document.getElementById('def');
+        const selectTempoDeficiente = document.getElementById('situacao_pne');
+        const selectTipoCredencial = document.getElementById('tipo_credencial');
+        let anosParaAdicionar = 5;
+        
+        if (checkboxDeficiente.value === 'S') {
+            const dataEmissao = new Date(campoDtEmissao.value); // Converte o valor para uma data
+    
+            if (selectTempoDeficiente.value === 'TEMPORARIO') {
+                anosParaAdicionar = 1; // Adiciona 1 ano
+            }
+    
+            // Adiciona os anos à data de emissão
+            dataEmissao.setFullYear(dataEmissao.getFullYear() + anosParaAdicionar);
+    
+            // Converte a data para o formato YYYY-MM-DD
+            const dataFormatada = dataEmissao.toISOString().split('T')[0];
+    
+            // Define o valor no campo de validade
+            campoDtValidade.value = dataFormatada;
+        } else {
+            campoDtValidade.value = anosParaAdicionar;
+        }
+    }
+
+    function desabilitaTipoCredencial(){
+        const tipoCredencial = document.getElementById('tipo_credencial');
+        const checkboxDeficiente = document.getElementById('def');
+        
+        const optionDeficiente = Array.from(tipoCredencial.options).find(option => option.value === 'DEFICIENTE');
+        if (checkboxDeficiente.value !== 'S') {
+            // Desabilitar a opção com valor 'DEFICIENTE'
+            if (optionDeficiente) {
+                optionDeficiente.disabled = true;
+            }
+        } else {
+            // Reabilitar a opção com valor 'DEFICIENTE'
+            if (optionDeficiente) {
+                optionDeficiente.disabled = false;
+            }
+        }
+    }
+
+    desabilitaTipoCredencial()
+
+    document.getElementById('situacao_pne').addEventListener('input', function (){
+        atualizaValidade();
+    })
+    
+    document.getElementById('tipo_credencial').addEventListener('input', function (){
+        atualizaValidade();
+        desabilitaTipoCredencial()
+    })
+    
 
     document.getElementById('consultaDOC').addEventListener('click', function(){
         
@@ -39,12 +103,12 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function(response){
                 if(response.status === 0){
                     console.log('mensagem: ' + response.mensagem);
-                     
+                    // ADICIONAR ALERTA
                 } else {
                     console.log('mensagem: ' + response.mensagem); 
                     console.log(response.beneficiario["\u0000*\u0000dados"]);
                     populaCampos(response.beneficiario["\u0000*\u0000dados"]); 
-
+                    urlSubmit = `credencial/registrar`;
                 }
             },
             error: function(error, xhr){
@@ -92,29 +156,66 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    var form = document.querySelector('.form-cadastro');
-    var fileInput = document.getElementById('fileInput');
-
-    form.addEventListener('submit', function (event) {
-        // Verifica se um arquivo foi selecionado
-        if (fileInput.files.length > 0) {
-            var arquivo = fileInput.files[0];
-            // Verifica o tamanho do arquivo (2MB)
-            if (arquivo.size > 2 * 1024 * 1024) {
-                // Se o arquivo for muito grande, impede o envio do formulário
-                Swal.fire({
-                    icon: "error",
-                    title: "Erro ao fazer o upload do atestado! Selecione um arquivo com menos de 2MB" ,
-                    didClose: () => {
-                        
-                    } 
-                })
-                event.preventDefault();
-            }
-        }
-    });
-
     validarCPF();
+
+    document.getElementById('form-cadastro').addEventListener('submit', function(event){
+        event.preventDefault();
+
+        // Seleciona o formulário
+        const form = event.target;
+
+        // Cria um objeto FormData a partir do formulário
+        const formData = new FormData(form);
+
+        // Converte os dados do FormData para um formato de URL (formato de formulário)
+        const formEncoded = new URLSearchParams(formData).toString();
+
+        $.ajax({
+            type: 'post', 
+            url: urlSubmit,
+            data: formEncoded,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Define o tipo de conteúdo
+            dataType: 'json', // Especifica o formato esperado da resposta
+            success: function(response){
+                 // Depuração para verificar a resposta recebida
+                console.log(response);
+                if(response.status === 0){
+                    // console.log('mensagem: ' + response);
+                    var alerta = new Alerta();
+                    alerta.erro(response.mensagem).renderizar();
+                } else {
+                    // console.log('mensagem: ' + response); 
+                    var alerta = new Alerta();
+                    alerta.sucesso(response.mensagem, {urlConfirmar: response.urlConfirmar}).renderizar();
+                }
+            },
+            error: function(error, xhr){
+                console.log(error, xhr);
+            }
+        })
+    })
+
+    document.getElementById('def').addEventListener('input', function (){
+        if(document.getElementById('def').checked === true){
+            document.getElementById('medico').required = true;
+            document.getElementById('cid').required = true;
+            document.getElementById('nome_representante').required = true;
+            document.getElementById('rg_representante').required = true;
+            document.getElementById('telefone_representante').required = true;
+            document.getElementById('endereco_representante').required = true;
+            document.getElementById('bairro_representante').required = true;
+            document.getElementById('cidade_representante').required = true;
+        } else {
+            document.getElementById('medico').required = false;
+            document.getElementById('cid').required = false;
+            document.getElementById('nome_representante').required = false;
+            document.getElementById('rg_representante').required = false;
+            document.getElementById('telefone_representante').required = false;
+            document.getElementById('endereco_representante').required = false;
+            document.getElementById('bairro_representante').required = false;
+            document.getElementById('cidade_representante').required = false;
+        }
+    })
 
 });
 
@@ -226,15 +327,15 @@ function populaCampos(beneficiario){
         document.getElementById('def').checked = true;
     }
     document.getElementById('atestado').value = beneficiario.ATESTADO ?? '';
-    document.getElementById('crm').value = beneficiario.CRM ?? '';
+    // document.getElementById('crm').value = beneficiario.CRM ?? '';
     document.getElementById('medico').value = beneficiario.MEDICO ?? '';
     document.getElementById('cid').value = beneficiario.CID ?? '';
     document.getElementById('situacao_pne').value = beneficiario.SITUACAO_PNE ?? ''; 
     document.getElementById('nome_representante').value = beneficiario.NOMEREP ?? '';
     document.getElementById('email_representante').value = beneficiario.EMAILREP ?? '';
     document.getElementById('rg_representante').value = beneficiario.RGREP ?? '';
-    document.getElementById('rg_expedidor_representante').value = beneficiario.RG_EXPEDIDORREP ?? '';
-    document.getElementById('rg_data_representante').value = beneficiario.RG_DATAREP ? beneficiario.RG_DATAREP.split(' ')[0] : '';
+    // document.getElementById('rg_expedidor_representante').value = beneficiario.RG_EXPEDIDORREP ?? '';
+    // document.getElementById('rg_data_representante').value = beneficiario.RG_DATAREP ? beneficiario.RG_DATAREP.split(' ')[0] : '';
     document.getElementById('telefone_representante').value = beneficiario.TELEFONEREP ?? '';
     document.getElementById('cep_representante').value = beneficiario.CEPREP ?? '';
     document.getElementById('endereco_representante').value = beneficiario.ENDERECOREP ?? '';
