@@ -4,8 +4,8 @@ class Alerta {
         this.texto = '';
         this.icon = '';
         this.showCancelButton = false;
-        this.urlConfirm = null;
-        this.urlCancel = null;
+        this.urlConfirm = 'javascript:void(0);';
+        this.urlCancel = 'javascript:void(0);';
         this.textBtnCancel = 'Cancelar';
     }
 
@@ -14,10 +14,11 @@ class Alerta {
      * @param {string} mensagem
      * @returns {Alerta}
      */
-    sucesso(mensagem) {
+    sucesso(mensagem, { urlConfirmar = 'javascript:void(0);' } = {}) {
         this.icon = 'success';
         this.titulo = 'Sucesso!';
         this.texto = this.filtrar(mensagem);
+        this.urlConfirm = urlConfirmar;
         return this;
     }
 
@@ -80,7 +81,7 @@ class Alerta {
         this.urlConfirm = urlConfirmar;
         this.urlCancel = urlCancelar;
         this.showCancelButton = true;
-        this.textBtnCancel = textoBtn;
+        this.textBtnCancel = textoBtn ?? this.textBtnCancel;
         return this;
     }
 
@@ -98,12 +99,12 @@ class Alerta {
             closeOnClickOutside: true
         }).then((result) => {
             if (result.isConfirmed) {
-                if (this.urlConfirm !== null || this.urlConfirm !== 'javascript:void(0);') {
+                if (this.urlConfirm && this.urlConfirm !== 'javascript:void(0);') {
                     window.location.href = this.urlConfirm;
                 }
             // verifica dismiss epecificamente no botão cancel
             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                if (this.urlCancel !== null || this.urlCancel !== 'javascript:void(0);') {
+                if (this.urlCancel && this.urlCancel !== 'javascript:void(0);') {
                     window.location.href = this.urlCancel;
                 }
             }
