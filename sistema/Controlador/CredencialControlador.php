@@ -25,42 +25,40 @@ class CredencialControlador extends Controlador {
     public function registrar(int $id = null) {
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-        if($id){
-            $beneficiario = (new Beneficiario())->buscaPorId($id);
-    
-            if($beneficiario->REPRESENTANTE !== '0'){
-                $representante = (new Representante())->buscaPorId($beneficiario->REPRESENTANTE);
-            }            
-        }
-
-        $credencial = new Credencial();
-        $session = new Sessao();
-
-        $dados_credencial = [
-            'ANO' => date('Y'),
-            'VALIDADE' => ($credencial->calcularValidade())->format('Y-m-d'),
-            'DTEMISSAO' => (new DateTime())->format('Y-m-d'),
-            'SEGVIA' => 'N',
-            'OBSSEGVIA' => '',
-            'SEGVIACASSADA' => 'N',
-            'OBSCASSADA' => '',
-            'TIPORETIRADA' => '',
-            'RETIRADA' => 'NAO',
-            'BENEFICIARIO' => $id ?? '',
-            'OPERADOR' => $session->usuarioId
-        ];
-
-        $credencial->preencher($dados_credencial);
-
         if(isset($dados)){
             // registrar
-            $credencial->TIPO = $dados['tipo'];
-            $credencial->TIPORETIRADA = $dados['tipoRetirada'];
-            $credencial->BENEFICIARIO = ((new Beneficiario())->buscaPorCPFOuRG($dados['doc']))->ID;
+            $beneficiario = (new Beneficiario())->buscaPorCPFOuRG($dados['cpf']);
+            
+            if($beneficiario->REPRESENTANTE !== '0'){
+                $representante = (new Representante())->buscaPorId($beneficiario->REPRESENTANTE);
+            }
+
+            $credencial = new Credencial();
+            $session = new Sessao();
+
+            $credencial->TIPO = $dados['tipo_credencial'];
+            $credencial->BENEFICIARIO = $beneficiario->ID;
+
+            $dados_credencial = [
+                'ANO' => date('Y'),
+                'VALIDADE' => ($credencial->calcularValidade($beneficiario->SITUACAO_PNE))->format('Y-m-d'),
+                'DTEMISSAO' => (new DateTime())->format('Y-m-d'),
+                'SEGVIA' => 'N',
+                'OBSSEGVIA' => '',
+                'SEGVIACASSADA' => 'N',
+                'OBSCASSADA' => '',
+                'TIPORETIRADA' => 'PRAÇA DE ATENDIMENTO',
+                'RETIRADA' => 'NAO',
+                'BENEFICIARIO' => $id ?? $beneficiario->ID,
+                'OPERADOR' => $session->usuarioId
+            ];
+
+            $credencial->preencher($dados_credencial);
 
             try {
                 $credencial->gravar();
-                $json = ['status' => 1, 'mensagem' => 'Credencial registrada. Deseja imprimi-la?', 'urlConfirmar' => URL_DESENVOLVIMENTO.'/credencial/visualizar'];
+                $registro = $credencial->REGISTRO.'/'.$credencial->ANO;
+                $json = ['status' => 1, 'mensagem' => 'Credencial registrada!', 'urlConfirmar' => URL_DESENVOLVIMENTO.'/credencial/visualizar?registro='.$registro];
             } catch(Exception $e){
                 $json = ['status' => 0, 'mensagem' => $e->getMessage()];
             }
@@ -68,6 +66,16 @@ class CredencialControlador extends Controlador {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($json);
         } else {
+            // registrar
+            $beneficiario = (new Beneficiario())->buscaPorCPFOuRG($id);
+            
+            if($beneficiario->REPRESENTANTE !== '0'){
+                $representante = (new Representante())->buscaPorId($beneficiario->REPRESENTANTE);
+            }
+
+            $credencial = new Credencial();
+            $session = new Sessao();
+
             $usuario = (new Usuario())->buscaPorId($session->usuarioId);
 
             echo $this->template->renderizar('credencial/formulario.html', [
@@ -126,43 +134,58 @@ class CredencialControlador extends Controlador {
     public function editar(){
         // Valores do formulário
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        
-        // Pega valor da url
-        $registro = filter_input(INPUT_GET, 'registro');
-        if(!empty($registro)){
-            $partes = explode('/', $registro);
-            $num_registro = $partes[0];
-            $ano = $partes[1];
-        }
 
         if(isset($dados)){
+            // PROCEDIMENTOS PARA EDITAR (OU ATUALIZAR) A CREDENCIAL
+
             $credencial_atualizar = new Credencial();
             $credencial_atualizar->REGISTRO = $dados['registro'];
             $credencial_atualizar->ANO = $dados['ano'];
-            $credencial_atualizar->TIPORETIRADA = $dados['tipoRetirada'];
-            $credencial_atualizar->RETIRADA = $dados['retirada'];
+            $credencial_atualizar->SEGVIA = isset($dados['segVia']) ? 'S' : 'N';
+            $credencial_atualizar->OBSSEGVIA = $dados['obsSegVia'];
+            $credencial_atualizar->SEGVIACASSADA = isset($dados['segViaCassada']) ? 'S' : 'N';
+            $credencial_atualizar->OBSCASSADA = $dados['obsCassada'];
+            $credencial_atualizar->RETIRADA = 'PENDENTE';
 
+            
             try {
                 $credencial_atualizar->salvarCredencial();
-                $json = ['status' => 1, 'mensagem' => 'Credencial atualizada!', 'urlConfirmar' => URL_DESENVOLVIMENTO.'/credencial/listar'];
+
+                $registro = $dados['registro'].'/'.$dados['ano'];
+                $json = ['status' => 1, 'mensagem' => 'Credencial atualizada!', 'urlConfirmar' => URL_DESENVOLVIMENTO.'/credencial/visualizar?registro='.$registro];
             } catch(Exception $e) {
                 $json = ['status' => 0, 'mensagem' => $e->getMessage()];
             }
 
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($json);
-            exit();
         } else {
+            // PROCEDIMENTOS PARA EXIBIR A PÁGINA DE EDIÇÃO DE CREDENCIAL
+
+            // Pega valor da url
+            $registro = filter_input(INPUT_GET, 'registro');
+            if(!empty($registro)){
+                $partes = explode('/', $registro);
+                $num_registro = $partes[0];
+                $ano = $partes[1];
+            }
 
             $credencial = (new Credencial())->buscarPorNumero($num_registro, $ano);
+            
+            if($credencial->RETIRADA === 'NAO' || $credencial->RETIRADA === 'PENDENTE'){
+                $json = ['status' => 0, 'mensagem' => '2ª Via Indisponível! Crendencial ainda não foi retirada, clique em imprimir'];
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode($json);
+                return;
+            }
+
             $beneficiario = (new Beneficiario())->buscaPorId($credencial->BENEFICIARIO);
     
             if($beneficiario->REPRESENTANTE !== '0'){
                 $representante = (new Representante())->buscaPorId($beneficiario->REPRESENTANTE);
             }  
              
-            $session = new Sessao();
-            $usuario = (new Usuario())->buscaPorId($session->usuarioId);
+            $usuario = (new Usuario())->buscaPorId($credencial->OPERADOR);
     
             $credencial->VALIDADE = Helpers::trataFormatoData($credencial->VALIDADE);
             $credencial->DTEMISSAO = Helpers::trataFormatoData($credencial->DTEMISSAO);
@@ -180,8 +203,70 @@ class CredencialControlador extends Controlador {
     public function listar(){
         echo $this->template->renderizar('credencial/lista.html', []);
     }
+    
+    public function imprimir(){
+
+        // Pega valor da url
+        $registro = filter_input(INPUT_GET, 'registro');
+
+        if(!empty($registro)){
+            $partes = explode('/', $registro);
+            $num_registro = $partes[0];
+            $ano = $partes[1];
+        }
+
+        $credencial = (new Credencial())->buscaPorRegistro($num_registro, $ano);
+
+        if($credencial->RETIRADA === 'SIM'){
+            if($credencial->SEGVIA === 'S'){
+                $json = ['status' => 0, 'mensagem' => 'Credencial e 2ª via impressas!'];
+                echo json_encode($json);
+                return;
+            }
+
+            $json = ['status' => 0, 'mensagem' => 'Credencial já impressa! Emita 2ª via, se necessário.'];
+            echo json_encode($json);
+            return;
+        }
+        
+        $json = ['status' => 1];
+        echo json_encode($json);
+
+    }
 
     public function visualizar(){
-        echo $this->template->renderizar('credencial/credencial.html', []);
+
+        // Pega valor da url
+        $registro = filter_input(INPUT_GET, 'registro');
+
+        if(!empty($registro)){
+            $partes = explode('/', $registro);
+            $num_registro = $partes[0];
+            $ano = $partes[1];
+        }
+
+        $credencial = (new Credencial())->buscaPorRegistro($num_registro, $ano);
+        $usuario_emissor = (new Usuario())->buscaPorId($credencial->OPERADOR);
+        $beneficiario = (new Beneficiario())->buscaPorId($credencial->BENEFICIARIO);
+
+        if($credencial->RETIRADA !== 'SIM'){
+            $credencial->RETIRADA = 'SIM';
+        } else {
+
+        }
+        try{
+            $credencial->salvarCredencial();
+        } catch(Exception $e){
+            echo 'Erro ao atualizar crendencial como retirada.';
+            return;
+        }
+
+
+        echo $this->template->renderizar('credencial/credencial.html', [
+            'credencial' => $credencial,
+            'emissor' => $usuario_emissor,
+            'beneficiario' => $beneficiario
+        ]);
+        
     }
 }
