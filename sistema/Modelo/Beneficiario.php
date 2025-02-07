@@ -2,6 +2,7 @@
 namespace sistema\Modelo;
 
 use DateTime;
+use Exception;
 use sistema\Nucleo\QueryBuilder;
 use sistema\Modelo\Representante;
 
@@ -15,17 +16,22 @@ class Beneficiario extends QueryBuilder {
         if($representante){
             // Pegar ID do representante e passar para beneficiario
             $representante_cadastrado = $representante->buscaPorRG($representante->RG);
-    
+
             if (!$representante_cadastrado) {
                 // Se não encontrar o representante, lança uma exceção ou retorna false
-                throw new \Exception('Representante não encontrado ao buscar ID.');
+                throw new Exception('Representante não encontrado ao buscar ID.');
             }
     
             // Adiciona ID do representante ao Beneficiario
             $this->REPRESENTANTE = $representante_cadastrado->ID;
         }
+
         
-        return parent::salvar();
+        if($this->buscaPorCPFOuRG($this->CPF)){
+            throw new Exception('Número de CPF já cadastrado!');
+        } 
+
+        return parent::salvar();   
     }
 
     public function buscaPorCPFOuRG(string $doc)
