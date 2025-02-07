@@ -1,0 +1,306 @@
+.credencial {
+  width: 713.7px;
+  height: 468px;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: #d2d2d2;
+}
+
+.credencial .overlap {
+  position: relative;
+  top: 13.65px;
+  left: 13.65px;
+  width: 683.45px;
+  height: 438.75px;
+}
+
+.credencial .overlap-group {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 683.45px;
+  height: 438.75px;
+}
+
+.credencial .rectangle {
+  position: absolute;
+  width: 56.55px;
+  height: 417.3px;
+  top: 46.8px;
+  left: 0;
+}
+
+.credencial .text-wrapper {
+  position: absolute;
+  width: 286.65px;
+  height: 37.05px;
+  top: 232.05px;
+  left: -122.85px;
+  transform: rotate(-89.82deg);
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #ffffff !important;
+  font-size: 44.85px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.credencial .img {
+  position: absolute;
+  width: 79.95px;
+  height: 79.95px;
+  top: 19.5px;
+  left: 87.75px;
+  object-fit: cover;
+}
+
+.credencial .cadeirante-marca {
+  position: absolute;
+  width: 310.05px;
+  height: 308.1px;
+  top: 95.55px;
+  left: 220.35px;
+  object-fit: cover;
+}
+
+.credencial .div {
+  position: absolute;
+  width: 618.15px;
+  height: 438.75px;
+  top: 0;
+  left: 66.3px;
+  border: 1px solid;
+  border-color: #d2d2d2;
+}
+
+.credencial .braso-de-armas {
+  position: absolute;
+  width: 87.75px;
+  height: 81.9px;
+  top: 19.5px;
+  left: 570.45px;
+  object-fit: cover;
+}
+
+.credencial .REP-BLICA-FEDERATIVA {
+  position: absolute;
+  width: 364.65px;
+  height: 46.8px;
+  top: 17.55px;
+  left: 193.05px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 19.5px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.credencial .text-wrapper-2 {
+  position: absolute;
+  width: 444.6px;
+  height: 31.2px;
+  top: 115.05px;
+  left: 150.15px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #000000;
+  font-size: 23.4px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.credencial .text-wrapper-3 {
+  position: absolute;
+  width: 193.05px;
+  height: 11.7px;
+  top: 146.25px;
+  left: 278.85px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 13.65px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.credencial .n-DO-REGISTRO {
+  position: absolute;
+  width: 286.65px;
+  height: 23.4px;
+  top: 171.6px;
+  left: 232.05px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.credencial .span {
+  font-weight: 700;
+}
+
+.credencial .text-wrapper-4 {
+  font-weight: 700;
+  font-size: 17.55px;
+}
+
+.credencial .text-wrapper-5 {
+  font-family: "Inter-Light", Helvetica;
+  font-weight: 300;
+  font-size: 14.8px;
+}
+
+.credencial .line {
+  width: 573.3px;
+  top: 208.65px;
+  left: 85.8px;
+  object-fit: cover;
+  position: absolute;
+  height: 1.95px;
+}
+
+.credencial .VALIDADE {
+  position: absolute;
+  width: 175.5px;
+  height: 21.45px;
+  top: 235.95px;
+  left: 128.7px;
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.credencial .text-wrapper-6 {
+  font-weight: 500;
+}
+
+.credencial .text-wrapper-7 {
+  font-weight: 500;
+  font-size: 17.55px;
+}
+
+.credencial .text-wrapper-8 {
+  font-family: "Inter-Light", Helvetica;
+  font-weight: 300;
+  font-size: 14.8px;
+}
+
+.credencial .DATA-DE-EMISS-o {
+  position: absolute;
+  width: 237.9px;
+  height: 21.45px;
+  top: 235.95px;
+  left: 382.2px;
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.credencial .RG-o-EXPEDIDOR {
+  position: absolute;
+  width: 487.5px;
+  height: 39px;
+  top: 282.75px;
+  left: 128.7px;
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.credencial .MUNIC-PIO-JACARE-SP {
+  position: absolute;
+  width: 273px;
+  height: 25.35px;
+  top: 323.7px;
+  left: 130.65px;
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.credencial .line-2 {
+  width: 175.5px;
+  top: 382.2px;
+  left: 284.7px;
+  position: absolute;
+  height: 1.95px;
+}
+
+.credencial .p {
+  position: absolute;
+  width: 175.5px;
+  height: 13.65px;
+  top: 390px;
+  left: 284.7px;
+  font-family: "Inter-Light", Helvetica;
+  font-weight: 300;
+  color: #000000;
+  font-size: 9.75px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.credencial .text-wrapper-9 {
+  position: absolute;
+  width: 353.95px;
+  height: 21.45px;
+  top: 408.45px;
+  left: 198.9px;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 16.575px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.credencial .text-wrapper-10 {
+  position: absolute;
+  width: 175.5px;
+  height: 7.8px;
+  top: 370.5px;
+  left: 284.7px;
+  font-family: "Inter-Light", Helvetica;
+  font-weight: 300;
+  color: #000000;
+  font-size: 7.8px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.credencial .cadeirante {
+  position: absolute;
+  width: 56.55px;
+  height: 56.55px;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}

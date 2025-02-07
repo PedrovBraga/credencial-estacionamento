@@ -16,3 +16,18 @@ button:focus-visible {
 a {
   text-decoration: none;
 }
+@media print {
+  .credencial .text-wrapper {
+    /* color-adjust: exact; */
+    -webkit-print-color-adjust: exact;
+    color: white !important;
+  }
+
+  .credencial .text-wrapper-10 {
+    display: none;
+  }
+
+  .btn .btn-info {
+    display: none;
+  }
+}

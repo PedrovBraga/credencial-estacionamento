@@ -1,0 +1,290 @@
+.box .overlap {
+  position: relative;
+  top: 13.65px;
+  left: 11.65px; /* 13.65px - 2px */
+  width: 684.45px;
+  height: 438.75px;
+}
+
+.box .rectangle {
+  position: absolute;
+  width: 56.55px;
+  height: 417.3px;
+  top: 48px;
+  left: 4.2px;
+}
+
+.box .text-wrapper {
+  position: absolute;
+  width: 286.65px;
+  height: 37.05px;
+  top: 253.5px;
+  left: -105.3px; /* -113.3px - 2px */
+  transform: rotate(-89.82deg);
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 44.85px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.box .img {
+  position: absolute;
+  width: 79.95px;
+  height: 79.95px;
+  top: 20.1px;
+  left: 87.3px; /* 89.3px - 2px */
+  object-fit: cover;
+}
+
+.box .idoso-marca-dagua {
+  position: absolute;
+  width: 310.05px;
+  height: 308.1px;
+  top: 96.15px;
+  left: 217.95px; /* 219.95px - 2px */
+  object-fit: cover;
+}
+
+.box .div {
+  position: absolute;
+  width: 618.15px;
+  height: 438.75px;
+  top: 0.6px;
+  left: 69.85px;
+  border: 1px solid;
+  border-color: #e4e4e4;
+}
+
+.box .braso-de-armas {
+  position: absolute;
+  width: 87.75px;
+  height: 81.9px;
+  top: 20.1px;
+  left: 572.85px; /* 574.85px - 2px */
+  object-fit: cover;
+}
+
+.box .REP-BLICA-FEDERATIVA {
+  position: absolute;
+  width: 364.65px;
+  height: 46.8px;
+  top: 18.15px;
+  left: 192.6px; /* 194.6px - 2px */
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 19.5px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.box .text-wrapper-2 {
+  position: absolute;
+  width: 444.6px;
+  height: 31.2px;
+  top: 108.7px;
+  left: 147.75px; /* 149.75px - 2px */
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #000000;
+  font-size: 23.4px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.box .text-wrapper-3 {
+  position: absolute;
+  width: 193.05px;
+  height: 11.7px;
+  top: 137.95px;
+  left: 270.6px; /* 272.6px - 2px */
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 13.65px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.box .n-DO-REGISTRO {
+  position: absolute;
+  width: 286.65px;
+  height: 23.4px;
+  top: 170.25px;
+  left: 245.25px; /* 247.25px - 2px */
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.box .span {
+  font-weight: 700;
+}
+
+.credencial .text-wrapper-4 {
+  font-weight: 700;
+  font-size: 17.55px;
+}
+
+.box .text-wrapper-5 {
+  font-family: "Inter-Light", Helvetica;
+  font-weight: 300;
+}
+
+.box .line {
+  width: 573.3px;
+  top: 209.3px;
+  left: 81.3px;
+  object-fit: cover;
+  position: absolute;
+  height: 1.95px;
+}
+
+.box .VALIDADE {
+  position: absolute;
+  width: 175.5px;
+  height: 21.45px;
+  top: 222.9px;
+  left: 130.25px; /* 130.25px - 2px */
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.box .text-wrapper-6 {
+  font-weight: 500;
+}
+
+.box .text-wrapper-7 {
+  font-weight: 500;
+  font-size: 17.55px;
+}
+
+.box .text-wrapper-8 {
+  font-family: "Inter-Light", Helvetica;
+  font-weight: 300;
+  font-size: 13.65px;
+}
+
+.box .DATA-DE-EMISS-o {
+  position: absolute;
+  width: 237.9px;
+  height: 21.45px;
+  top: 222.9px;
+  left: 383.75px; /* 383.75px - 2px */
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.box .RG-o-EXPEDIDOR {
+  position: absolute;
+  width: 487.5px;
+  height: 39px;
+  top: 271.65px;
+  left: 130.25px; /* 130.25px - 2px */
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.box .MUNIC-PIO-JACARE-SP {
+  position: absolute;
+  width: 273px;
+  height: 25.35px;
+  top: 312.6px;
+  left: 130.25px; /* 130.25px - 2px */
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 15.6px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.box .line-2 {
+  width: 175.5px;
+  top: 187.9px;
+  left: 280.35px; /* 282.35px - 2px */
+  position: absolute;
+  height: 1.95px;
+}
+
+.box .p {
+  position: absolute;
+  width: 175.5px;
+  height: 13.65px;
+  top: 185px;
+  left: 280.35px; /* 282.35px - 2px */
+  font-family: "Inter-Light", Helvetica;
+  font-weight: 300;
+  color: #000000;
+  font-size: 9.75px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.box .text-wrapper-9 {
+  position: absolute;
+  width: 352.95px;
+  height: 21.45px;
+  top: 396.45px;
+  left: 200.45px; /* 200.45px - 2px */
+  font-family: "Inter-Light", Helvetica;
+  font-weight: 300;
+  color: #000000;
+  font-size: 15.6px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+
+.box .text-wrapper-10 {
+  position: absolute;
+  width: 175.5px; /* 90px * 1.95 */
+  height: 7.8px; /* 4px * 1.95 */
+  top: 382.2px; /* 196px * 1.95 */
+  left: 296.4px; /* 152px * 1.95 */
+  font-family: "Inter-Light", Helvetica;
+  font-weight: 300;
+  color: #000000;
+  font-size: 7.8px; /* 4px * 1.95 */
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.box .idoso {
+  position: absolute;
+  width: 56.55px; /* 29px * 1.95 */
+  height: 56.55px; /* 29px * 1.95 */
+  top: 15.2px;
+  left: 15.6px;
+  object-fit: cover;
+}
