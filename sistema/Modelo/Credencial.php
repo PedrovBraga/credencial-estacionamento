@@ -85,17 +85,22 @@ class Credencial extends QueryBuilder {
         return $data_validade < $hoje;
     }
     
-    public function calcularValidade(): DateTime{
-        // Obtém a data de nascimento no formato 'Y-m-d'
+    public function calcularValidade(string $situacao_pne): DateTime{
+
         $hoje = new DateTime(); // Data atual
 
         if ($hoje->format('m-d') === '02-29') {
             // Se for 29 de fevereiro (ano bissexto)
             $hoje->modify('-1 day'); // Ajusta para 28/02
         }
-        
+
         // Adiciona 5 anos
         $data_validade = (clone $hoje)->add(new DateInterval('P5Y'));
+
+        if($situacao_pne === 'TEMPORARIO' && $this->TIPO === 'DEFICIENTE'){
+            // Adiciona 1 ano
+            $data_validade = (clone $hoje)->add(new DateInterval('P1Y'));
+        }
 
         // Garante que a hora seja 00:00:00
         $data_validade->setTime(0, 0, 0);
