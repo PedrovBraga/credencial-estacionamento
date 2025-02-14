@@ -42,7 +42,7 @@ class Helpers
     }
 
     // Substring procurada no name recebido do form é utilizada como chave para um dos arrays de separação
-    public static function separarDadosFormulario(array $dados, string $substringA, string $substringB): array
+    public static function separarDadosFormulario(array $dados, string $substringA, string $substringB = null): array
     {
         $separados = [
             $substringA => [],

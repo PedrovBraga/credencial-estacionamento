@@ -5,7 +5,7 @@ namespace sistema\Controlador;
 use DateTime;
 use Exception;
 use sistema\Modelo\Beneficiario;
-use Sistema\Modelo\Credencial;
+use sistema\Modelo\Credencial;
 use sistema\Modelo\Representante;
 use sistema\Nucleo\Controlador;
 use sistema\Nucleo\Helpers;
@@ -26,7 +26,7 @@ class SiteControlador extends Controlador
      */
     public function index(): void
     {
-        echo $this->template->renderizar('pessoa/pessoa.html', []);
+        // echo $this->template->renderizar('pessoa/pessoa.html', []);
     }
 
     public function cadastrar() : void {
@@ -70,7 +70,7 @@ class SiteControlador extends Controlador
 
             try{
                 $transacao->iniciar();
-
+                
                 if(isset($dados_separados['outro']['DEF'])){
                     $representante->salvar();
                     $beneficiario->gravar($representante);
@@ -97,7 +97,7 @@ class SiteControlador extends Controlador
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($json);
         } else {
-            echo $this->template->renderizar('pessoa/formulario.html', [
+            echo $this->template->renderizar('cadastro/formulario.html', [
                 'URL_DESENVOLVIMENTO' => URL_DESENVOLVIMENTO,
             ]);
         }
