@@ -20,7 +20,7 @@
             <div class="page-breadcrumb mb-3 px-0">
                 <div class="row">
                     <div class="col-5 align-self-center">
-                        <h4 class="page-title">Cadastro Pessoa</h4>
+                        <h4 class="page-title">Cadastro</h4>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 <div class="input-group col-md-4">
                     <div class="input-group col-md-8 p-0">
                         <div class="data" style="width: 12rem;">
-                            <label for="doc_consulta">Verifique cadastro pelo CPF OU RG:</label>
+                            <label for="doc_consulta">Verifique munícipe pelo CPF OU RG:</label>
                             <input type="text" id="doc_consulta" class="form-control w-60" name="doc_consulta" placeholder="000.000.000-00">
                         </div>
                     </div>
@@ -271,46 +271,17 @@
                         </div>
                     </div>
                 </div>
-
-                <hr class="my-4">
-                <h4 class="mb-4">Dados da Credencial</h4>
-                <div class="row my-2 justify-content-between">
-                    <div class="input-group col-md-2">
-                        <label class="form-label" for="tipo_credencial">Tipo da Credencial</label>
-                        <select class="form-control w-100" id="tipo_credencial" name="tipo_credencial">
-                            <option value="IDOSO" {% if credencial.TIPO == 'IDOSO' %}selected{%endif%}>IDOSO</option>
-                            <option value="DEFICIENTE" {% if credencial.TIPO == 'DEFICIENTE' %}selected{%endif%}>DEFICIENTE</option>
-                        </select>
-                    </div>
-                    <div class="input-group col-md-4">
-                        <div class="input-group col-md-6">
-                            <label for="dtemissao_credencial" id="label_data">Data de Emissão:</label>
-                            <input type="date" id="dtemissao_credencial" name="dtemissao_credencial"
-                                class="form-control w-100" value="{{credencial.DTEMISSAO | date('Y-m-d')}}" readonly>
-                        </div>
-                        <div class="input-group col-md-6">
-                            <label for="validade_credencial" id="label_data">Data de Validade:</label>
-                            <input type="date" id="validade_credencial" name="validade_credencial"
-                                class="form-control w-100" value="{{ (credencial.VALIDADE | default('now') | date_modify('+5 years')) | date('Y-m-d') }}" readonly>
-                        </div>
-                    </div>
-                    <div class="input-group col-md-2">
-                        <label class="form-label" for="protocoloGpro_credencial">Nº GPRO</label>
-                        <input type="text" class="form-control w-100" id="protocoloGpro_credencial" name="protocoloGpro_credencial" required>
-                    </div>
-                </div>
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-pref" id="botaoCadastro">Efetivar Cadastro</button>
+                    <button type="submit" class="btn btn-pref" id="botaoCadastro">Atualizar</button>
                 </div>
-                
             </form>
-            <!-- include('../inc/footer.php'); -->
         </div>
     </div>
     
     <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js') }}"></script>
     <script src="{{ url('https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js') }}"></script>
-    <script src="{{ url('assets/extra-libs/sparkline/sparkline.js') }}"></script>
-    <script src="{{ url('views/assets/js/custom.min.js') }}"></script>
-    <script src="{{ url('views/assets/js/script_pessoa.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/custom.min.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/script_pessoa_editar.js') }}"></script>
+
 {% endblock %}
