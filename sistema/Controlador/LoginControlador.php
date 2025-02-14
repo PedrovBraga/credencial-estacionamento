@@ -32,7 +32,7 @@ class LoginControlador extends Controlador
                 try {
                     (new Usuario())->login($dados);
 
-                    Helpers::redirecionar('pessoa/cadastrar');
+                    Helpers::redirecionar('cadastrar');
                 } catch(Exception $e){
                     $json = ['status' => '0', 'mensagem' => $e->getMessage()];
                 }
