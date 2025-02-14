@@ -16,17 +16,14 @@ use sistema\Nucleo\Sessao;
 class CredencialControlador extends Controlador {
     public function __construct()
     {
-        parent::__construct('views/');
+        parent::__construct('views');
     }
-
-    // PENSAR NA LOGICA DE ID NO FORMULARIO, QND CONSULTAR DESAPARECER E APARECER ID
-    // E TBM, CADASTRAR NOVA COM PESSOA JÁ CADASTRADA
 
     public function registrar(int $id = null) {
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
         if(isset($dados)){
-            // registrar
+            // ação registrar
             $beneficiario = (new Beneficiario())->buscaPorCPFOuRG($dados['cpf']);
             
             if($beneficiario->REPRESENTANTE !== '0'){
@@ -66,7 +63,7 @@ class CredencialControlador extends Controlador {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($json);
         } else {
-            // registrar
+            // form registrar (Deixou de ser utilizado???)
             $beneficiario = (new Beneficiario())->buscaPorCPFOuRG($id);
             
             if($beneficiario->REPRESENTANTE !== '0'){
@@ -92,6 +89,7 @@ class CredencialControlador extends Controlador {
         $num_doc = filter_input(INPUT_POST, 'doc');
 
         if(isset($num_doc)){
+            // Busca pelo documento (CPF ou RG) do beneficiário
             // Busca ID e infos do beneficiário
             $beneficiario = (new Beneficiario())->buscaPorCPFOuRG($num_doc);
             // Busca todas as credencial existentes com ID do beneficiário
@@ -109,6 +107,7 @@ class CredencialControlador extends Controlador {
                 $json = ['status' => 1, 'mensagem' => 'Credencial encontrada!', 'credencial' => $credenciaisArray, 'beneficiario' => (array) $beneficiario];
             }
         } else {
+            // busca por número (registro) da credencial
             $registro = filter_input(INPUT_POST, 'registro');
 
             $partes = explode('/', $registro);
@@ -136,7 +135,7 @@ class CredencialControlador extends Controlador {
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
         if(isset($dados)){
-            // PROCEDIMENTOS PARA EDITAR (OU ATUALIZAR) A CREDENCIAL
+            // PROCEDIMENTOS PARA EDITAR/ATUALIZAR A CREDENCIAL
 
             $credencial_atualizar = new Credencial();
             $credencial_atualizar->REGISTRO = $dados['registro'];
@@ -161,7 +160,6 @@ class CredencialControlador extends Controlador {
             echo json_encode($json);
         } else {
             // PROCEDIMENTOS PARA EXIBIR A PÁGINA DE EDIÇÃO DE CREDENCIAL
-
             // Pega valor da url
             $registro = filter_input(INPUT_GET, 'registro');
             if(!empty($registro)){
