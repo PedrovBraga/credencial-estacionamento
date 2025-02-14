@@ -19,9 +19,6 @@ document.addEventListener('keydown', function (event) {
 //     $('#datanasc').inputmask("99/99/9999", { "placeholder": "00/00/0000" });
 // });
 
-// Definindo base url no front
-const BASE_URL = "{{ URL_DESENVOLVIMENTO }}";
-
 // Variável de controle do caminho do submit
 var urlSubmit = `cadastrar`;
 
