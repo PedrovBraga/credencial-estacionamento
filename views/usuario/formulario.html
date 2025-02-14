@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {# Preserva estilos do arquivo pai (base.html) #}
+    {{ block('styles') }}
+    
+{% endblock %}
+
+{% block conteudo %}
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+    data-boxed-layout="full">
+
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-body">
+                            <h2>{% if usuario.ID %}Editar usuário{% else %}Cadastrar usuário{% endif %}</h2>
+                            <form method="POST" id="form" action="{% if usuario.ID %}{{ URL_DESENVOLVIMENTO ~ '/usuario/editar' }}{% else %}{{ URL_DESENVOLVIMENTO ~ '/usuario/cadastrar' }}{% endif %}">
+                                <input type="hidden" name="id" value="{{usuario.ID}}" required>
+                                <div class="mb-2">
+                                    <label for="nome" class="form-label">Nome:</label>
+                                    <input type="text" class="form-control" placeholder="Nome Completo"
+                                        aria-label="Nome Completo" aria-describedby="addon-wrapping" name="nome"
+                                        id="nome" value="{{usuario.NOME}}" required>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="usuario" class="form-label">Usuário:</label>
+                                    <input type="text" class="form-control" placeholder="Nome de usuário"
+                                        aria-label="Nome de Usuario" aria-describedby="addon-wrapping" name="usuario"
+                                        id="usuario" value="{{usuario.USUARIO}}" required>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="matricula" class="form-label">Matrícula:</label>
+                                    <input type="text" class="form-control" placeholder="Matrícula"
+                                        aria-label="Matricula" aria-describedby="addon-wrapping" name="matricula"
+                                        value="{{usuario.MATRICULA}}" required>
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <label for="email" class="form-label">Email:</label>
+                                    <input type="text" class="form-control" placeholder="Email"
+                                        aria-label="Email" aria-describedby="addon-wrapping" name="email"
+                                        value="{{usuario.EMAIL}}" required>
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <label for="cargo" class="form-label">Cargo:</label>
+                                    <input type="text" class="form-control" placeholder="cargo"
+                                        aria-label="cargo" aria-describedby="addon-wrapping" name="cargo"
+                                        value="{{usuario.CARGO}}" required>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="COD_PERFIL" class="form-label">Tipo de acesso:</label>
+                                    <select class="form-control" placeholder="Tipo" name="COD_PERFIL" required>
+                                        <option value="" disabled selected>Selecione o tipo de acesso</option>
+                                        <option value="A" {% if usuario.COD_PERFIL == 'A' %} selected {% endif %}>
+                                                ADMINISTRAÇÃO
+                                        </option>
+                                        <option value="U" {% if usuario.COD_PERFIL == 'U' %} selected {% endif %}>
+                                            USUÁRIO
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-pref"
+                                    style="margin-top: 10px;">{% if usuario.ID %}Atualizar{% else %}Cadastrar{% endif %}</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js') }}"></script>
+    <script src="{{ url('https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/custom.min.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/script_usuario_form.js') }}"></script>
+
+
+{% endblock %}
