@@ -1,0 +1,26 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+thead {
+    background-color: #f4f4f4;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-right: 15px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+tbody {
+    display: block;
+    max-height: 360px; /* Define a altura máxima */
+    overflow-y: auto; /* Adiciona scrollbar vertical */
+}
+tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Garante que as colunas fiquem alinhadas */
+}
