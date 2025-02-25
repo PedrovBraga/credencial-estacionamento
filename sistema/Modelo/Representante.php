@@ -11,10 +11,10 @@ class Representante extends QueryBuilder {
         $this->tabela = 'tb_representante';
     }
 
-    public function buscaPorCPFouRG(string $doc)
+    public function buscaPorCPFouRG(?string $doc)
     {
         if($doc === null){
-            return null;
+            return false;
         }
 
         $busca = $this->busca("CPF = :d OR RG = :d", "d={$doc}");
@@ -30,8 +30,9 @@ class Representante extends QueryBuilder {
     public function gravar(){
         $representante_existente = new Representante();
 
+        $num_doc = $this->CPF ? $this->CPF : $this->RG;
         // Verifica se o representante já existe
-        if(($representante_existente->buscaPorCPFouRG($this->RG) || $representante_existente->buscaPorCPFouRG($this->CPF)) && $representante_existente->buscaPorNome($this->NOME)){
+        if($representante_existente->buscaPorCPFouRG($num_doc) && $representante_existente->buscaPorNome($this->NOME)){
             return; // Cancela a operação gravar mas não lança exception para manter o fluxo de registro do beneficiário
         }
 

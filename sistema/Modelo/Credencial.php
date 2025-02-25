@@ -81,8 +81,8 @@ class Credencial extends QueryBuilder {
         $data_validade = new DateTime($this->VALIDADE);
         $hoje = new DateTime(); // Data atual
 
-        // Retorna se data de validade já passou
-        return $data_validade < $hoje;
+        // Retorna a data  (último mês de validade já é liberado para renovar)
+        return $data_validade->modify('-30 days') < $hoje;
     }
     
     public function calcularValidade(string $situacao_pne): DateTime{

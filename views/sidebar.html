@@ -52,9 +52,9 @@
                 </li>
                 
                 <!-- menu relatórios -->
-                <li class="sidebar-item" id="relatorios">
+                <!-- <li class="sidebar-item" id="relatorios"> -->
                     <!-- data-bs-toggle controla pela classe a visibilidade da ul e data-bs-target controla pelo id a "animação" do menu -->
-                    <a class="sidebar-link waves-effect waves-dark" type="button" data-bs-toggle="collapse" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <!-- <a class="sidebar-link waves-effect waves-dark" type="button" data-bs-toggle="collapse" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="mdi mdi-file-outline"></i>
                         <span class="hide-menu">Relatórios</span>
                     </a>
@@ -63,6 +63,14 @@
                         <li class="dropdown-item p-0 hide-menu"><a class="sidebar-link waves-effect waves-dark" href="../relatorio/processa_relatorio_planilha.php">Resumo</a></li>
                         <li class="dropdown-item p-0 hide-menu"><a class="sidebar-link waves-effect waves-dark" href="../relatorio/processa_relatorio_pessoas.php">Alunos</a></li>
                     </ul>
+                </li> -->
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ URL_DESENVOLVIMENTO ~ '/usuario/listar' }}"
+                        aria-expanded="false">
+                        <i class="mdi mdi-account"></i>
+                        <span class="hide-menu">Usuário</span>
+                    </a>
                 </li>
 
                 <li class="sidebar-item">

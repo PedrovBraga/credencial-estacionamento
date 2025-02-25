@@ -28,12 +28,15 @@ try {
 
     // Auditoria
     SimpleRouter::match(['get', 'post'], URL_SITE . 'auditoria', 'AuditoriaControlador@consultar');
+    SimpleRouter::get(URL_SITE . 'auditoria/consulta-operador', 'AuditoriaControlador@consultarOperador');
+    SimpleRouter::get(URL_SITE . 'auditoria/consulta-municipe', 'AuditoriaControlador@consultarMunicipe');
    
     // Usuário
     SimpleRouter::get(URL_SITE . 'usuario/listar', 'UsuarioControlador@listar');
     SimpleRouter::match(['get', 'post'], URL_SITE . 'usuario/editar', 'UsuarioControlador@editar');
     SimpleRouter::match(['get', 'post'], URL_SITE . 'usuario/cadastrar', 'UsuarioControlador@cadastrar');
     SimpleRouter::post(URL_SITE . 'usuario/desativar', 'UsuarioControlador@desativar');
+    SimpleRouter::get(URL_SITE . 'usuario/alterar-senha', 'UsuarioControlador@alterarSenha');
 
     SimpleRouter::start();
 } catch (Pecee\SimpleRouter\Exceptions\NotFoundHttpException $ex) {

@@ -23,7 +23,6 @@
                         <div class="card card-body">
                             <h2>{% if usuario.ID %}Editar usuário{% else %}Cadastrar usuário{% endif %}</h2>
                             <form method="POST" id="form" action="{% if usuario.ID %}{{ URL_DESENVOLVIMENTO ~ '/usuario/editar' }}{% else %}{{ URL_DESENVOLVIMENTO ~ '/usuario/cadastrar' }}{% endif %}">
-                                <!-- <input type="hidden" name="id" value="{{usuario.ID}}" required> -->
                                 <div class="mb-2">
                                     <label for="nome" class="form-label">Nome:</label>
                                     <input type="text" class="form-control" placeholder="Nome Completo"

@@ -26,15 +26,14 @@ class LoginControlador extends Controlador
 
         if(isset($dados)){
             if(in_array('', $dados)){
-                $json = ['status' => '0', 'mensagem' => 'Todos os campos são obrigatórios!'];
+                $json = ['status' => 0, 'mensagem' => 'Todos os campos são obrigatórios!'];
             } else {
                 // procedimentos para login
                 try {
                     (new Usuario())->login($dados);
-
-                    Helpers::redirecionar('cadastrar');
-                } catch(Exception $e){
-                    $json = ['status' => '0', 'mensagem' => $e->getMessage()];
+                    $json = ['status' => 1, 'mensagem' => 'Logado com sucesso!', 'urlConfirmar' => URL_DESENVOLVIMENTO . '/cadastrar'];
+                } catch(Exception $e) {
+                    $json = ['status' => 0, 'mensagem' => $e->getMessage()];
                 }
             }
 

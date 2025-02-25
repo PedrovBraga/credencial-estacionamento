@@ -72,7 +72,7 @@ class SiteControlador extends Controlador
                 $transacao->iniciar();
                 
                 if(isset($dados_separados['outro']['DEF'])){
-                    $representante->salvar();
+                    $representante->gravar();
                     $beneficiario->gravar($representante);
                     $credencial->BENEFICIARIO = $beneficiario->ID;
                     $credencial->gravar();

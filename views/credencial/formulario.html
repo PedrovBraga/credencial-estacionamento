@@ -76,7 +76,7 @@
                     <div class="input-group col-md-2">
                         <label>Cargo</label>
                         <input type="text" class="form-control w-100" id="cargo_operador" name="cargo_operador"
-                            value="{{usuario.CARGO}}"placeholder="" readonly>
+                            value="{{usuario.CARGO}}" placeholder="" readonly>
                     </div>
                 </div>
                 <div class="row my-2 justify-content-between">
@@ -93,7 +93,7 @@
                     </div>
                     <div class="input-group col-md-2">
                         <label class="form-label" for="tipo">Tipo da Credencial</label>
-                        <select class="form-control w-100" id="tipo" name="tipo" disabled>
+                        <select class="form-control w-100" id="tipo" name="tipo" readonly>
                             <option selected>Escolha uma opção...</option>
                             <option value="IDOSO" {% if credencial.TIPO == 'IDOSO' %}selected{%endif%}>IDOSO</option>
                             <option value="DEFICIENTE" {% if credencial.TIPO == 'DEFICIENTE' %}selected{%endif%}>DEFICIENTE</option>

@@ -57,7 +57,7 @@ class Usuario extends QueryBuilder {
             throw new Exception("Dados inválidos! Verifique o usuário e a senha digitada.");
         }
 
-        if($dados['senha'] !== $usuario->SENHA){
+        if($this->criptografaSenha($dados['senha']) != $usuario->SENHA){
             throw new Exception("Dados inválidos! Verifique o usuário e a senha digitada.");
         }
 
@@ -68,17 +68,21 @@ class Usuario extends QueryBuilder {
         $session = new Sessao();
         $session->criar('usuarioId', $usuario->ID);
 
-        var_dump($session);
+        // var_dump($session);
         return true;
     }
 
     function criptografaSenha(string $senha): float {
+        return $this->criptografar($senha); // Retorna o valor final
+    }
+    
+    private function criptografar(string $senha): float {
         $R = 0;
         $C = $senha;
         
         // Loop através de cada caractere da senha
-        for ($i = 0; $i < strlen($C); $i++) {
-            $R += ($i + 1) * ord($C[$i]); // ord() retorna o valor ASCII do caractere
+        for ($i = 1; $i <= strlen($C); $i++) {
+            $R += ($i + 1) * ord($C[$i-1]); // ord() retorna o valor ASCII do caractere
         }
         
         return $R; // Retorna o valor final
