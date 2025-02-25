@@ -43,9 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 if(response.status === 0){
                     console.log('mensagem: ' + response.mensagem);
                     // ADICIONAR ALERTA
+                    var alerta = new Alerta();
+                    alerta.erro(response.mensagem).renderizar();
                 } else {
                     console.log('mensagem: ' + response.mensagem); 
-                    console.log(response.beneficiario["\u0000*\u0000dados"]);
                     populaCampos(response.beneficiario["\u0000*\u0000dados"]); 
                 }
             },

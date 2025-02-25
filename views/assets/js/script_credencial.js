@@ -25,11 +25,10 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function(response){
                 if(response.status === 0){
                     console.log('mensagem: ' + response.mensagem);
-                     
+                    var alerta = new Alerta();
+                    alerta.erro(response.mensagem).renderizar();
                 } else {
                     console.log('mensagem: ' + response.mensagem); 
-                    // console.log(response.beneficiario["\u0000*\u0000dados"]);
-                    // populaCampos(response.beneficiario["\u0000*\u0000dados"], response.credencial["\u0000*\u0000dados"]); 
                     renderizaLista(response.beneficiario["\u0000*\u0000dados"], response.credencial);
                 }
             },
@@ -56,7 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function(response){
                 if(response.status === 0){
                     console.log('mensagem: ' + response.mensagem);
-                     
+                    var alerta = new Alerta();
+                    alerta.erro(response.mensagem).renderizar();
                 } else {
                     console.log('mensagem: ' + response.mensagem); 
                     // console.log(response.beneficiario["\u0000*\u0000dados"]);
