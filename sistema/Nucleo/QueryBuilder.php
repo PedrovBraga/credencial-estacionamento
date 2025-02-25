@@ -2,6 +2,7 @@
 
 namespace sistema\Nucleo;
 
+use sistema\Modelo\Auditoria;
 use sistema\Nucleo\Conexao;
 use sistema\Nucleo\Mensagem;
 
@@ -118,12 +119,6 @@ abstract class QueryBuilder
 
         return $this;
     }
-
-    // public function buscaPorSlug(string $slug)
-    // {
-    //     $busca = $this->busca("slug = :s","s={$slug}");
-    //     return $busca->resultado();
-    // }
     
     public function buscaPorId(int $id)
     {
@@ -219,7 +214,7 @@ abstract class QueryBuilder
 
             return $stmt->fetchObject(static::class);
         } catch (\PDOException $ex) {
-            echo $this->erro = $ex;
+            // echo $this->erro = $ex;
             throw new \Exception('Erro de sistema ao retornar os dados');
             // return null;
         }
@@ -266,13 +261,19 @@ abstract class QueryBuilder
 
     public function salvar()
     {
+        $auditoria = new Auditoria();
+
         //CADASTRAR
         if (empty($this->ID)) {
             $ID = $this->cadastrar($this->armazenar());
+            
             if ($this->erro) {
                 echo "\n SALVAR \n".var_dump($this);
                 throw new \Exception('Erro de sistema ao tentar cadastrar os dados');
             }
+            
+            // Passa operação e objeto
+            $auditoria->gravar('INCLUSÃO', $this);
         }
 
         //ATUALIZAR
@@ -282,34 +283,44 @@ abstract class QueryBuilder
             if ($this->erro) {
                throw new \Exception('Erro de sistema ao tentar atualizar os dados');
             }
+            $auditoria->gravar('ATUALIZAÇÃO', $this);
         }
 
         $this->dados = $this->buscaPorId($ID)->dados();
         return true;
     }
+
     public function salvarCredencial()
     {
-        //CADASTRAR
-        if (empty($this->REGISTRO)) {
-            $REGISTRO = $this->cadastrar($this->armazenar());
-            $ANO = $this->ANO;
-            if ($this->erro) {
-                // echo "\n SALVAR \n".var_dump($this);
-                throw new \Exception('Erro de sistema ao tentar cadastrar os dados');
-            }
-        }
-
+        $auditoria = new Auditoria();
         //ATUALIZAR
         if (!empty($this->REGISTRO)) {
             $REGISTRO = $this->REGISTRO;
             $ANO = $this->ANO;
             $this->atualizar($this->armazenar(), "REGISTRO = {$REGISTRO} AND ANO = {$ANO}");
+            
             if ($this->erro) {
                throw new \Exception('Erro de sistema ao tentar atualizar os dados');
             }
+
+            $auditoria->gravar('ATUALIZAÇÃO', $this);
+
         }
 
-        // echo $REGISTRO.$ANO;
+        //CADASTRAR
+        if (empty($this->REGISTRO)) {
+            $REGISTRO = $this->cadastrar($this->armazenar());
+            $ANO = $this->ANO;
+           
+            if ($this->erro) {
+                // echo "\n SALVAR \n".var_dump($this);
+                throw new \Exception('Erro de sistema ao tentar cadastrar os dados');
+            }
+            $this->REGISTRO = $REGISTRO;
+            $auditoria->gravar('INCLUSÃO', $this);
+
+        }
+
         $this->dados = $this->buscaPorRegistro($REGISTRO, $ANO)->dados();
         return true;
     }
@@ -318,11 +329,4 @@ abstract class QueryBuilder
         return Conexao::getInstancia()->query("SELECT MAX(ID) as maximo FROM {$this->tabela}")->fetch()->maximo + 1;
     }
 
-    // protected function slug() {
-    //     $checarSlug = $this->busca("slug = :s AND id != :id","s={$this->slug}&id={$this->id}");
-
-    //     if($checarSlug->total()){
-    //         $this->slug = "{$this->slug}-{$this->ultimoId()}";
-    //     }
-    // }
 }
