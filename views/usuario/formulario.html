@@ -23,7 +23,7 @@
                         <div class="card card-body">
                             <h2>{% if usuario.ID %}Editar usuário{% else %}Cadastrar usuário{% endif %}</h2>
                             <form method="POST" id="form" action="{% if usuario.ID %}{{ URL_DESENVOLVIMENTO ~ '/usuario/editar' }}{% else %}{{ URL_DESENVOLVIMENTO ~ '/usuario/cadastrar' }}{% endif %}">
-                                <input type="hidden" name="id" value="{{usuario.ID}}" required>
+                                <!-- <input type="hidden" name="id" value="{{usuario.ID}}" required> -->
                                 <div class="mb-2">
                                     <label for="nome" class="form-label">Nome:</label>
                                     <input type="text" class="form-control" placeholder="Nome Completo"
@@ -35,14 +35,14 @@
                                     <label for="usuario" class="form-label">Usuário:</label>
                                     <input type="text" class="form-control" placeholder="Nome de usuário"
                                         aria-label="Nome de Usuario" aria-describedby="addon-wrapping" name="usuario"
-                                        id="usuario" value="{{usuario.USUARIO}}" required>
+                                        id="usuario" value="{{usuario.USUARIO}}" required {% if usuario %}readonly{% endif %}>
                                 </div>
 
                                 <div class="mb-2">
                                     <label for="matricula" class="form-label">Matrícula:</label>
                                     <input type="text" class="form-control" placeholder="Matrícula"
                                         aria-label="Matricula" aria-describedby="addon-wrapping" name="matricula"
-                                        value="{{usuario.MATRICULA}}" required>
+                                        value="{{usuario.MATRICULA}}" required {% if usuario %}readonly{% endif %}>
                                 </div>
                                 
                                 <div class="mb-2">
