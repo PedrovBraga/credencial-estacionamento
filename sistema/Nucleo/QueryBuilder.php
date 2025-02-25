@@ -127,7 +127,7 @@ abstract class QueryBuilder
     
     public function buscaPorId(int $id)
     {
-        $busca = $this->busca("id = {$id}");
+        $busca = $this->busca("ID = {$id}");
         return $busca->resultado();
     }
 
@@ -195,11 +195,11 @@ abstract class QueryBuilder
     
     public function deletar()
     {
-        if(empty($this->id)){
+        if(empty($this->ID)){
             return false;
         }
         
-        $deletar = $this->apagar("id = {$this->id}");
+        $deletar = $this->apagar("ID = {$this->ID}");
         return $deletar;
     }
 
@@ -257,7 +257,8 @@ abstract class QueryBuilder
     {
         foreach ($dados as $campo => $valor) {
             // if (property_exists($this, $campo)) { // Verifica se a propriedade existe na classe
-                $this->$campo = $valor; 
+                $campo_upper = strtoupper($campo);
+                $this->$campo_upper = $valor; 
             // }
         }
     }
@@ -266,8 +267,8 @@ abstract class QueryBuilder
     public function salvar()
     {
         //CADASTRAR
-        if (empty($this->id)) {
-            $id = $this->cadastrar($this->armazenar());
+        if (empty($this->ID)) {
+            $ID = $this->cadastrar($this->armazenar());
             if ($this->erro) {
                 echo "\n SALVAR \n".var_dump($this);
                 throw new \Exception('Erro de sistema ao tentar cadastrar os dados');
@@ -275,15 +276,15 @@ abstract class QueryBuilder
         }
 
         //ATUALIZAR
-        if (!empty($this->id)) {
-            $id = $this->id;
-            $this->atualizar($this->armazenar(), "id = {$id}");
+        if (!empty($this->ID)) {
+            $ID = $this->ID;
+            $this->atualizar($this->armazenar(), "ID = {$ID}");
             if ($this->erro) {
                throw new \Exception('Erro de sistema ao tentar atualizar os dados');
             }
         }
 
-        $this->dados = $this->buscaPorId($id)->dados();
+        $this->dados = $this->buscaPorId($ID)->dados();
         return true;
     }
     public function salvarCredencial()
@@ -314,7 +315,7 @@ abstract class QueryBuilder
     }
 
     private function ultimoId(): int {
-        return Conexao::getInstancia()->query("SELECT MAX(id) as maximo FROM {$this->tabela}")->fetch()->maximo + 1;
+        return Conexao::getInstancia()->query("SELECT MAX(ID) as maximo FROM {$this->tabela}")->fetch()->maximo + 1;
     }
 
     // protected function slug() {

@@ -14,45 +14,54 @@ class Beneficiario extends QueryBuilder {
 
     public function gravar(Representante $representante = null){
         if($representante){
+            echo $representante->RG.' --------- ';
             // Pegar ID do representante e passar para beneficiario
-            $representante_cadastrado = $representante->buscaPorRG($representante->RG);
+            $representante_cadastrado = $representante->buscaPorCPFouRG($representante->RG);
 
             if (!$representante_cadastrado) {
                 // Se não encontrar o representante, lança uma exceção ou retorna false
                 throw new Exception('Representante não encontrado ao buscar ID.');
             }
-    
+            echo print_r($representante_cadastrado);
             // Adiciona ID do representante ao Beneficiario
             $this->REPRESENTANTE = $representante_cadastrado->ID;
         }
 
-        
-        if($this->buscaPorCPFOuRG($this->CPF)){
-            throw new Exception('Número de CPF já cadastrado!');
-        } 
+        if(!$this->ID){
+            if($this->buscaPorCPFOuRG($this->CPF)){
+                $usuario_existente = $this->buscaPorCPFOuRG($this->CPF);
+                echo print_r($usuario_existente);
+                throw new Exception('Número de CPF já cadastrado!');
+            } 
+        }
 
         return parent::salvar();   
     }
 
-    public function buscaPorCPFOuRG(string $doc)
+    public function buscaPorCPFOuRG(string $doc, bool $com_representante = true)
     {
-        $cols_tbinner = [
-            "r.NOME AS NOMEREP",
-            "r.EMAIL AS EMAILREP",
-            "r.TELEFONE AS TELEFONEREP",
-            "r.CEP AS CEPREP",
-            "r.ENDERECO AS ENDERECOREP",
-            "r.COMPLEMENTO AS COMPLEMENTOREP",
-            "r.BAIRRO AS BAIRROREP",
-            "r.CIDADE AS CIDADEREP",
-            "r.UF AS UFREP",
-            "r.RG AS RGREP",
-            "r.RG_EXPEDIDOR AS RG_EXPEDIDORREP",
-            "r.RG_DATA AS RG_DATAREP",
-            "r.CPF AS CPFREP"
-        ];
+        if($com_representante){
+            $cols_tbinner = [
+                "r.NOME AS NOMEREP",
+                "r.EMAIL AS EMAILREP",
+                "r.TELEFONE AS TELEFONEREP",
+                "r.CEP AS CEPREP",
+                "r.ENDERECO AS ENDERECOREP",
+                "r.COMPLEMENTO AS COMPLEMENTOREP",
+                "r.BAIRRO AS BAIRROREP",
+                "r.CIDADE AS CIDADEREP",
+                "r.UF AS UFREP",
+                "r.RG AS RGREP",
+                "r.RG_EXPEDIDOR AS RG_EXPEDIDORREP",
+                "r.RG_DATA AS RG_DATAREP",
+                "r.CPF AS CPFREP"
+            ];
+    
+            $busca = $this->buscaLeftJoin("representante", "r", "REPRESENTANTE", "tb_beneficiario.CPF = '{$doc}' OR tb_beneficiario.RG = '{$doc}'", null, $cols_tbinner);
+        } else {
+            $busca = $this->busca("CPF = :d OR RG = :d", "d={$doc}");
+        }
 
-        $busca = $this->buscaLeftJoin("representante", "r", "REPRESENTANTE", "tb_beneficiario.CPF = '{$doc}' OR tb_beneficiario.RG = '{$doc}'", null, $cols_tbinner);
         return $busca->resultado();
     }
 

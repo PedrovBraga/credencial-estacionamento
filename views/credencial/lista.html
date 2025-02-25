@@ -3,7 +3,6 @@
 {% block styles %}
     {# Preserva estilos do arquivo pai (base.html) #}
     {{ block('styles') }}
-    <link rel="stylesheet" href="{{ url('../views/assets/css/style_pessoa.css') }}">
     
 {% endblock %}
 
@@ -66,24 +65,7 @@
                                 </tr>
                             </thead>
                             <tbody id="lista">
-                                <!-- { for credencial in credenciais }
-                                <tr>
-                                    <td>{credencial.REGISTRO}</td>
-                                    <td>{credencial.ANO}</td>
-                                    <td>{credencial.TIPO}</td>
-                                    <td>{beneficiario.NOME}</td>
-                                    <td>{if credencial.VALIDADE credencial.VALIDADE < "now"|date("Y-m-d")}
-                                            VENCIDA
-                                        {else}
-                                            ATIVA
-                                        {endif}
-                                    </td>
-                                    <td>
-                                        <button>Editar</button>
-                                        <button>2ª via</button>
-                                    </td>
-                                </tr>
-                                { endfor } -->
+
                             </tbody>
                         </table>
                     </div>

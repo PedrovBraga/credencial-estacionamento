@@ -23,65 +23,7 @@ document.addEventListener('keydown', function (event) {
 var urlSubmit = `cadastrar`;
 
 // consulta cep
-document.addEventListener('DOMContentLoaded', function () {
-
-    function atualizaValidade(){
-        const campoDtEmissao = document.getElementById('dtemissao_credencial');
-        const campoDtValidade = document.getElementById('validade_credencial');
-        const checkboxDeficiente = document.getElementById('def');
-        const selectTempoDeficiente = document.getElementById('situacao_pne');
-        const selectTipoCredencial = document.getElementById('tipo_credencial');
-        let anosParaAdicionar = 5;
-        
-        if (checkboxDeficiente.value === 'S') {
-            const dataEmissao = new Date(campoDtEmissao.value); // Converte o valor para uma data
-    
-            if (selectTempoDeficiente.value === 'TEMPORARIO') {
-                anosParaAdicionar = 1; // Adiciona 1 ano
-            }
-    
-            // Adiciona os anos à data de emissão
-            dataEmissao.setFullYear(dataEmissao.getFullYear() + anosParaAdicionar);
-    
-            // Converte a data para o formato YYYY-MM-DD
-            const dataFormatada = dataEmissao.toISOString().split('T')[0];
-    
-            // Define o valor no campo de validade
-            campoDtValidade.value = dataFormatada;
-        } else {
-            campoDtValidade.value = anosParaAdicionar;
-        }
-    }
-
-    function desabilitaTipoCredencial(){
-        const tipoCredencial = document.getElementById('tipo_credencial');
-        const checkboxDeficiente = document.getElementById('def');
-        
-        const optionDeficiente = Array.from(tipoCredencial.options).find(option => option.value === 'DEFICIENTE');
-        if (checkboxDeficiente.value !== 'S') {
-            // Desabilitar a opção com valor 'DEFICIENTE'
-            if (optionDeficiente) {
-                optionDeficiente.disabled = true;
-            }
-        } else {
-            // Reabilitar a opção com valor 'DEFICIENTE'
-            if (optionDeficiente) {
-                optionDeficiente.disabled = false;
-            }
-        }
-    }
-
-    desabilitaTipoCredencial()
-
-    document.getElementById('situacao_pne').addEventListener('input', function (){
-        atualizaValidade();
-    })
-    
-    document.getElementById('tipo_credencial').addEventListener('input', function (){
-        atualizaValidade();
-        desabilitaTipoCredencial()
-    })
-    
+document.addEventListener('DOMContentLoaded', function () {    
 
     document.getElementById('consultaDOC').addEventListener('click', function(){
         
@@ -105,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log('mensagem: ' + response.mensagem); 
                     console.log(response.beneficiario["\u0000*\u0000dados"]);
                     populaCampos(response.beneficiario["\u0000*\u0000dados"]); 
-                    urlSubmit = `credencial/registrar`;
                 }
             },
             error: function(error, xhr){
@@ -169,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         $.ajax({
             type: 'post', 
-            url: urlSubmit,
+            url: 'editar',
             data: formEncoded,
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Define o tipo de conteúdo
             dataType: 'json', // Especifica o formato esperado da resposta
@@ -331,8 +272,6 @@ function populaCampos(beneficiario){
     document.getElementById('nome_representante').value = beneficiario.NOMEREP ?? '';
     document.getElementById('email_representante').value = beneficiario.EMAILREP ?? '';
     document.getElementById('rg_representante').value = beneficiario.RGREP ?? '';
-    // document.getElementById('rg_expedidor_representante').value = beneficiario.RG_EXPEDIDORREP ?? '';
-    // document.getElementById('rg_data_representante').value = beneficiario.RG_DATAREP ? beneficiario.RG_DATAREP.split(' ')[0] : '';
     document.getElementById('telefone_representante').value = beneficiario.TELEFONEREP ?? '';
     document.getElementById('cep_representante').value = beneficiario.CEPREP ?? '';
     document.getElementById('endereco_representante').value = beneficiario.ENDERECOREP ?? '';

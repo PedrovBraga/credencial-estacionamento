@@ -22,6 +22,33 @@ class Usuario extends QueryBuilder {
         $busca = $this->busca("USUARIO = '{$usuario}'");
         return $busca->resultado();
     }
+    
+    public function buscaPorMatricula(string $matricula): ?Usuario {
+        $busca = $this->busca("MATRICULA = '{$matricula}'");
+        return $busca->resultado();
+    }
+
+    public function registrar(): bool {
+        $usuario = (new Usuario())->buscaPorUsuario($this->USUARIO);
+        if($usuario){
+            throw new Exception("Usuário já existe! Escolha outro nome de usuário.");
+        }
+
+        $usuario_matricula = (new Usuario())->buscaPorMatricula($this->MATRICULA);
+        if($usuario_matricula){
+            throw new Exception("Matrícula já existe!");
+        }
+
+        $this->SENHA = $this->criptografaSenha(1234);
+        $this->ATIVO = 1;
+        
+        return parent::salvar();
+    }
+
+    public function listar(){
+        $busca = $this->busca('ATIVO = 1', null, "NOME, USUARIO, EMAIL, CARGO, ATIVO");
+        return $busca->resultado(true);
+    }
 
     public function login(array $dados){
         $usuario = (new Usuario())->buscaPorUsuario($dados['usuario']);
@@ -43,6 +70,18 @@ class Usuario extends QueryBuilder {
 
         var_dump($session);
         return true;
+    }
+
+    function criptografaSenha(string $senha): float {
+        $R = 0;
+        $C = $senha;
+        
+        // Loop através de cada caractere da senha
+        for ($i = 0; $i < strlen($C); $i++) {
+            $R += ($i + 1) * ord($C[$i]); // ord() retorna o valor ASCII do caractere
+        }
+        
+        return $R; // Retorna o valor final
     }
 
 }

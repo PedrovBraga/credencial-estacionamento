@@ -28,24 +28,28 @@
                             <div class="card-body">
                                 <h4 class="card-title">Por Operador</h4>
                                 <h5 class="card-subtitle">Insira o dado para sua consulta.</h5>
-                                <form action="consulta_turmas.php" method="post">
+                                <div>
                                     <div class="row gap-3">
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Operador: </label>
-                                                <select class="form-control w-100" id="select-atividades"
+                                                <select class="form-control w-100" id="select-operador"
                                                     name="atividade">
-                                                    <option>Escolha uma opção...</option>
+                                                    {% for usuario in usuarios %}
+                                                        <option value="{{usuario.USUARIO}}">{{usuario.USUARIO}}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row m-0">
                                         <div class="form-group mt-2" id="botao-busca">
-                                            <button type="submit" class="btn btn-pref" id="buscar">Consultar</button>
+                                            <button type="submit" class="btn btn-pref" id="btn-operador" data-url="{{ url(URL_DESENVOLVIMENTO ~ '/auditoria/consulta-operador') }}">
+                                                Consultar
+                                            </button>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -55,21 +59,23 @@
                             <div class="card-body">
                                 <h4 class="card-title">Por Munícipe</h4>
                                 <h5 class="card-subtitle">Insira o dado para sua consulta.</h5>
-                                <form action="consulta_turmas.php" method="post">
+                                <div>
                                     <div class="row gap-3">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label>Nome do Munícipe: </label>
-                                                <input type="text" id="telefone" class="form-control w-100" name="telefone" placeholder="" required>
+                                                <label>Documento (RG/CPF) do Munícipe: </label>
+                                                <input type="text" id="input-doc" class="form-control w-100" name="telefone" placeholder="" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row m-0">
-                                        <div class="form-group mt-2" id="botao-busca">
-                                            <button type="submit" class="btn btn-pref" id="buscar">Consultar</button>
+                                        <div class="form-group mt-2">
+                                            <button type="submit" class="btn btn-pref" id="btn-doc" data-url="{{ url(URL_DESENVOLVIMENTO ~ '/auditoria/consulta-municipe') }}">
+                                                Consultar
+                                            </button>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,22 +101,8 @@
                                             <th scope="col">Credencial</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="lista-efetiva">
-                                       
-                                        <!-- // $contador = 0;
-                                        // foreach ($dados_efetivos as $dado) {
-                                        //     echo "
-                                        //             <tr >
-                                        //                 <td id='nome-efetivo-$contador'>" . $dado['nome_municipe'] . "</td>
-                                        //                 <td id='cpf-efetivo-$contador'>" . $dado['cpf_municipe'] . "</td>
-                                        //                 <td>" . $dado['telefone_municipe'] . "</td>
-                                        //                 <td>" . $dado['data_matricula'] . "</td>
-                                        //                 <td><button class='btn btn-light btn-desmatricular' id='btn-desmatricula-$contador' onclick='desmatricularDaTurma($contador)'>Desmatricular</button></td>
-                                        //             </tr>
-                                        //         ";
-                                        //     $contador++;
-                                        // } -->
-                                        
+                                    <tbody id="lista">
+            
                                     </tbody>
                                 </table>
                             </div>
@@ -124,7 +116,9 @@
         </div>
 
     </div>
-    <script src="{{ url('assets/extra-libs/sparkline/sparkline.js') }}"></script>
-    <script src="{{ url('views/assets/js/custom.min.js') }}"></script>
-    <script src="{{ url('views/assets/js/script_consulta_turmas.js') }}"></script>
+    <link rel="stylesheet" href="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/css/style_auditoria.css') }}">
+    <script src="{{ url('https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/custom.min.js') }}"></script>
+    <script src="{{ url(URL_DESENVOLVIMENTO ~ '../views/assets/js/script_auditoria.js') }}"></script>
 {% endblock %}

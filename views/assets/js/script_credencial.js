@@ -152,8 +152,14 @@ function renderizaLista(beneficiario, credencial){
                 <td class="align-middle">${beneficiario.NOME}</td>
                 <td class="align-middle">${new Date(cred["\u0000*\u0000dados"].VALIDADE) < new Date() ? '<p class="text-danger">VENCIDA</p>' : '<p class="text-success">ATIVA</p>'}</td>
                 <td class="align-middle">
-                    <button class="btn btn-secondary" onclick="encaminharSegundaVia('${registroPadronizado}')">2ª Via</button>
-                    <button class="btn btn-info text-white" onclick="imprimirPagina('${registroPadronizado}')" >Imprimir</button>
+                    <button class="btn btn-secondary" onclick="encaminharSegundaVia('${registroPadronizado}')"
+                        ${new Date(cred["\u0000*\u0000dados"].VALIDADE) < new Date() ? 'disabled' : ''}>
+                        2ª Via
+                    </button>
+                    <button class="btn btn-info text-white" onclick="imprimirPagina('${registroPadronizado}')" 
+                         ${new Date(cred["\u0000*\u0000dados"].VALIDADE) < new Date() ? 'disabled' : ''}>
+                        Imprimir
+                    </button>
                 </td>
             </tr>
         `;
