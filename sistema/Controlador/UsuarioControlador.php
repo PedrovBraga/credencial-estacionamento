@@ -41,15 +41,21 @@ class UsuarioControlador extends Controlador {
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
         if(isset($dados)){
-            $usuario = new Usuario();
+            $usuario = (new Usuario())->buscaPorUsuario($dados['usuario']);
             $usuario->DATA_ATUALIZACAO = (new DateTime())->format('Y-m-d H:i:s');
             
+            // Caso esteja alterando a senha
+            if(isset($dados['senha'])){
+                $dados['senha'] = $usuario->criptografaSenha($dados['senha']);
+                $urlSenhaAlterada = URL_DESENVOLVIMENTO . '/cadastrar';
+            }
+
             try {
                 $usuario->preencher($dados);
                 // echo print_r($usuario);
                 $usuario->salvar();
 
-                $json = ['status' => 1, 'mensagem' => 'Usuário atualizado!', 'urlConfirmar' => URL_DESENVOLVIMENTO . '/usuario/listar'];
+                $json = ['status' => 1, 'mensagem' => 'Usuário atualizado!', 'urlConfirmar' => $urlSenhaAlterada ?? URL_DESENVOLVIMENTO . '/usuario/listar'];
             } catch (Exception $e) {
                 $json = ['status' => 0, 'mensagem' => 'Falha ao atualizar usuário!'];
             }
@@ -111,5 +117,18 @@ class UsuarioControlador extends Controlador {
             echo $this->template->renderizar('usuario/formulario.html', []);
         }
     }
+
+    public function alterarSenha(){
+        // Valores do formulário
+        $user = filter_input(INPUT_GET, 'usuario');
+        
+        $usuario = (new Usuario())->buscaPorUsuario($user);
+        // print_r($usuario);
+        echo $this->template->renderizar('login/login.html', [
+            'alterarSenha' => true,
+            'usuario' => $usuario
+        ]);
+    }
+
 
 }
