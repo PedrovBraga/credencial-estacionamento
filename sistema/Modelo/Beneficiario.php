@@ -14,15 +14,16 @@ class Beneficiario extends QueryBuilder {
 
     public function gravar(Representante $representante = null){
         if($representante){
-            echo $representante->RG.' --------- ';
+
+            $num_doc = $representante->CPF ? $representante->CPF : $representante->RG;
             // Pegar ID do representante e passar para beneficiario
-            $representante_cadastrado = $representante->buscaPorCPFouRG($representante->RG);
+            $representante_cadastrado = $representante->buscaPorCPFouRG($num_doc);
 
             if (!$representante_cadastrado) {
                 // Se não encontrar o representante, lança uma exceção ou retorna false
                 throw new Exception('Representante não encontrado ao buscar ID.');
             }
-            echo print_r($representante_cadastrado);
+
             // Adiciona ID do representante ao Beneficiario
             $this->REPRESENTANTE = $representante_cadastrado->ID;
         }
@@ -30,7 +31,6 @@ class Beneficiario extends QueryBuilder {
         if(!$this->ID){
             if($this->buscaPorCPFOuRG($this->CPF)){
                 $usuario_existente = $this->buscaPorCPFOuRG($this->CPF);
-                echo print_r($usuario_existente);
                 throw new Exception('Número de CPF já cadastrado!');
             } 
         }
