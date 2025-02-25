@@ -4676,13 +4676,12 @@ button.bg-warning:focus {
   background-color: #ffab01 !important; }
 
 .bg-danger {
-  background-color: rgba(250, 88, 56, 0.01) !important;
-}
+  background-color: #fa5838 !important; }
 
 a.bg-danger:hover, a.bg-danger:focus,
 button.bg-danger:hover,
 button.bg-danger:focus {
-  background-color: #f92e06  !important; }
+  background-color: #f92e06 !important; }
 
 .bg-light {
   background-color: #f6fafe !important; }
