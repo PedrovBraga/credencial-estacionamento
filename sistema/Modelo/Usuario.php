@@ -67,6 +67,7 @@ class Usuario extends QueryBuilder {
 
         $session = new Sessao();
         $session->criar('usuarioId', $usuario->ID);
+        $session->criar('nivel', $usuario->COD_PERFIL);
 
         // var_dump($session);
         return true;

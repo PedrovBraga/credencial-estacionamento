@@ -17,7 +17,14 @@ class Template
     {
         $loader = new \Twig\Loader\FilesystemLoader($diretorio);
         $this->twig = new \Twig\Environment($loader);
+    
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }        
+
         $this->twig->addGlobal('URL_DESENVOLVIMENTO', URL_DESENVOLVIMENTO);
+        $this->twig->addGlobal('_SESSION', $_SESSION);
+
 
         $lexer = new Lexer($this->twig, array(
             $this->helpers()
