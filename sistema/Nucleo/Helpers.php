@@ -4,6 +4,7 @@ namespace sistema\Nucleo;
 
 use DateTime;
 use Exception;
+use sistema\Modelo\Usuario;
 
 /**
  * Classe Helper - Classe auxiliar responsável por prover métodos estáticos para manipular e validar dados no sistema.
@@ -84,6 +85,34 @@ class Helpers
         }
 
         return $separados;
+    }
+
+    /**
+     * Método para verificar se o usuário pode acessar as funções do controlador
+    */
+    public static function usuarioPodeAcessar(): bool {
+        $sessao = new Sessao();
+    
+        // Verifica se o usuário está logado
+        if (!$sessao->checar('usuarioId')) {
+            return false;
+        }
+    
+        // Obtém os dados do usuário logado
+        $usuario = (new Usuario())->buscaPorId($sessao->usuarioId);
+    
+        // Permitir acesso à página de alteração de senha
+        $rotaAtual = $_SERVER['REQUEST_URI'];
+        if (strpos($rotaAtual, 'usuario/alterar-senha') !== false) {
+            return true;
+        }
+    
+        // Bloquear acesso se o nível for "U"
+        if ($usuario && $usuario->COD_PERFIL === 'U') {
+            return false;
+        }
+    
+        return true;
     }
 
     /**
