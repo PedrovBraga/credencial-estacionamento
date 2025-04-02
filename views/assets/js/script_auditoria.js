@@ -20,7 +20,8 @@ document.getElementById('btn-doc').addEventListener('click', function(){
         success: function(response){
             if(response.status === 0){
                 console.log('mensagem: ' + response);
-                    
+                var alerta = new Alerta();
+                alerta.erro(response.mensagem).renderizar();
             } else {
                 console.log('mensagem: ' + response); 
                 renderizaLista(response.auditorias);
@@ -49,7 +50,8 @@ document.getElementById('btn-operador').addEventListener('click', function(){
         success: function(response){
             if(response.status === 0){
                 console.log(response);
-                    
+                var alerta = new Alerta();
+                alerta.erro(response.mensagem).renderizar();
             } else {
                 console.log(response); 
                 renderizaLista(response.auditorias);
