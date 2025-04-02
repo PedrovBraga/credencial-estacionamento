@@ -108,9 +108,9 @@ class SiteControlador extends Controlador
      * ERRO 404
      * @return void
      */
-    public function erro404(): void
+    public function erro403(): void
     {
-        echo $this->template->renderizar('404.html', [
+        echo $this->template->renderizar('403.html', [
             'titulo' => 'Página não encontrada'
         ]);
     }

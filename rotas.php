@@ -5,9 +5,9 @@ use sistema\Nucleo\Helpers;
 
 try {
     SimpleRouter::setDefaultNamespace('sistema\Controlador');
-
     
     SimpleRouter::get(URL_SITE, 'SiteControlador@index');
+    SimpleRouter::get(URL_SITE . '403', 'SiteControlador@erro403');
     SimpleRouter::match(['get', 'post'], URL_SITE . 'cadastrar', 'SiteControlador@cadastrar');
 
     // Login
@@ -26,17 +26,20 @@ try {
     SimpleRouter::get(URL_SITE . 'credencial/visualizar', 'CredencialControlador@visualizar');
     SimpleRouter::get(URL_SITE . 'credencial/imprimir', 'CredencialControlador@imprimir');
 
-    // Auditoria
-    SimpleRouter::match(['get', 'post'], URL_SITE . 'auditoria', 'AuditoriaControlador@consultar');
-    SimpleRouter::get(URL_SITE . 'auditoria/consulta-operador', 'AuditoriaControlador@consultarOperador');
-    SimpleRouter::get(URL_SITE . 'auditoria/consulta-municipe', 'AuditoriaControlador@consultarMunicipe');
-   
-    // Usuário
-    SimpleRouter::get(URL_SITE . 'usuario/listar', 'UsuarioControlador@listar');
-    SimpleRouter::match(['get', 'post'], URL_SITE . 'usuario/editar', 'UsuarioControlador@editar');
-    SimpleRouter::match(['get', 'post'], URL_SITE . 'usuario/cadastrar', 'UsuarioControlador@cadastrar');
-    SimpleRouter::post(URL_SITE . 'usuario/desativar', 'UsuarioControlador@desativar');
-    SimpleRouter::get(URL_SITE . 'usuario/alterar-senha', 'UsuarioControlador@alterarSenha');
+    // ROTAS PROTEGIDAS COM MIDDLEWARE
+    SimpleRouter::group(['middleware' => sistema\Middleware\AutenticacaoMiddleware::class], function () {
+        // Auditoria
+        SimpleRouter::match(['get', 'post'], URL_SITE . 'auditoria', 'AuditoriaControlador@consultar');
+        SimpleRouter::get(URL_SITE . 'auditoria/consulta-operador', 'AuditoriaControlador@consultarOperador');
+        SimpleRouter::get(URL_SITE . 'auditoria/consulta-municipe', 'AuditoriaControlador@consultarMunicipe');
+    
+        // Usuário
+        SimpleRouter::get(URL_SITE . 'usuario/listar', 'UsuarioControlador@listar');
+        SimpleRouter::match(['get', 'post'], URL_SITE . 'usuario/editar', 'UsuarioControlador@editar');
+        SimpleRouter::match(['get', 'post'], URL_SITE . 'usuario/cadastrar', 'UsuarioControlador@cadastrar');
+        SimpleRouter::post(URL_SITE . 'usuario/desativar', 'UsuarioControlador@desativar');
+        SimpleRouter::get(URL_SITE . 'usuario/alterar-senha', 'UsuarioControlador@alterarSenha');
+    });
 
     SimpleRouter::start();
 } catch (Pecee\SimpleRouter\Exceptions\NotFoundHttpException $ex) {
@@ -44,6 +47,6 @@ try {
     if (Helpers::localhost()) {
         echo $ex->getMessage();
     } else {
-        Helpers::redirecionar('404');
+        Helpers::redirecionar('403');
     }
 }
