@@ -434,8 +434,8 @@ function populaCampos(beneficiario) {
     document.getElementById('rg_data').value = beneficiario.RG_DATA ? beneficiario.RG_DATA.split(' ')[0] : '';
     document.getElementById('rg_data').readOnly = true;
 
-    document.getElementById('cpf').value = beneficiario.CPF ?? '';
-    document.getElementById('cpf').readOnly = true;
+    document.getElementById('cpfCnpj').value = beneficiario.CPF ?? '';
+    document.getElementById('cpfCnpj').readOnly = true;
 
     document.getElementById('telefone').value = beneficiario.TELEFONE ?? '';
     document.getElementById('telefone').readOnly = true;
