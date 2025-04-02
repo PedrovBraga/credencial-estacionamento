@@ -11,7 +11,6 @@ class AuditoriaControlador extends Controlador {
     }
     
     public function consultar(): void {
-        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
         $usuarios = (new Usuario())->listar();
 
@@ -24,9 +23,14 @@ class AuditoriaControlador extends Controlador {
         
         $num_doc = filter_input(INPUT_GET, 'doc');
 
-        $auditoria_registros = (new Auditoria())->buscaPorCPFOuRG($num_doc); 
+        $auditoria_registros = (new Auditoria())->buscaPorCPFOuRG($num_doc) ?? null; 
 
-        // var_dump($auditoria_registros);
+        if (is_null($auditoria_registros)) {
+            $json = ['status' => 0, 'mensagem' => 'Nenhum registro de auditoria encontrado!', 'auditorias' => []];
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($json);
+            return;
+        }
 
         $auditoriasArray = array_map(function($auditoria) {
             return (array) $auditoria; // Convertendo cada credencial em um array
