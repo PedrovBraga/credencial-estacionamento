@@ -4,29 +4,13 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-// $(document).ready(function () {
-//     var cleave = new Cleave('#num_rg', {
-//         blocks: [2, 3, 3, 1],
-//         delimiters: ['.', '.', '-'],
-//         uppercase: true,
-//         numericOnly: false,
-//         delimiterLazyShow: true
-//     });
-//     $('#num_cpf').inputmask("999.999.999-99", { "placeholder": "000.000.000-00" });
-//     $('#num_tel_cel').inputmask("(99)99999-9999", { "placeholder": "(00)00000-0000" });
-//     $('#num_tel_fixo').inputmask("(99)9999-9999", { "placeholder": "(00)0000-0000" });
-//     $('#cep').inputmask("99999-999", { "placeholder": "00000-000" });
-//     $('#datanasc').inputmask("99/99/9999", { "placeholder": "00/00/0000" });
-// });
-
 // Variável de controle do caminho do submit
 var urlSubmit = `cadastrar`;
 
 // consulta cep
 document.addEventListener('DOMContentLoaded', function () {
 
-    // validarDocumento();
-
+    // Atualiza valor da data de validade da credencial
     function atualizaValidade(){
         const campoDtEmissao = document.getElementById('dtemissao_credencial');
         const campoDtValidade = document.getElementById('validade_credencial');
@@ -38,8 +22,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (checkboxDeficiente.value === 'S') {
             const dataEmissao = new Date(campoDtEmissao.value); // Converte o valor para uma data
     
-            if (selectTempoDeficiente.value === 'TEMPORARIO') {
+            if (selectTempoDeficiente.value === 'TEMPORARIO' && selectTipoCredencial.value === 'DEFICIENTE') {
                 anosParaAdicionar = 1; // Adiciona 1 ano
+            } else {
+                anosParaAdicionar = 5; // Adiciona 5 anos
             }
     
             // Adiciona os anos à data de emissão
@@ -55,25 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function desabilitaTipoCredencial(){
-        const tipoCredencial = document.getElementById('tipo_credencial');
-        const checkboxDeficiente = document.getElementById('def');
-        
-        const optionDeficiente = Array.from(tipoCredencial.options).find(option => option.value === 'DEFICIENTE');
-        if (checkboxDeficiente.value !== 'S') {
-            // Desabilitar a opção com valor 'DEFICIENTE'
-            if (optionDeficiente) {
-                optionDeficiente.disabled = true;
-            }
-        } else {
-            // Reabilitar a opção com valor 'DEFICIENTE'
-            if (optionDeficiente) {
-                optionDeficiente.disabled = false;
-            }
-        }
-    }
-
-    desabilitaTipoCredencial()
 
     document.getElementById('situacao_pne').addEventListener('input', function (){
         atualizaValidade();
@@ -81,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
     
     document.getElementById('tipo_credencial').addEventListener('input', function (){
         atualizaValidade();
-        desabilitaTipoCredencial()
     })
     
 
@@ -364,22 +330,6 @@ function validaCNPJ(cnpj) {
     resto = resto < 2 ? 0 : 11 - resto;
     return resto === parseInt(digitos.charAt(1));
 }
-
-// Não utilizado devido ao BD despadronizado
-// function formatarCPF(cpf) {
-//     return cpf
-//         .replace(/(\d{3})(\d)/, "$1.$2")
-//         .replace(/(\d{3})(\d)/, "$1.$2")
-//         .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-// }
-
-// function formatarCNPJ(cnpj) {
-//     return cnpj
-//         .replace(/(\d{2})(\d)/, "$1.$2")
-//         .replace(/(\d{3})(\d)/, "$1.$2")
-//         .replace(/(\d{3})(\d{1,6})$/, "$1/$2")
-//         .replace(/(\d{4})(\d{1,2})$/, "$1-$2");
-// }
 
 function formatarCEP(campo) {
     let valor = campo.value.replace(/\D/g, ''); // Remove tudo que não for número
