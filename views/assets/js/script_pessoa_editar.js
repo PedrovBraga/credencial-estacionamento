@@ -264,6 +264,11 @@ function populaCampos(beneficiario){
         document.getElementById('def').setAttribute('class', 'form-check-input');
         document.getElementById('def').setAttribute('aria-expanded', 'true');
         document.getElementById('def').checked = true;
+    } else {
+        document.getElementById('collapseExample').setAttribute('class', 'collapse');
+        document.getElementById('def').setAttribute('class', 'form-check-input');
+        document.getElementById('def').setAttribute('aria-expanded', 'false');
+        document.getElementById('def').checked = false;
     }
     document.getElementById('atestado').value = beneficiario.ATESTADO ?? '';
     // document.getElementById('crm').value = beneficiario.CRM ?? '';
@@ -272,7 +277,7 @@ function populaCampos(beneficiario){
     document.getElementById('situacao_pne').value = beneficiario.SITUACAO_PNE ?? ''; 
     document.getElementById('nome_representante').value = beneficiario.NOMEREP ?? '';
     document.getElementById('email_representante').value = beneficiario.EMAILREP ?? '';
-    document.getElementById('rg_representante').value = beneficiario.RGREP ?? '';
+    document.getElementById('cpf_representante').value = beneficiario.CPFREP ?? '';
     document.getElementById('telefone_representante').value = beneficiario.TELEFONEREP ?? '';
     document.getElementById('cep_representante').value = beneficiario.CEPREP ?? '';
     document.getElementById('endereco_representante').value = beneficiario.ENDERECOREP ?? '';

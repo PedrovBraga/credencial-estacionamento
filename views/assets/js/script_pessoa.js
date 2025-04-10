@@ -428,8 +428,13 @@ function populaCampos(beneficiario) {
         document.getElementById('def').setAttribute('class', 'form-check-input');
         document.getElementById('def').setAttribute('aria-expanded', 'true');
         document.getElementById('def').checked = true;
-        document.getElementById('def').disabled = true;
+    } else {
+        document.getElementById('collapseExample').setAttribute('class', 'collapse');
+        document.getElementById('def').setAttribute('class', 'form-check-input');
+        document.getElementById('def').setAttribute('aria-expanded', 'false');
+        document.getElementById('def').checked = false;
     }
+    document.getElementById('def').disabled = true;
 
     document.getElementById('atestado').value = beneficiario.ATESTADO ?? '';
     document.getElementById('atestado').readOnly = true;
