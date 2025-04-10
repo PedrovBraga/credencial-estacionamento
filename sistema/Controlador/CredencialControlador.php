@@ -19,16 +19,12 @@ class CredencialControlador extends Controlador {
         parent::__construct('views');
     }
 
-    public function registrar(int $id = null) {
+    public function registrar(?int $id = null) {
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
         if(isset($dados)){
             // ação registrar
             $beneficiario = (new Beneficiario())->buscaPorCPFOuRG($dados['cpf']);
-            
-            if($beneficiario->REPRESENTANTE !== '0'){
-                $representante = (new Representante())->buscaPorId($beneficiario->REPRESENTANTE);
-            }
 
             $credencial = new Credencial();
             $session = new Sessao();
@@ -63,26 +59,7 @@ class CredencialControlador extends Controlador {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($json);
         } 
-        // else {
-        //     // form registrar (Deixou de ser utilizado???)
-        //     $beneficiario = (new Beneficiario())->buscaPorCPFOuRG($id);
-            
-        //     if($beneficiario->REPRESENTANTE !== '0'){
-        //         $representante = (new Representante())->buscaPorId($beneficiario->REPRESENTANTE);
-        //     }
-
-        //     $credencial = new Credencial();
-        //     $session = new Sessao();
-
-        //     $usuario = (new Usuario())->buscaPorId($session->usuarioId);
-
-        //     echo $this->template->renderizar('credencial/formulario.html', [
-        //         'credencial' => $credencial,
-        //         'beneficiario' => $beneficiario ?? '',
-        //         'representante' => $representante ?? '',
-        //         'usuario' => $usuario ?? ''
-        //     ]);
-        // }
+        
     }
 
     public function consultar() : void {
@@ -114,11 +91,6 @@ class CredencialControlador extends Controlador {
                 $json = ['status' => 0, 'mensagem' => 'Credencial não encontrada! Verifique o N° documento.'];
             }
 
-            // if(!$credenciais){
-            //     $json = ['status' => 0, 'mensagem' => 'Credencial não encontrada! Verifique o N° documento.'];
-            // } else {
-            //     $json = ['status' => 1, 'mensagem' => 'Credencial encontrada!', 'credencial' => $credenciaisArray, 'beneficiario' => (array) $beneficiario];
-            // }
         } else {
             // busca por número (registro) da credencial
             $registro = filter_input(INPUT_POST, 'registro');
@@ -151,12 +123,7 @@ class CredencialControlador extends Controlador {
             } catch(Exception $e){
                 $json = ['status' => 0, 'mensagem' => $e->getMessage()];
             }
-            
-            // if(!isset($credencial)){
-            //     $json = ['status' => 0, 'mensagem' => 'Credencial não encontrada! Verifique o N° documento ou cadastre a pessoa.'];
-            // } else {
-            //     $json = ['status' => 1, 'mensagem' => 'Credencial encontrada!', 'credencial' => (array) $credencial, 'beneficiario' => (array) $beneficiario];
-            // }
+
         }
         
         header('Content-Type: application/json; charset=utf-8');
@@ -176,11 +143,11 @@ class CredencialControlador extends Controlador {
             $credencial_atualizar->ANO = $dados['ano'];
             $credencial_atualizar->SEGVIA = isset($dados['segVia']) ? 'S' : 'N';
             $credencial_atualizar->OBSSEGVIA = $dados['obsSegVia'];
-            $credencial_atualizar->SEGVIACASSADA = isset($dados['segViaCassada']) ? 'S' : 'N';
-            $credencial_atualizar->OBSCASSADA = $dados['obsCassada'];
             $credencial_atualizar->RETIRADA = 'PENDENTE';
             $credencial_atualizar->TIPO = $dados['tipo'];
             
+            $session = new Sessao();
+            $credencial_atualizar->OPERADOR = $session->usuarioId;
             try {
                 $credencial_atualizar->salvarCredencial();
 

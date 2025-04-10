@@ -123,7 +123,7 @@
                             <input class="form-check-input" type="checkbox" data-bs-toggle="collapse"
                                 data-bs-target="#collapseSegVia" aria-expanded="false"
                                 aria-controls="collapseSegVia" id="checkCollapseSegVia" 
-                                name="segVia" {% if credencial.SEGVIA == 'S' %}checked disabled{%endif%}>
+                                name="segVia" {% if credencial.SEGVIA == 'S' %}checked readonly{%endif%}>
                             <label class="form-check-label" for="flexCheckDefault">
                                 2ª Via
                             </label>
@@ -157,23 +157,7 @@
                         <div class="input-group col-md-6">
                             <label for="form-label">Obs 2ª Via:</label>
                             <textarea class="form-control w-100" style="height: 100px;" placeholder="Observação da 2ª via..." 
-                                name="obsSegVia" id="obsSegVia" {% if credencial.SEGVIA == 'S' %}readonly{%endif%}>{{credencial.OBSSEGVIA}}</textarea>
-                        </div>
-                        <div class="flex-column col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseSegViaCassada" aria-expanded="false"
-                                    aria-controls="collapseSegViaCassada" id="checkCollapseSegViaCassada" name="segViaCassada"
-                                    {% if credencial.SEGVIACASSADA == 'S' %}checked disabled{%endif%}>
-                                <label class="form-check-label mb-2" for="checkCollapseSegViaCassada">
-                                    2ª Via Cassada:
-                                </label>
-                            </div>
-                            <div class="collapse input-group" id="collapseSegViaCassada">
-                                <textarea class="form-control w-100" style="height: 100px;" placeholder="Observação da cassação..." 
-                                    name="obsCassada" id="obsCassada" {% if credencial.SEGVIACASSADA == 'S' %}readonly{%endif%}>{{credencial.OBSCASSADA}}</textarea>
-                            </div>
-
+                                name="obsSegVia" id="obsSegVia" >{{credencial.OBSSEGVIA}}</textarea>
                         </div>
                     </div>
                 </div>

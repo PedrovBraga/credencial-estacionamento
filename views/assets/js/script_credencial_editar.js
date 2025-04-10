@@ -45,36 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     })
 
-    // document.getElementById('consultaDOC').addEventListener('click', function(){
-        
-    //     const urlBase = this.dataset.url;
-    //     const numDoc = document.getElementById('doc_consulta').value;
-
-    //     console.log(urlBase);
-    //     $.ajax({
-    //         type: 'post',
-    //         url: urlBase,
-    //         data: {
-    //             doc: numDoc
-    //         },
-    //         contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Define o tipo de conteúdo
-    //         dataType: 'json', // Especifica o formato esperado da resposta
-    //         success: function(response){
-    //             console.log(response);
-    //             if(response.status === 0){
-    //                 console.log('mensagem: ' + response.mensagem);
-    //                 var alerta = new Alerta();
-    //                 alerta.erro(response.mensagem).tratativa({urlConfirmar: response.urlConfirmar, urlCancelar: response.urlCancelar}, 'Registrar Munícipe').renderizar();
-    //             } else {
-    //                 console.log('mensagem: ' + response.mensagem); 
-    //                 populaCampos(response.beneficiario["\u0000*\u0000dados"]);
-    //             }
-    //         },
-    //         error: function(error, xhr){
-    //             console.log(error, xhr);
-    //         }
-    //     })
-    // })
 });
 
 function populaCampos(beneficiario){
@@ -102,14 +72,16 @@ function verificaCollapses(){
     }
 
     if (document.getElementById('checkCollapseSegVia').checked === true) {
+        // Impede que o usuário altere o estado do checkbox
+        document.getElementById('checkCollapseSegVia').addEventListener('click', (event) => {
+            event.preventDefault(); // Impede a alteração do estado
+            document.getElementById('checkCollapseSegVia').checked === true;
+            document.getElementById('collapseSegVia').setAttribute('class', 'collapse show');
+            document.getElementById('checkCollapseSegVia').setAttribute('class', 'form-check-input');
+            document.getElementById('checkCollapseSegVia').setAttribute('aria-expanded', 'true');
+        });
         document.getElementById('collapseSegVia').setAttribute('class', 'collapse show');
         document.getElementById('checkCollapseSegVia').setAttribute('class', 'form-check-input');
         document.getElementById('checkCollapseSegVia').setAttribute('aria-expanded', 'true');
-    }
-
-    if (document.getElementById('checkCollapseSegViaCassada').checked === true) {
-        document.getElementById('collapseSegViaCassada').setAttribute('class', 'collapse show');
-        document.getElementById('checkCollapseSegViaCassada').setAttribute('class', 'form-check-input');
-        document.getElementById('checkCollapseSegViaCassada').setAttribute('aria-expanded', 'true');
     }
 }
