@@ -29,7 +29,7 @@
                     <div class="input-group col-md-8 p-0">
                         <div class="data" style="width: 12rem;">
                             <label for="doc_consulta">Busque munícipe pelo CPF ou RG:</label>
-                            <input type="text" id="doc_consulta" class="form-control w-60" name="doc_consulta" maxlength="14" placeholder="">
+                            <input type="text" id="doc_consulta" class="form-control w-60" name="doc_consulta" maxlength="14" placeholder="somente números">
                         </div>
                     </div>
                     <div class="divbotaocep">
@@ -92,7 +92,8 @@
                 <div class="row my-1 justify-content-between">
                     <div class="input-group col-md-2">
                         <label for="cpfCnpj">*CPF/CNPJ</label>
-                        <input type="number" id="cpfCnpj" class="form-control w-100" name="cpf" oninput="validarDocumento(this)" required>
+                        <input type="number" id="cpfCnpj" class="form-control w-100" name="cpf" 
+                            oninput="validarDocumento(this)" placeholder="somente números" required>
                     </div>
                     <div class="input-group col-md-2">
                         <label for="telefone">*Telefone de Contato</label>
@@ -159,8 +160,8 @@
                         <input type="text" class="form-control w-100" id="profissao" name="profissao" placeholder="Servidor Público">
                     </div>
                     <div class="input-group col-md-5">
-                        <label class="form-label" for="email">*E-mail</label>
-                        <input type="email" class="form-control w-100" id="email" name="email" placeholder="exemplo@email.com" required>
+                        <label class="form-label" for="email">E-mail</label>
+                        <input type="email" class="form-control w-100" id="email" name="email" placeholder="exemplo@email.com">
                     </div>
                 </div>
 
